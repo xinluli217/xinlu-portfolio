@@ -1,0 +1,72 @@
+{
+  "brand.name": "李心璐",
+  "brand.year": "2026年",
+  "lang.switch": "EN",
+
+  "hero.greeting": "你好，\n我是 Xinlu :)",
+  "hero.role": "地理空间\n数据分析师",
+
+  "nav.home": "首页",
+  "nav.projects": "项目",
+  "nav.about": "关于我",
+  "nav.connect": "联系我",
+
+  "page.projects.title": "精选项目",
+  "detail.back": "项目列表",
+  "detail.problem": "问题背景",
+  "detail.method": "研究方法",
+  "detail.insight": "核心发现",
+  "detail.impact": "项目影响",
+
+  "page.about.title": "关于我",
+  "page.about.subtitle": "地理空间数据分析师",
+  "page.about.statement": "我处理数据的方式，就如建筑师对待空间——不是为了填充它，而是赋予它结构。每个数据集都承载着一段难以轻易提取的叙事，这门手艺，在于倾听。",
+  "page.about.tools_label": "技术工具",
+
+  "about.t0.period": "起点",
+  "about.t0.title": "地图学根基",
+  "about.t0.body": "在地理学与空间分析中接受训练——每张地图是一个假设，每个数据集是一个镜头。",
+
+  "about.t1.period": "转型",
+  "about.t1.title": "从像素到规律",
+  "about.t1.body": "从传统 GIS 转向计算方法。Python 成为连接空间直觉与统计严谨性的桥梁。",
+
+  "about.t2.period": "当下",
+  "about.t2.title": "结构化智能",
+  "about.t2.body": "工作于数据科学与城市系统的交叉地带。问题从来不只是数据说了什么——而是它遮蔽了什么。",
+
+  "about.t3.period": "持续探索",
+  "about.t3.title": "邻近的可能性",
+  "about.t3.body": "探索空间预测中的机器学习应用。如何让算法系统对其所描述的社区变得清晰可读且负责任？",
+
+  "page.connect.title": "联系我",
+  "page.connect.subtitle": "欢迎洽谈合作与研究项目。",
+  "page.connect.footer": "李心璐 · 地理空间数据分析师 · 2026",
+  "connect.email.label": "邮箱",
+  "connect.email.value": "xinlu@example.com",
+  "connect.linkedin.label": "领英",
+  "connect.linkedin.value": "linkedin.com/in/xinluli",
+  "connect.github.label": "GitHub",
+  "connect.github.value": "github.com/xinluli",
+
+  "project.urban-heat.title": "城市热岛效应映射",
+  "project.urban-heat.insight": "卫星热成像数据揭示了城市社区间热分布的不平等现象。",
+  "project.urban-heat.problem": "城市热岛效应对低收入社区的影响尤为显著，但大多数城市规划工具缺乏精细化的热力数据来指导公平干预。",
+  "project.urban-heat.method": "使用 Google Earth Engine 和 Python 处理 Landsat 8 热红外影像，应用空间插值并叠加人口普查数据以识别脆弱人群。",
+  "project.urban-heat.finding": "树冠覆盖率低于 15% 的社区，地表温度比相邻绿化廊道高出 4–8°C，历史上遭受红线政策影响的地区尤为突出。",
+  "project.urban-heat.impact": "研究成果推动了一项城市试点计划，在三个优先区域开展植树和凉屋顶改造，预计可将峰值温度降低 2–3°C。",
+
+  "project.transit-access.title": "公共交通可达性指数",
+  "project.transit-access.insight": "公共交通中的空间缺口为经济流动性制造了隐形障碍。",
+  "project.transit-access.problem": "标准交通指标衡量的是乘客量和准点率，但无法反映交通网络在多大程度上将弱势群体与就业中心连接起来。",
+  "project.transit-access.method": "构建了一个多模式可达性指数，融合 GTFS 公交数据、OpenStreetMap 行人网络和就业密度图层，采用基于图的最短路径算法。",
+  "project.transit-access.finding": "42% 的低收入家庭通勤至最近就业中心的时间超过 60 分钟，而中等收入家庭这一比例仅为 11%。",
+  "project.transit-access.impact": "该指数被区域交通管理局采纳，作为线路重设计评估的辅助规划指标。",
+
+  "project.land-use-model.title": "预测性土地利用建模",
+  "project.land-use-model.insight": "基于地块数据的机器学习，可在土地重新分区申请数年前预判区划压力。",
+  "project.land-use-model.problem": "市政机构对开发压力的响应往往是被动的，导致土地利用决策碎片化和基础设施超负荷。",
+  "project.land-use-model.method": "基于 15 年的地块交易、许可申请和空间邻近特征训练梯度提升模型，并以留出的历史重新分区事件进行验证。",
+  "project.land-use-model.finding": "模型以 78% 的精确率和 65% 的召回率识别未来重新分区热点，比启发式预测方法高出 2.3 倍。",
+  "project.land-use-model.impact": "已作为内部工具部署于某县规划部门，用于主动评估增长走廊的基础设施需求。"
+}

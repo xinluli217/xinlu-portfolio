@@ -1,0 +1,72 @@
+{
+  "brand.name": "Xinlu Li",
+  "brand.year": "2026",
+  "lang.switch": "中文",
+
+  "hero.greeting": "Hello,\nI'm Xinlu :)",
+  "hero.role": "Geospatial\nData Analyst",
+
+  "nav.home": "Home",
+  "nav.projects": "Projects",
+  "nav.about": "About",
+  "nav.connect": "Connect",
+
+  "page.projects.title": "Selected Work",
+  "detail.back": "Projects",
+  "detail.problem": "Problem",
+  "detail.method": "Method",
+  "detail.insight": "Insight",
+  "detail.impact": "Impact",
+
+  "page.about.title": "About",
+  "page.about.subtitle": "Geospatial Data Analyst",
+  "page.about.statement": "I work with data the way an architect works with space — not to fill it, but to give it structure. Every dataset carries a story that resists easy extraction. The craft is in the listening.",
+  "page.about.tools_label": "Tools",
+
+  "about.t0.period": "Foundation",
+  "about.t0.title": "Cartographic Roots",
+  "about.t0.body": "Trained in geography and spatial analysis — each map a hypothesis, each dataset a lens.",
+
+  "about.t1.period": "Transition",
+  "about.t1.title": "From Pixels to Patterns",
+  "about.t1.body": "Moved from traditional GIS into computational methods. Python became the bridge between spatial intuition and statistical rigor.",
+
+  "about.t2.period": "Current",
+  "about.t2.title": "Structured Intelligence",
+  "about.t2.body": "Working at the intersection of data science and urban systems. The question is never just what the data says — but what it obscures.",
+
+  "about.t3.period": "Ongoing",
+  "about.t3.title": "The Adjacent Possible",
+  "about.t3.body": "Exploring ML for spatial prediction. How can algorithmic systems be made legible and accountable to the communities they describe?",
+
+  "page.connect.title": "Get in touch",
+  "page.connect.subtitle": "Open to collaborations and research partnerships.",
+  "page.connect.footer": "Xinlu Li · Geospatial Data Analyst · 2026",
+  "connect.email.label": "Email",
+  "connect.email.value": "xinlu@example.com",
+  "connect.linkedin.label": "LinkedIn",
+  "connect.linkedin.value": "linkedin.com/in/xinluli",
+  "connect.github.label": "GitHub",
+  "connect.github.value": "github.com/xinluli",
+
+  "project.urban-heat.title": "Urban Heat Island Mapping",
+  "project.urban-heat.insight": "Satellite thermal data reveals inequitable heat distribution across urban neighborhoods.",
+  "project.urban-heat.problem": "Urban heat islands disproportionately affect low-income communities, but most city planning tools lack granular thermal data to guide equitable intervention.",
+  "project.urban-heat.method": "Processed Landsat 8 thermal imagery using Google Earth Engine and Python. Applied spatial interpolation and overlaid census demographic data to identify vulnerable populations.",
+  "project.urban-heat.finding": "Neighborhoods with less than 15% tree canopy experienced surface temps 4–8°C higher than adjacent green corridors, strongest in historically redlined areas.",
+  "project.urban-heat.impact": "Findings informed a city pilot program targeting tree planting and cool-roof installations in three priority zones, projected to reduce peak temps by 2–3°C.",
+
+  "project.transit-access.title": "Transit Accessibility Index",
+  "project.transit-access.insight": "Spatial gaps in public transit create invisible barriers to economic mobility.",
+  "project.transit-access.problem": "Standard transit metrics measure ridership and on-time performance but fail to capture how well the network connects underserved populations to job centers.",
+  "project.transit-access.method": "Built a multi-modal accessibility index combining GTFS transit data, OpenStreetMap pedestrian networks, and employment density layers using graph-based shortest-path algorithms.",
+  "project.transit-access.finding": "42% of low-income households had commute times exceeding 60 minutes to the nearest employment cluster vs. 11% of median-income households.",
+  "project.transit-access.impact": "Adopted by the regional transit authority as a supplementary planning metric for route redesign evaluation.",
+
+  "project.land-use-model.title": "Predictive Land Use Modeling",
+  "project.land-use-model.insight": "ML on parcel-level data can anticipate zoning pressure years before rezoning requests.",
+  "project.land-use-model.problem": "Municipalities react to development pressure rather than anticipating it, leading to fragmented land use decisions and strained infrastructure.",
+  "project.land-use-model.method": "Trained a gradient-boosted model on 15 years of parcel transactions, permit activity, and proximity features. Validated against held-out rezoning events.",
+  "project.land-use-model.finding": "Model identified future rezoning hotspots with 78% precision at 65% recall, outperforming heuristic-based forecasts by 2.3×.",
+  "project.land-use-model.impact": "Deployed as an internal tool for a county planning department to proactively assess infrastructure needs in growth corridors."
+}
