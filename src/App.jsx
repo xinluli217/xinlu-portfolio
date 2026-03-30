@@ -1,23 +1,49 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Home from "./pages/Home.jsx";
-import Projects from "./pages/Projects.jsx";
-import ProjectDetail from "./pages/ProjectDetail.jsx";
-import About from "./pages/About.jsx";
-import Connect from "./pages/Connect.jsx";
 
+// Each page is a separate JS chunk — loaded only when that route is first visited.
+// Home is still fetched immediately on app start (it's the entry route),
+// but About / Connect / Projects / ProjectDetail are deferred until navigation.
+const Home          = lazy(() => import("./pages/Home.jsx"));
+const Projects      = lazy(() => import("./pages/Projects.jsx"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
+const About         = lazy(() => import("./pages/About.jsx"));
+const Connect       = lazy(() => import("./pages/Connect.jsx"));
+
+// Minimal fallback — a single pulsing gold dot so there's no jarring blank flash
+// while the chunk loads. Matches the app background so it feels seamless.
+function PageLoader() {
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{ background: "#f7f6f2" }}
+    >
+      <div
+        className="w-2 h-2 rounded-full animate-pulse"
+        style={{ background: "#c9a84c", opacity: 0.6 }}
+      />
+    </div>
+  );
+}
+
+// Suspense wraps the entire route tree so any lazy page that hasn't loaded yet
+// shows PageLoader. AnimatePresence is inside Suspense so transitions still work
+// correctly once the chunk resolves.
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:id" element={<ProjectDetail />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/connect" element={<Connect />} />
-      </Routes>
-    </AnimatePresence>
+    <Suspense fallback={<PageLoader />}>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/"            element={<Home />} />
+          <Route path="/projects"    element={<Projects />} />
+          <Route path="/projects/:id" element={<ProjectDetail />} />
+          <Route path="/about"       element={<About />} />
+          <Route path="/connect"     element={<Connect />} />
+        </Routes>
+      </AnimatePresence>
+    </Suspense>
   );
 }
 

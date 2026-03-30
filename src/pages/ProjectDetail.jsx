@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import PageTransition from "../components/PageTransition.jsx";
 import InnerLayout from "../components/InnerLayout.jsx";
+import SectionLabel from "../components/SectionLabel.jsx";
 import { projects } from "../data/projects.js";
 
 export default function ProjectDetail() {
@@ -70,12 +71,7 @@ export default function ProjectDetail() {
         <div className="space-y-5">
           {sections.map((s) => (
             <div key={s.key}>
-              <p
-                className="text-[10px] font-bold tracking-widest uppercase mb-1.5"
-                style={{ color: "#c8c8c8" }}
-              >
-                {t(s.labelKey)}
-              </p>
+              <SectionLabel>{t(s.labelKey)}</SectionLabel>
               <p className="text-[14px] leading-relaxed" style={{ color: "#3a3a3a" }}>
                 {t(`project.${id}.${s.key}`)}
               </p>

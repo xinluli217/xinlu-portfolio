@@ -29,9 +29,8 @@ const DownloadIcon = () => (
 );
 
 export default function Connect() {
-  const { t } = useTranslation();
-  const resumeFile =
-  i18n.language === "zh"
+  const { t, i18n } = useTranslation();
+  const resumeFile = i18n.language === "zh"
     ? "/Xinlu.Li_cv_CN.pdf"
     : "/Xinlu.Li_cv_EN.pdf";
 
@@ -55,9 +54,9 @@ export default function Connect() {
       icon: GITHUB_ICON,
     },
     {
-      labelKey: "connect.resume.label",  // "Resume" / "简历" 
-      valueKey:  "connect.resume.value", // "Download PDF"
-      href: "/",      // place in /public/
+      labelKey: "connect.resume.label",
+      valueKey:  "connect.resume.value",
+      href: resumeFile,
       download: true,
       icon: <DownloadIcon />,
     },
@@ -81,8 +80,9 @@ export default function Connect() {
             <a
               key={link.labelKey}
               href={link.href}
-              target="_blank"
+              target={link.download ? "_self" : "_blank"}
               rel="noopener noreferrer"
+              {...(link.download ? { download: true } : {})}
               className="group flex items-center gap-3.5 py-4 border-t border-[#f0f0f0] last:border-b -mx-2 px-2 rounded-lg transition-colors duration-150 hover:bg-[#fafaf8]"
             >
               <div

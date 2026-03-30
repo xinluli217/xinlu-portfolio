@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import PageTransition from "../components/PageTransition.jsx";
 import InnerLayout from "../components/InnerLayout.jsx";
+import SectionLabel from "../components/SectionLabel.jsx";
 
 const tools = [
   "Python", "R", "ArcGIS Pro", "QGIS", "Google Earth Engine",
@@ -45,12 +46,7 @@ export default function About() {
                   className="absolute -left-[19px] top-[5px] w-[9px] h-[9px] rounded-full"
                   style={{ background: "#c9a84c", border: "2px solid white" }}
                 />
-                <p
-                  className="text-[10px] font-bold tracking-widest uppercase mb-0.5"
-                  style={{ color: "#c8c8c8" }}
-                >
-                  {t(`about.${key}.period`)}
-                </p>
+                <SectionLabel className="mb-0.5">{t(`about.${key}.period`)}</SectionLabel>
                 <p className="text-[14px] font-semibold mb-0.5" style={{ color: "#1a1a1a" }}>
                   {t(`about.${key}.title`)}
                 </p>
@@ -65,12 +61,7 @@ export default function About() {
         <div className="h-px bg-[#f0f0f0] my-6" />
 
         {/* Tools */}
-        <p
-          className="text-[10px] font-bold tracking-widest uppercase mb-3"
-          style={{ color: "#c8c8c8" }}
-        >
-          {t("page.about.tools_label")}
-        </p>
+        <SectionLabel className="mb-3">{t("page.about.tools_label")}</SectionLabel>
         <div className="flex flex-wrap gap-2">
           {tools.map((tool) => (
             <span
