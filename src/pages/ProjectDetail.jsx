@@ -60,9 +60,28 @@ export default function ProjectDetail() {
           >
             {t(`project.${id}.title`)}
           </h1>
-          <p className="text-[14px] leading-relaxed" style={{ color: "#6a6a6a" }}>
+          <p className="text-[14px] leading-relaxed mb-3" style={{ color: "#6a6a6a" }}>
             {t(`project.${id}.insight`)}
           </p>
+
+          {/* Live tool link — only shown for projects with a demoUrl */}
+          {project.demoUrl && (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-opacity hover:opacity-60"
+              style={{ color: "#c9a84c" }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              {t("detail.demo")}
+            </a>
+          )}
         </div>
 
         <div className="h-px bg-[#f0f0f0] mb-5" />

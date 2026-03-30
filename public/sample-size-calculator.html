@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A/B Test Sample Size Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --surface-alt: #F3F2EE;
+  --text: #1A1A18;
+  --text-2: #6B6A65;
+  --text-3: #9C9B95;
+  --border: rgba(0,0,0,0.08);
+  --accent: #2E86AB;
+  --accent-light: #E6F1FB;
+  --accent-text: #0C447C;
+  --danger: #C73E1D;
+  --danger-light: #FCEBEB;
+  --danger-text: #791F1F;
+  --success: #2A7F3F;
+  --success-light: #EAF3DE;
+  --success-text: #27500A;
+  --warn: #BA7517;
+  --warn-light: #FAEEDA;
+  --warn-text: #633806;
+  --purple: #534AB7;
+  --purple-light: #EEEDFE;
+  --purple-text: #3C3489;
+  --font: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+header {
+  margin-bottom: 48px;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+header p {
+  font-size: 15px;
+  color: var(--text-2);
+  max-width: 600px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.card-full { grid-column: 1 / -1; }
+
+.card h2 {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-3);
+  margin-bottom: 24px;
+}
+
+.input-group {
+  margin-bottom: 24px;
+}
+
+.input-group:last-child { margin-bottom: 0; }
+
+.input-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.input-label span:first-child {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.input-value {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-alt);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(0.95);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+.metric {
+  background: var(--surface);
+  padding: 20px;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-3);
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.metric-sub {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+.insight-bar {
+  display: flex;
+  align-items: stretch;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+}
+
+.insight-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  min-width: 56px;
+  font-size: 20px;
+  transition: background 0.3s ease;
+}
+
+.insight-icon.info { background: var(--accent-light); color: var(--accent-text); }
+.insight-icon.warn { background: var(--warn-light); color: var(--warn-text); }
+.insight-icon.danger { background: var(--danger-light); color: var(--danger-text); }
+.insight-icon.success { background: var(--success-light); color: var(--success-text); }
+
+.insight-body {
+  flex: 1;
+  padding: 16px 20px;
+  background: var(--surface);
+}
+
+.insight-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  transition: color 0.3s ease;
+}
+
+.insight-desc {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.viz-card {
+  position: relative;
+  height: 260px;
+}
+
+.viz-card canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.formula-card code {
+  display: block;
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--surface-alt);
+  padding: 16px 20px;
+  border-radius: 10px;
+  line-height: 1.8;
+  overflow-x: auto;
+  color: var(--text-2);
+}
+
+.formula-card code em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.presets {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.preset-btn {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.preset-btn:active { transform: scale(0.97); }
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.tag-blue { background: var(--accent-light); color: var(--accent-text); }
+.tag-green { background: var(--success-light); color: var(--success-text); }
+.tag-red { background: var(--danger-light); color: var(--danger-text); }
+.tag-amber { background: var(--warn-light); color: var(--warn-text); }
+.tag-purple { background: var(--purple-light); color: var(--purple-text); }
+
+.footer-note {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-3);
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<a href="/projects/olist-churn" style="
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #c9a84c;
+  text-decoration: none;
+  margin-bottom: 36px;
+  opacity: 1;
+  transition: opacity 0.15s;
+" onmouseover="this.style.opacity=0.6" onmouseout="this.style.opacity=1">
+  <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
+    <path d="M6 1L1 6l5 5" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Back to project
+</a>
+
+<header>
+  <h1>A/B test sample size calculator</h1>
+  <p>Determine how many customers you need per group to detect a meaningful lift in your retention campaign, with power analysis and ROI projections.</p>
+</header>
+
+<div class="presets" id="presets">
+  <span style="font-size:13px;color:var(--text-3);line-height:32px;margin-right:4px;">Presets:</span>
+  <button class="preset-btn" onclick="preset(3,5,12,120)">Olist retention</button>
+  <button class="preset-btn" onclick="preset(10,3,2,50)">SaaS re-engagement</button>
+  <button class="preset-btn" onclick="preset(5,2,25,200)">Luxury e-commerce</button>
+  <button class="preset-btn" onclick="preset(15,5,1,30)">Mobile push campaign</button>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Experiment inputs</h2>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Baseline conversion rate</span>
+        <span class="input-value" id="v-baseline">3%</span>
+      </div>
+      <input type="range" id="s-baseline" min="1" max="30" value="3" step="0.5" oninput="calc()">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Expected lift (percentage points)</span>
+        <span class="input-value" id="v-lift">+5pp</span>
+      </div>
+      <input type="range" id="s-lift" min="0.5" max="25" value="5" step="0.5" oninput="calc()">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Cost per contact</span>
+        <span class="input-value" id="v-cost">R$12</span>
+      </div>
+      <input type="range" id="s-cost" min="0" max="50" value="12" step="1" oninput="calc()">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Revenue per conversion</span>
+        <span class="input-value" id="v-rev">R$120</span>
+      </div>
+      <input type="range" id="s-rev" min="10" max="500" value="120" step="5" oninput="calc()">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Advanced settings</h2>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Significance level (α)</span>
+        <span class="input-value" id="v-alpha">0.05</span>
+      </div>
+      <input type="range" id="s-alpha" min="1" max="10" value="5" step="1" oninput="calc()">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Statistical power (1 − β)</span>
+        <span class="input-value" id="v-power">80%</span>
+      </div>
+      <input type="range" id="s-power" min="50" max="99" value="80" step="1" oninput="calc()">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Number of groups</span>
+        <span class="input-value" id="v-groups">3</span>
+      </div>
+      <input type="range" id="s-groups" min="2" max="5" value="3" step="1" oninput="calc()">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">
+        <span>Available customers</span>
+        <span class="input-value" id="v-avail">5,000</span>
+      </div>
+      <input type="range" id="s-avail" min="100" max="50000" value="5000" step="100" oninput="calc()">
+    </div>
+  </div>
+</div>
+
+<div class="metrics" id="metrics">
+  <div class="metric">
+    <div class="metric-label">Per group</div>
+    <div class="metric-value" id="m-per-group">478</div>
+    <div class="metric-sub">customers</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Total experiment</div>
+    <div class="metric-value" id="m-total">1,434</div>
+    <div class="metric-sub">customers</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Campaign cost</div>
+    <div class="metric-value" id="m-cost">R$11.5K</div>
+    <div class="metric-sub">treatments only</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Break-even lift</div>
+    <div class="metric-value" id="m-breakeven">+10pp</div>
+    <div class="metric-sub">minimum to profit</div>
+  </div>
+</div>
+
+<div class="insight-bar" id="insight-bar">
+  <div class="insight-icon info" id="insight-icon">i</div>
+  <div class="insight-body">
+    <div class="insight-title" id="insight-title">Feasibility check</div>
+    <div class="insight-desc" id="insight-desc">Loading...</div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card viz-card">
+    <h2>Sample size vs. detectable lift</h2>
+    <canvas id="chart-lift"></canvas>
+  </div>
+  <div class="card viz-card">
+    <h2>Expected ROI at different lifts</h2>
+    <canvas id="chart-roi"></canvas>
+  </div>
+</div>
+
+<div class="card card-full formula-card" style="margin-bottom:0;">
+  <h2>How this works</h2>
+  <code>n = ( <em>z<sub>α/2</sub></em> × √(2 × p̄ × (1−p̄))  +  <em>z<sub>β</sub></em> × √(p₀×(1−p₀) + p₁×(1−p₁)) )²  /  (<em>p₁ − p₀</em>)²
+
+where:
+  p₀ = baseline conversion rate
+  p₁ = p₀ + expected lift
+  p̄  = (p₀ + p₁) / 2
+  <em>z<sub>α/2</sub></em> = normal quantile for significance level (1.96 for α=0.05)
+  <em>z<sub>β</sub></em>  = normal quantile for power (0.842 for 80% power)</code>
+</div>
+
+<div class="footer-note">
+  Built for the Olist customer intelligence portfolio project — Lily, UCL
+</div>
+
+</div>
+
+<script>
+function norminv(p) {
+  if (p <= 0) return -Infinity;
+  if (p >= 1) return Infinity;
+  const a1=-3.969683028665376e+01,a2=2.209460984245205e+02,a3=-2.759285104469687e+02;
+  const a4=1.383577518672690e+02,a5=-3.066479806614716e+01,a6=2.506628277459239e+00;
+  const b1=-5.447609879822406e+01,b2=1.615858368580409e+02,b3=-1.556989798598866e+02;
+  const b4=6.680131188771972e+01,b5=-1.328068155288572e+01;
+  const c1=-7.784894002430293e-03,c2=-3.223964580411365e-01,c3=-2.400758277161838e+00;
+  const c4=-2.549732539343734e+00,c5=4.374664141464968e+00,c6=2.938163982698783e+00;
+  const d1=7.784695709041462e-03,d2=3.224671290700398e-01,d3=2.445134137142996e+00,d4=3.754408661907416e+00;
+  const plow=0.02425,phigh=1-plow;
+  let q,r;
+  if(p<plow){r=Math.sqrt(-2*Math.log(p));return(((((c1*r+c2)*r+c3)*r+c4)*r+c5)*r+c6)/(((d1*r+d2)*r+d3)*r+d4+1);}
+  if(p<=phigh){q=p-0.5;r=q*q;return(((((a1*r+a2)*r+a3)*r+a4)*r+a5)*r+a6)*q/(((((b1*r+b2)*r+b3)*r+b4)*r+b5)*r+1);}
+  r=Math.sqrt(-2*Math.log(1-p));return-(((((c1*r+c2)*r+c3)*r+c4)*r+c5)*r+c6)/(((d1*r+d2)*r+d3)*r+d4+1);
+}
+
+function sampleSize(p0, p1, alpha, power) {
+  const za = norminv(1 - alpha/2);
+  const zb = norminv(power);
+  const pAvg = (p0 + p1) / 2;
+  const num = Math.pow(
+    za * Math.sqrt(2*pAvg*(1-pAvg)) + zb * Math.sqrt(p0*(1-p0)+p1*(1-p1)),
+    2
+  );
+  return Math.ceil(num / Math.pow(p1-p0, 2));
+}
+
+function formatN(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 10000) return (n/1000).toFixed(1) + 'K';
+  return n.toLocaleString();
+}
+
+function formatCurrency(v) {
+  if (Math.abs(v) >= 1000000) return 'R$' + (v/1000000).toFixed(1) + 'M';
+  if (Math.abs(v) >= 1000) return 'R$' + (v/1000).toFixed(1) + 'K';
+  return 'R$' + Math.round(v).toLocaleString();
+}
+
+let liftChart = null;
+let roiChart = null;
+
+function drawLiftChart(p0, alpha, power, currentLift) {
+  const canvas = document.getElementById('chart-lift');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = {top: 10, right: 20, bottom: 36, left: 56};
+  const plotW = W - pad.left - pad.right;
+  const plotH = H - pad.top - pad.bottom;
+
+  const lifts = [];
+  const sizes = [];
+  const maxLift = Math.max(currentLift * 3, 15);
+  for (let l = 0.5; l <= maxLift; l += 0.5) {
+    const p1 = p0 + l/100;
+    if (p1 >= 1) break;
+    lifts.push(l);
+    sizes.push(sampleSize(p0, p1, alpha, power));
+  }
+
+  const maxSize = Math.max(...sizes);
+  const xScale = (v) => pad.left + (v / maxLift) * plotW;
+  const yScale = (v) => pad.top + plotH - (v / maxSize) * plotH;
+
+  ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (plotH / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+    ctx.fillStyle = '#9C9B95';
+    ctx.font = '11px "DM Sans"';
+    ctx.textAlign = 'right';
+    ctx.fillText(formatN(Math.round(maxSize * (4 - i) / 4)), pad.left - 8, y + 4);
+  }
+
+  for (let l = 0; l <= maxLift; l += Math.ceil(maxLift/6)) {
+    if (l === 0) continue;
+    const x = xScale(l);
+    ctx.fillStyle = '#9C9B95';
+    ctx.font = '11px "DM Sans"';
+    ctx.textAlign = 'center';
+    ctx.fillText('+' + l + 'pp', x, H - pad.bottom + 20);
+  }
+
+  ctx.beginPath();
+  ctx.strokeStyle = '#2E86AB';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  for (let i = 0; i < lifts.length; i++) {
+    const x = xScale(lifts[i]);
+    const y = yScale(sizes[i]);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  const cIdx = lifts.findIndex(l => l >= currentLift);
+  if (cIdx >= 0) {
+    const cx = xScale(lifts[cIdx]);
+    const cy = yScale(sizes[cIdx]);
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = '#C73E1D';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx, pad.top); ctx.lineTo(cx, pad.top + plotH); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad.left, cy); ctx.lineTo(W - pad.right, cy); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#C73E1D';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
+
+function drawRoiChart(p0, costPer, revPer, alpha, power, nGroups, currentLift) {
+  const canvas = document.getElementById('chart-roi');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = {top: 10, right: 20, bottom: 36, left: 56};
+  const plotW = W - pad.left - pad.right;
+  const plotH = H - pad.top - pad.bottom;
+
+  const maxLift = Math.max(currentLift * 3, 15);
+  const lifts = [];
+  const rois = [];
+
+  for (let l = 0.5; l <= maxLift; l += 0.5) {
+    const p1 = p0 + l/100;
+    if (p1 >= 1) break;
+    const n = sampleSize(p0, p1, alpha, power);
+    const nTreat = n * (nGroups - 1);
+    const totalCost = nTreat * costPer;
+    const expectedRevenue = nTreat * (l/100) * revPer;
+    const roi = totalCost > 0 ? (expectedRevenue - totalCost) / totalCost : 0;
+    lifts.push(l);
+    rois.push(roi);
+  }
+
+  const minRoi = Math.min(...rois, -1);
+  const maxRoi = Math.max(...rois, 2);
+  const roiRange = maxRoi - minRoi;
+  const xScale = (v) => pad.left + (v / maxLift) * plotW;
+  const yScale = (v) => pad.top + plotH - ((v - minRoi) / roiRange) * plotH;
+
+  const zeroY = yScale(0);
+  ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.left, zeroY); ctx.lineTo(W - pad.right, zeroY); ctx.stroke();
+  ctx.fillStyle = '#9C9B95';
+  ctx.font = '11px "DM Sans"';
+  ctx.textAlign = 'right';
+  ctx.fillText('0x', pad.left - 8, zeroY + 4);
+
+  for (let r = Math.ceil(minRoi); r <= Math.floor(maxRoi); r++) {
+    if (r === 0) continue;
+    const y = yScale(r);
+    if (y < pad.top || y > pad.top + plotH) continue;
+    ctx.strokeStyle = 'rgba(0,0,0,0.04)';
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+    ctx.fillStyle = '#9C9B95';
+    ctx.fillText(r + 'x', pad.left - 8, y + 4);
+  }
+
+  for (let l = 0; l <= maxLift; l += Math.ceil(maxLift/6)) {
+    if (l === 0) continue;
+    const x = xScale(l);
+    ctx.fillStyle = '#9C9B95';
+    ctx.font = '11px "DM Sans"';
+    ctx.textAlign = 'center';
+    ctx.fillText('+' + l + 'pp', x, H - pad.bottom + 20);
+  }
+
+  ctx.beginPath();
+  for (let i = 0; i < lifts.length; i++) {
+    const x = xScale(lifts[i]);
+    const y = yScale(rois[i]);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.lineTo(xScale(lifts[lifts.length-1]), yScale(0));
+  ctx.lineTo(xScale(lifts[0]), yScale(0));
+  ctx.closePath();
+
+  const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
+  grad.addColorStop(0, 'rgba(42,127,63,0.15)');
+  grad.addColorStop(0.5, 'rgba(42,127,63,0.02)');
+  grad.addColorStop(1, 'rgba(199,62,29,0.1)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.strokeStyle = '#2A7F3F';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  for (let i = 0; i < lifts.length; i++) {
+    const x = xScale(lifts[i]);
+    const y = yScale(rois[i]);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  const cIdx = lifts.findIndex(l => l >= currentLift);
+  if (cIdx >= 0) {
+    const cx = xScale(lifts[cIdx]);
+    const cy = yScale(rois[cIdx]);
+    ctx.beginPath();
+    ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+    ctx.fillStyle = rois[cIdx] >= 0 ? '#2A7F3F' : '#C73E1D';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = rois[cIdx] >= 0 ? '#2A7F3F' : '#C73E1D';
+    ctx.font = '500 12px "DM Sans"';
+    ctx.textAlign = 'center';
+    ctx.fillText((rois[cIdx] >= 0 ? '+' : '') + rois[cIdx].toFixed(1) + 'x ROI', cx, cy - 12);
+  }
+}
+
+function calc() {
+  const p0 = parseFloat(document.getElementById('s-baseline').value) / 100;
+  const liftPP = parseFloat(document.getElementById('s-lift').value);
+  const costPer = parseInt(document.getElementById('s-cost').value);
+  const revPer = parseInt(document.getElementById('s-rev').value);
+  const alpha = parseInt(document.getElementById('s-alpha').value) / 100;
+  const power = parseInt(document.getElementById('s-power').value) / 100;
+  const nGroups = parseInt(document.getElementById('s-groups').value);
+  const avail = parseInt(document.getElementById('s-avail').value);
+
+  const p1 = p0 + liftPP / 100;
+
+  document.getElementById('v-baseline').textContent = (p0 * 100).toFixed(1).replace(/\.0$/, '') + '%';
+  document.getElementById('v-lift').textContent = '+' + liftPP + 'pp';
+  document.getElementById('v-cost').textContent = 'R$' + costPer;
+  document.getElementById('v-rev').textContent = 'R$' + revPer;
+  document.getElementById('v-alpha').textContent = alpha.toFixed(2);
+  document.getElementById('v-power').textContent = Math.round(power * 100) + '%';
+  document.getElementById('v-groups').textContent = nGroups;
+  document.getElementById('v-avail').textContent = avail.toLocaleString();
+
+  if (p1 >= 1) {
+    document.getElementById('m-per-group').textContent = 'N/A';
+    document.getElementById('m-total').textContent = 'N/A';
+    document.getElementById('m-cost').textContent = 'N/A';
+    document.getElementById('m-breakeven').textContent = 'N/A';
+    return;
+  }
+
+  const n = sampleSize(p0, p1, alpha, power);
+  const total = n * nGroups;
+  const treatmentGroups = nGroups - 1;
+  const campaignCost = n * treatmentGroups * costPer;
+
+  let breakEvenLift = 'N/A';
+  if (costPer > 0) {
+    const beLift = costPer / revPer;
+    breakEvenLift = '+' + (beLift * 100).toFixed(1) + 'pp';
+  } else {
+    breakEvenLift = '+0pp';
+  }
+
+  document.getElementById('m-per-group').textContent = formatN(n);
+  document.getElementById('m-total').textContent = formatN(total);
+  document.getElementById('m-cost').textContent = formatCurrency(campaignCost);
+  document.getElementById('m-breakeven').textContent = breakEvenLift;
+
+  const icon = document.getElementById('insight-icon');
+  const title = document.getElementById('insight-title');
+  const desc = document.getElementById('insight-desc');
+
+  const perGroup = Math.floor(avail / nGroups);
+  const ratio = perGroup / n;
+
+  icon.className = 'insight-icon';
+  if (ratio >= 2) {
+    icon.classList.add('success');
+    icon.textContent = '✓';
+    title.textContent = 'Well-powered experiment';
+    title.style.color = 'var(--success)';
+    desc.textContent = `You have ${perGroup.toLocaleString()} customers per group — ${ratio.toFixed(1)}x the required ${n.toLocaleString()}. You could detect an even smaller lift, or finish the test faster with early stopping rules.`;
+  } else if (ratio >= 1) {
+    icon.classList.add('info');
+    icon.textContent = 'i';
+    title.textContent = 'Feasible — just enough';
+    title.style.color = 'var(--accent)';
+    desc.textContent = `You have ${perGroup.toLocaleString()} per group vs. ${n.toLocaleString()} required (${ratio.toFixed(1)}x). This works, but there's no margin — if attrition removes more than ${Math.round((1 - 1/ratio) * 100)}% of your sample, you'll be underpowered.`;
+  } else if (ratio >= 0.5) {
+    icon.classList.add('warn');
+    icon.textContent = '!';
+    title.textContent = 'Underpowered — consider adjustments';
+    title.style.color = 'var(--warn)';
+    desc.textContent = `You need ${n.toLocaleString()} per group but only have ${perGroup.toLocaleString()} (${Math.round(ratio * 100)}% of required). Options: reduce to ${nGroups - 1} groups, test a bolder intervention, run the experiment longer, or accept lower statistical power.`;
+  } else {
+    icon.classList.add('danger');
+    icon.textContent = '✗';
+    title.textContent = 'Not feasible at this effect size';
+    title.style.color = 'var(--danger)';
+    const minLiftForAvail = findMinLift(p0, perGroup, alpha, power);
+    desc.textContent = `You'd need ${n.toLocaleString()} per group but only have ${perGroup.toLocaleString()}. The smallest detectable lift with your pool is ~${minLiftForAvail}pp. Test a much stronger intervention or grow your customer base first.`;
+  }
+
+  drawLiftChart(p0, alpha, power, liftPP);
+  drawRoiChart(p0, costPer, revPer, alpha, power, nGroups, liftPP);
+}
+
+function findMinLift(p0, availPerGroup, alpha, power) {
+  for (let l = 0.5; l <= 50; l += 0.5) {
+    const p1 = p0 + l / 100;
+    if (p1 >= 1) return '>50';
+    const n = sampleSize(p0, p1, alpha, power);
+    if (n <= availPerGroup) return l.toFixed(1);
+  }
+  return '>50';
+}
+
+function preset(baseline, lift, cost, rev) {
+  document.getElementById('s-baseline').value = baseline;
+  document.getElementById('s-lift').value = lift;
+  document.getElementById('s-cost').value = cost;
+  document.getElementById('s-rev').value = rev;
+  calc();
+}
+
+window.addEventListener('resize', calc);
+calc();
+</script>
+</body>
+</html>

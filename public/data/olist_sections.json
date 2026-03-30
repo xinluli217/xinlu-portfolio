@@ -1,0 +1,84 @@
+{
+  "title": "Olist Customer Intelligence & Churn Prevention",
+  "subtitle": "97% of customers buy only once — an end-to-end ML pipeline to predict who's about to leave, segment who's worth saving, and quantify the cost of doing nothing.",
+  "stats": [
+    {
+      "value": "97%+",
+      "label": "Single-purchase rate",
+      "sub": "Core retention crisis"
+    },
+    {
+      "value": "~80%",
+      "label": "Revenue from top 20%",
+      "sub": "Classic Pareto distribution"
+    },
+    {
+      "value": "AUC 0.84",
+      "label": "RF churn model",
+      "sub": "vs. 0.76 logistic regression"
+    },
+    {
+      "value": "3–5×",
+      "label": "Projected ROI",
+      "sub": "Conservative assumptions"
+    }
+  ],
+  "highlights": [
+    "The top 20% of customers drive ~80% of total revenue (classic Pareto), but most are single-purchase buyers",
+    "K-Means clustering reveals 4 distinct customer segments with different retention needs",
+    "A Random Forest churn model achieves strong predictive performance, identifying at-risk customers before they lapse",
+    "Targeted retention of high-value at-risk customers could recover significant revenue at 3–5x ROI"
+  ],
+  "sections": [
+    {
+      "id": "data-preparation",
+      "title": "1. Data Preparation",
+      "body": "We work with 5 interconnected Olist datasets covering orders, customers, items, payments, and products. The goal of this section is to merge them into a single analytical dataset, handle missing values, and engineer features for downstream modelling.",
+      "chart": "data",
+      "snippet": "import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom datetime import timedelta\nimport warnings\nwarnings.filterwarnings(\"ignore\")\n    \"figure.figsize\": (12, 6),\n    \"font.size\": 11,"
+    },
+    {
+      "id": "eda",
+      "title": "2. Exploratory Analysis",
+      "body": "Before modelling, we need to understand the business landscape: revenue trends, customer behaviour patterns, and where the opportunities lie. Every chart below is annotated with the business implication — not just what the data shows, but what it means.",
+      "chart": "eda",
+      "snippet": "gmv = df.groupby(\"order_month\")[\"payment_value\"].sum()\npeak_idx = gmv.values.argmax()\n                 xy=(peak_idx, gmv.values[peak_idx]),\n                 xytext=(peak_idx-3, gmv.values[peak_idx]*1.1),\n                 arrowprops=dict(arrowstyle=\"->\", color=PALETTE[3]),\n                 fontsize=10, color=PALETTE[3], fontweight=\"bold\")\norders_m = df.groupby(\"order_month\")[\"order_id\"].nunique()\nprint(f\"\\n💡 INSIGHT: Revenue grew {((gmv.iloc[-2] / gmv.iloc[1]) - 1)*100:.0f}% over the period,\")\nprint(f\"   but the growth rate is flattening — suggesting organic acquisition alone won't sustain momentum.\")"
+    },
+    {
+      "id": "rfm-segmentation",
+      "title": "3. RFM Customer Segmentation",
+      "body": "RFM (Recency, Frequency, Monetary) is the industry-standard framework for customer value segmentation. We compute each metric, score customers on a 1–5 scale, then assign them to actionable segments. Why RFM matters for this business: With 97% single-purchase rate, the key question isn't just \"who are our best customers?\" — it's \"who has the potential to become a best customer, and who are we about to lose?\"",
+      "chart": "rfm",
+      "snippet": "snapshot_date = df[\"order_purchase_timestamp\"].max() + timedelta(days=1)\nrfm = df.groupby(\"customer_unique_id\").agg(\n    Recency=(\"order_purchase_timestamp\", lambda x: (snapshot_date - x.max()).days),\n    Frequency=(\"order_id\", \"nunique\"),\n    Monetary=(\"payment_value\", \"sum\")\n)\nprint(\"RFM summary statistics:\")\nprint(\"=\" * 50)\nprint(rfm.describe().round(1).to_string())"
+    },
+    {
+      "id": "kmeans-clustering",
+      "title": "4. K-Means Clustering",
+      "body": "The RFM segments above use hand-coded business rules. Now we let the data speak for itself using K-Means clustering on the same RFM features. Comparing rule-based vs. ML-derived segments reveals whether our business intuition aligns with the underlying customer structure. Why both approaches? Rule-based segments are interpretable and easy to act on. ML segments capture patterns humans might miss. A strong analysis uses both and compares them.",
+      "chart": "kmeans",
+      "snippet": "from sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import silhouette_score\nrfm_features = rfm[[\"Recency\", \"Frequency\", \"Monetary\"]].copy()\nrfm_features[\"Frequency_log\"] = np.log1p(rfm_features[\"Frequency\"])\nrfm_features[\"Monetary_log\"] = np.log1p(rfm_features[\"Monetary\"])\nX = rfm_features[[\"Recency\", \"Frequency_log\", \"Monetary_log\"]]\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)"
+    },
+    {
+      "id": "cohort-retention",
+      "title": "5. Cohort Retention & CLV",
+      "body": "Cohort analysis tracks how customer groups behave over time — critical for understanding whether Olist's retention is improving or deteriorating. Combined with CLV, this tells us how much each customer is worth and where to invest.",
+      "chart": "cohort",
+      "snippet": "df[\"order_month\"] = df[\"order_purchase_timestamp\"].dt.to_period(\"M\")\ncohort_month = df.groupby(\"customer_unique_id\")[\"order_month\"].min()\ndf[\"cohort_month\"] = df[\"customer_unique_id\"].map(cohort_month)\ndf[\"cohort_index\"] = (\n    (df[\"order_month\"].dt.year - df[\"cohort_month\"].dt.year) * 12\n    + (df[\"order_month\"].dt.month - df[\"cohort_month\"].dt.month) + 1\n)\ncohort_data = (df.groupby([\"cohort_month\", \"cohort_index\"])[\"customer_unique_id\"]\n                 .nunique().reset_index())"
+    },
+    {
+      "id": "churn-model",
+      "title": "6. Churn Prediction Model",
+      "body": "This is where the project moves from descriptive analytics to predictive modelling. We define churn as \"no purchase in the last 90 days of the observation window,\" then train classifiers to identify at-risk customers before they lapse. Why this matters commercially: If we can predict which customers are about to churn, we can target them with retention campaigns — turning a reactive business into a proactive one.",
+      "chart": "churn",
+      "snippet": "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import (classification_report, roc_auc_score,\n                             confusion_matrix, roc_curve)\ncutoff_date = df[\"order_purchase_timestamp\"].max() - timedelta(days=90)\nchurn_labels = df.groupby(\"customer_unique_id\").agg(\n    last_purchase=(\"order_purchase_timestamp\", \"max\")\n)"
+    },
+    {
+      "id": "revenue-impact",
+      "title": "7. Revenue Impact",
+      "body": "This section translates all analytical findings into actionable business recommendations with quantified revenue impact. This is what separates a coursework project from a consulting deliverable.",
+      "chart": "revenue",
+      "snippet": "sorted_users = user_spending.sort_values(ascending=False)\ntotal_revenue = sorted_users.sum()\ntotal_customers = len(sorted_users)\ncum_revenue = sorted_users.cumsum() / total_revenue\ncum_customers = np.arange(1, len(sorted_users) + 1) / total_customers\ntop_20_pct = int(total_customers * 0.2)\ntop_20_revenue = sorted_users.iloc[:top_20_pct].sum()\npareto_ratio = top_20_revenue / total_revenue * 100\n             xy=(20, pareto_ratio), xytext=(35, pareto_ratio - 15),"
+    }
+  ],
+  "key_findings": []
+}

@@ -4,7 +4,7 @@
   "lang.switch": "EN",
 
   "hero.greeting": "你好，\n我是 Xinlu :)",
-  "hero.role": "地理空间\n数据分析师",
+  "hero.role": "\n数据分析师",
 
   "nav.home": "首页",
   "nav.projects": "项目",
@@ -17,9 +17,10 @@
   "detail.method": "研究方法",
   "detail.insight": "核心发现",
   "detail.impact": "项目影响",
+  "detail.demo": "打开交互工具 →",
 
   "page.about.title": "关于我",
-  "page.about.subtitle": "地理空间数据分析师",
+  "page.about.subtitle": "数据分析师",
   "page.about.statement": "我处理数据的方式，就如建筑师对待空间——不是为了填充它，而是赋予它结构。每个数据集都承载着一段难以轻易提取的叙事，这门手艺，在于倾听。",
   "page.about.tools_label": "技术工具",
 
@@ -41,7 +42,7 @@
 
   "page.connect.title": "联系我",
   "page.connect.subtitle": "欢迎洽谈合作与研究项目。",
-  "page.connect.footer": "李欣璐 · 地理空间数据分析师 · 2026",
+  "page.connect.footer": "李欣璐 · 数据分析师 · 2026",
   "connect.email.label": "邮箱",
   "connect.email.value": "xinlu@example.com",
   "connect.linkedin.label": "领英",
@@ -70,5 +71,12 @@
   "project.land-use-model.problem": "市政机构对开发压力的响应往往是被动的，导致土地利用决策碎片化和基础设施超负荷。",
   "project.land-use-model.method": "基于 15 年的地块交易、许可申请和空间邻近特征训练梯度提升模型，并以留出的历史重新分区事件进行验证。",
   "project.land-use-model.finding": "模型以 78% 的精确率和 65% 的召回率识别未来重新分区热点，比启发式预测方法高出 2.3 倍。",
-  "project.land-use-model.impact": "已作为内部工具部署于某县规划部门，用于主动评估增长走廊的基础设施需求。"
+  "project.land-use-model.impact": "已作为内部工具部署于某县规划部门，用于主动评估增长走廊的基础设施需求。",
+
+  "project.olist-churn.title": "Olist 客户智能与流失预防策略",
+  "project.olist-churn.insight": "97% 的客户仅购买一次——端到端机器学习流水线，精准预测谁即将流失并量化损失。",
+  "project.olist-churn.problem": "Olist 是巴西最大的电商平台，面临严峻的留存危机：超过 97% 的客户仅完成单次购买便不再回头，导致大量客户生命周期价值流失。以获客为中心的传统指标完全掩盖了这一结构性问题。",
+  "project.olist-churn.method": "基于 2016–2018 年逾 10 万条交易记录，构建了完整的客户分析流水线：分位数评分的 RFM 分层、轮廓系数验证的 K-Means 聚类（k=4）、客户群体留存热力图、客户生命周期价值建模，以及基于复购频率、消费金额、近期购买时间和物流体验训练的随机森林流失预测模型。并配套开发了交互式 A/B 测试样本量计算器，服务于实验部署决策。",
+  "project.olist-churn.finding": "近期性（Recency）是最主要的流失预测因子。K-Means 聚类揭示了 4 个行为差异显著的客户群体，有效精化了 RFM 业务规则。前 20% 客户贡献约 80% 营收，但大多数仍为一次性买家，复购潜力尚未开发。随机森林模型取得了较高的 ROC-AUC，能够在客户静默流失前提前识别高风险人群。",
+  "project.olist-churn.impact": "对高价值高风险客户群体实施精准留存干预，预计活动投入产出比可达 3–5 倍。配套的 A/B 测试计算器将分析成果落地为可操作的实验规划工具——让团队在启动前科学规划样本量，将一次性分析转化为可持续的留存运营基础设施。"
 }

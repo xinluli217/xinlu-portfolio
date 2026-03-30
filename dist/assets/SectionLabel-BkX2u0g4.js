@@ -1,1 +1,0 @@
-import{j as o}from"./index-D8AAfPGx.js";function c({children:t,className:e="mb-1.5"}){return o.jsx("p",{className:`text-[10px] font-bold tracking-widest uppercase ${e}`,style:{color:"#c8c8c8"},children:t})}export{c as S};

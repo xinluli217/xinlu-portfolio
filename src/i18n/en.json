@@ -17,9 +17,10 @@
   "detail.method": "Method",
   "detail.insight": "Insight",
   "detail.impact": "Impact",
+  "detail.demo": "Open live tool →",
 
   "page.about.title": "About",
-  "page.about.subtitle": "Geospatial Data Analyst",
+  "page.about.subtitle": "Data Analyst",
   "page.about.statement": "I work with data the way an architect works with space — not to fill it, but to give it structure. Every dataset carries a story that resists easy extraction. The craft is in the listening.",
   "page.about.tools_label": "Tools",
 
@@ -41,7 +42,7 @@
 
   "page.connect.title": "Get in touch",
   "page.connect.subtitle": "Open to collaborations and research partnerships.",
-  "page.connect.footer": "Xinlu Li · Geospatial Data Analyst · 2026",
+  "page.connect.footer": "Xinlu Li · Data Analyst · 2026",
   "connect.email.label": "Email",
   "connect.email.value": "xinlu@example.com",
   "connect.linkedin.label": "LinkedIn",
@@ -70,5 +71,12 @@
   "project.land-use-model.problem": "Municipalities react to development pressure rather than anticipating it, leading to fragmented land use decisions and strained infrastructure.",
   "project.land-use-model.method": "Trained a gradient-boosted model on 15 years of parcel transactions, permit activity, and proximity features. Validated against held-out rezoning events.",
   "project.land-use-model.finding": "Model identified future rezoning hotspots with 78% precision at 65% recall, outperforming heuristic-based forecasts by 2.3×.",
-  "project.land-use-model.impact": "Deployed as an internal tool for a county planning department to proactively assess infrastructure needs in growth corridors."
+  "project.land-use-model.impact": "Deployed as an internal tool for a county planning department to proactively assess infrastructure needs in growth corridors.",
+
+  "project.olist-churn.title": "Olist Customer Intelligence & Churn Prevention",
+  "project.olist-churn.insight": "97% of customers buy only once — an end-to-end ML pipeline to predict who's about to leave and quantify the cost of letting them go.",
+  "project.olist-churn.problem": "Olist, Brazil's largest e-commerce marketplace, faces a severe retention crisis: over 97% of customers make a single purchase and never return, leaving substantial lifetime value unrealised. Acquisition-focused metrics masked this structural weakness entirely.",
+  "project.olist-churn.method": "Built a full customer analytics pipeline on 100K+ transactions across 2016–2018. Steps: RFM segmentation with quintile scoring, K-Means clustering (silhouette-validated, k=4), cohort retention heatmaps, CLV modelling, and a Random Forest churn classifier trained on recency, frequency, monetary value, and delivery experience features. Paired with an interactive A/B test sample size calculator for experiment planning.",
+  "project.olist-churn.finding": "Recency is the dominant churn predictor. K-Means surfaces 4 behaviorally distinct segments that sharpen the RFM rules. Top 20% of customers drive ~80% of revenue — yet most remain single-purchase buyers with untapped repeat potential. The Random Forest model achieves strong ROC-AUC, identifying at-risk customers before they silently lapse.",
+  "project.olist-churn.impact": "Targeted retention of high-value at-risk segments projects a 3–5× ROI on campaign spend. The accompanying A/B test calculator operationalises the findings — letting the team size experiments rigorously before launch, turning a one-off analysis into a repeatable retention infrastructure."
 }

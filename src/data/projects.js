@@ -1,53 +1,31 @@
 export const projects = [
   {
     id: "urban-heat",
-    title: "Urban Heat Island Mapping",
-    insight: "Satellite thermal data reveals inequitable heat distribution across urban neighborhoods.",
     tags: ["GIS", "Remote Sensing", "Python"],
     avatarColor: "#c8a8e9",
     initials: "UH",
     meta: "#001",
-    problem:
-      "Urban heat islands disproportionately affect low-income communities, but most city planning tools lack granular thermal data to guide equitable intervention.",
-    method:
-      "Processed Landsat 8 thermal imagery using Google Earth Engine and Python. Applied spatial interpolation and overlaid census demographic data to identify vulnerable populations.",
-    finding:
-      "Neighborhoods with less than 15% tree canopy experienced surface temps 4–8°C higher than adjacent green corridors, strongest in historically redlined areas.",
-    impact:
-      "Findings informed a city pilot program targeting tree planting and cool-roof installations in three priority zones, projected to reduce peak temps by 2–3°C.",
   },
   {
     id: "transit-access",
-    title: "Transit Accessibility Index",
-    insight: "Spatial gaps in public transit create invisible barriers to economic mobility.",
     tags: ["Data Science", "Network Analysis", "GIS"],
     avatarColor: "#a8c8e9",
     initials: "TA",
     meta: "#002",
-    problem:
-      "Standard transit metrics measure ridership and on-time performance but fail to capture how well the network connects underserved populations to job centers.",
-    method:
-      "Built a multi-modal accessibility index combining GTFS transit data, OpenStreetMap pedestrian networks, and employment density layers using graph-based shortest-path algorithms.",
-    finding:
-      "42% of low-income households had commute times exceeding 60 minutes to the nearest employment cluster vs. 11% of median-income households.",
-    impact:
-      "Adopted by the regional transit authority as a supplementary planning metric for route redesign evaluation.",
   },
   {
     id: "land-use-model",
-    title: "Predictive Land Use Modeling",
-    insight: "ML on parcel-level data can anticipate zoning pressure years before rezoning requests.",
     tags: ["Machine Learning", "Python", "Urban Planning"],
     avatarColor: "#e9c8a8",
     initials: "LU",
     meta: "#003",
-    problem:
-      "Municipalities react to development pressure rather than anticipating it, leading to fragmented land use decisions and strained infrastructure.",
-    method:
-      "Trained a gradient-boosted model on 15 years of parcel transactions, permit activity, and proximity features. Validated against held-out rezoning events.",
-    finding:
-      "Model identified future rezoning hotspots with 78% precision at 65% recall, outperforming heuristic-based forecasts by 2.3×.",
-    impact:
-      "Deployed as an internal tool for a county planning department to proactively assess infrastructure needs in growth corridors.",
+  },
+  {
+    id: "olist-churn",
+    tags: ["Python", "Machine Learning", "Customer Analytics"],
+    avatarColor: "#a8d4c8",
+    initials: "OC",
+    meta: "#004",
+    demoUrl: "/sample-size-calculator.html",
   },
 ];
