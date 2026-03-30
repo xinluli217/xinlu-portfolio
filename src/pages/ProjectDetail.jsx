@@ -27,7 +27,7 @@ export default function ProjectDetail() {
   }
 
   return (
-    <InnerLayout>
+    <InnerLayout wide>
       <PageTransition>
         {/* Back */}
         <Link
@@ -87,11 +87,11 @@ export default function ProjectDetail() {
         <div className="h-px bg-[#f0f0f0] mb-5" />
 
         {/* Sections */}
-        <div className="space-y-5">
+        <div className="space-y-8">
           {sections.map((s) => (
             <div key={s.key}>
               <SectionLabel>{t(s.labelKey)}</SectionLabel>
-              <p className="text-[14px] leading-relaxed" style={{ color: "#3a3a3a" }}>
+              <p className="text-[15px] leading-relaxed" style={{ color: "#3a3a3a" }}>
                 {t(`project.${id}.${s.key}`)}
               </p>
             </div>

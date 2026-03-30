@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle.jsx";
 
-export default function InnerLayout({ children }) {
+export default function InnerLayout({ children, wide = false }) {
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -15,15 +15,17 @@ export default function InnerLayout({ children }) {
   return (
     <div className="min-h-screen bg-[#f7f6f2] flex items-center justify-center p-4 md:p-8">
       <div
-        className="w-full max-w-2xl bg-white overflow-hidden"
+        className="w-full bg-white overflow-hidden"
         style={{
+          maxWidth: wide ? "56rem" : "42rem",
           borderRadius: "24px",
           boxShadow: "0 4px 32px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04)",
           minHeight: "540px",
         }}
       >
         {/* Top bar */}
-        <div className="flex items-center justify-between px-7 pt-6 pb-0 gap-3">
+        <div className="flex items-center justify-between pt-6 pb-0 gap-3"
+          style={{ padding: wide ? "24px 40px 0" : "24px 28px 0" }}>
           {/* Brand */}
           <Link
             to="/"
@@ -61,7 +63,7 @@ export default function InnerLayout({ children }) {
         </div>
 
         {/* Page content */}
-        <div className="p-7 pt-5">{children}</div>
+        <div style={{ padding: wide ? "20px 40px 32px" : "20px 28px 28px" }}>{children}</div>
       </div>
     </div>
   );

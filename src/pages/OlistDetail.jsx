@@ -115,7 +115,7 @@ function StorySection({ section, index }) {
         {/* Right — chart image */}
         {imgSrc && (
           <div className="flex-shrink-0 rounded-xl overflow-hidden"
-            style={{ width: "240px", background: "#fafaf9", border: "1px solid #ebebeb", marginTop: "6px" }}>
+            style={{ width: "320px", background: "#fafaf9", border: "1px solid #ebebeb", marginTop: "6px" }}>
             <img
               src={imgSrc}
               alt={section.title}
@@ -146,7 +146,7 @@ export default function OlistDetail() {
   }, []);
 
   return (
-    <InnerLayout>
+    <InnerLayout wide>
       <PageTransition>
 
         {/* ── Back ── */}
