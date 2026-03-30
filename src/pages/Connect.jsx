@@ -38,13 +38,13 @@ export default function Connect() {
     {
       labelKey: "connect.email.label",
       valueKey: "connect.email.value",
-      href: "mailto:xinlu@example.com",
+      href: "mailto:xinluli217@gmail.com",
       icon: EMAIL_ICON,
     },
     {
       labelKey: "connect.linkedin.label",
       valueKey: "connect.linkedin.value",
-      href: "https://linkedin.com/in/",
+      href: "www.linkedin.com/in/xinlu-li-39386a3a6",
       icon: LINKEDIN_ICON,
     },
     {

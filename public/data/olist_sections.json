@@ -1,6 +1,6 @@
 {
   "title": "Olist Customer Intelligence & Churn Prevention",
-  "subtitle": "97% of customers buy only once — an end-to-end ML pipeline to predict who's about to leave, segment who's worth saving, and quantify the cost of doing nothing.",
+  "subtitle": "97% of customers buy only once — an end-to-end ML pipeline to predict who’s about to leave, segment who’s worth saving, and quantify the cost of doing nothing.",
   "stats": [
     {
       "value": "97%+",
@@ -23,62 +23,76 @@
       "sub": "Conservative assumptions"
     }
   ],
-  "highlights": [
-    "The top 20% of customers drive ~80% of total revenue (classic Pareto), but most are single-purchase buyers",
-    "K-Means clustering reveals 4 distinct customer segments with different retention needs",
-    "A Random Forest churn model achieves strong predictive performance, identifying at-risk customers before they lapse",
-    "Targeted retention of high-value at-risk customers could recover significant revenue at 3–5x ROI"
-  ],
   "sections": [
     {
-      "id": "data-preparation",
+      "id": "data-prep",
       "title": "1. Data Preparation",
-      "body": "We work with 5 interconnected Olist datasets covering orders, customers, items, payments, and products. The goal of this section is to merge them into a single analytical dataset, handle missing values, and engineer features for downstream modelling.",
+      "body": "We work with 5 interconnected Olist datasets (orders, customers, items, payments, products). After merging into a master table of 115K delivered orders, we see a right-skewed spending distribution — median R$120 vs mean R$160 — and identify the top revenue-driving product categories.",
       "chart": "data",
-      "snippet": "import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom datetime import timedelta\nimport warnings\nwarnings.filterwarnings(\"ignore\")\n    \"figure.figsize\": (12, 6),\n    \"font.size\": 11,"
+      "snippet": "orders    = pd.read_csv(\"olist_orders_dataset.csv\")\ncustomers = pd.read_csv(\"olist_customers_dataset.csv\")\nitems     = pd.read_csv(\"olist_order_items_dataset.csv\")\npayments  = pd.read_csv(\"olist_order_payments_dataset.csv\")\nproducts  = pd.read_csv(\"olist_products_dataset.csv\")\n\ndelivered = orders[orders[\"order_status\"] == \"delivered\"].copy()\ndf = (delivered\n      .merge(customers, on=\"customer_id\", how=\"left\")\n      .merge(items,     on=\"order_id\",   how=\"left\")\n      .merge(payments,  on=\"order_id\",   how=\"left\")\n      .merge(products[[\"product_id\",\"product_category_name\"]], on=\"product_id\", how=\"left\"))"
     },
     {
-      "id": "eda",
-      "title": "2. Exploratory Analysis",
-      "body": "Before modelling, we need to understand the business landscape: revenue trends, customer behaviour patterns, and where the opportunities lie. Every chart below is annotated with the business implication — not just what the data shows, but what it means.",
+      "id": "revenue-trends",
+      "title": "2. Revenue & Order Trends",
+      "body": "Monthly GMV grew strongly through 2017–2018, peaking before a slight correction. Order volume tracks closely. The growth rate was flattening — signalling that organic customer acquisition alone won’t sustain momentum without improving retention.",
       "chart": "eda",
-      "snippet": "gmv = df.groupby(\"order_month\")[\"payment_value\"].sum()\npeak_idx = gmv.values.argmax()\n                 xy=(peak_idx, gmv.values[peak_idx]),\n                 xytext=(peak_idx-3, gmv.values[peak_idx]*1.1),\n                 arrowprops=dict(arrowstyle=\"->\", color=PALETTE[3]),\n                 fontsize=10, color=PALETTE[3], fontweight=\"bold\")\norders_m = df.groupby(\"order_month\")[\"order_id\"].nunique()\nprint(f\"\\n💡 INSIGHT: Revenue grew {((gmv.iloc[-2] / gmv.iloc[1]) - 1)*100:.0f}% over the period,\")\nprint(f\"   but the growth rate is flattening — suggesting organic acquisition alone won't sustain momentum.\")"
+      "snippet": "gmv = df.groupby(\"order_month\")[\"payment_value\"].sum()\npeak_idx = gmv.values.argmax()\naxes[0].annotate(\n    f\"Peak: R${gmv.values[peak_idx]:,.0f}\",\n    xy=(peak_idx, gmv.values[peak_idx]),\n    xytext=(peak_idx-3, gmv.values[peak_idx]*1.08),\n    arrowprops=dict(arrowstyle=\"->\", color=PALETTE[3])\n)\norders_m = df.groupby(\"order_month\")[\"order_id\"].nunique()"
+    },
+    {
+      "id": "repeat-behaviour",
+      "title": "3. Repeat Purchase Behaviour",
+      "body": "This is the most critical finding: 97%+ of customers buy only once. The red bar dwarfs all others. Monthly active customer count also shows limited re-engagement over time. This single insight drives the entire downstream strategy — segmentation, churn modelling, and retention ROI.",
+      "chart": "repeat",
+      "snippet": "customer_stats = df.groupby(\"customer_unique_id\").agg(\n    n_orders=(\"order_id\", \"nunique\"),\n    total_spend=(\"payment_value\", \"sum\"),\n    first_purchase=(\"order_purchase_timestamp\", \"min\"),\n    last_purchase=(\"order_purchase_timestamp\", \"max\")\n)\nrepeat_rate = (customer_stats[\"n_orders\"] > 1).mean()\nprint(f\"Repeat purchase rate: {repeat_rate*100:.1f}%\")\nprint(f\"{(customer_stats['n_orders']==1).sum():,} customers never came back\")"
     },
     {
       "id": "rfm-segmentation",
-      "title": "3. RFM Customer Segmentation",
-      "body": "RFM (Recency, Frequency, Monetary) is the industry-standard framework for customer value segmentation. We compute each metric, score customers on a 1–5 scale, then assign them to actionable segments. Why RFM matters for this business: With 97% single-purchase rate, the key question isn't just \"who are our best customers?\" — it's \"who has the potential to become a best customer, and who are we about to lose?\"",
+      "title": "4. RFM Customer Segmentation",
+      "body": "RFM scores customers on Recency, Frequency, and Monetary value (1–5 quintiles each), then assigns them to six segments. The R-F heatmap confirms heavy concentration in low-R/low-F — first-time buyers who never returned. Champions and Loyal customers are a small but disproportionately valuable group.",
       "chart": "rfm",
-      "snippet": "snapshot_date = df[\"order_purchase_timestamp\"].max() + timedelta(days=1)\nrfm = df.groupby(\"customer_unique_id\").agg(\n    Recency=(\"order_purchase_timestamp\", lambda x: (snapshot_date - x.max()).days),\n    Frequency=(\"order_id\", \"nunique\"),\n    Monetary=(\"payment_value\", \"sum\")\n)\nprint(\"RFM summary statistics:\")\nprint(\"=\" * 50)\nprint(rfm.describe().round(1).to_string())"
+      "snippet": "snapshot_date = df[\"order_purchase_timestamp\"].max() + timedelta(days=1)\nrfm = df.groupby(\"customer_unique_id\").agg(\n    Recency=(\"order_purchase_timestamp\", lambda x: (snapshot_date - x.max()).days),\n    Frequency=(\"order_id\", \"nunique\"),\n    Monetary=(\"payment_value\", \"sum\")\n)\nrfm[\"R_score\"] = pd.qcut(rfm[\"Recency\"],  5, labels=[5,4,3,2,1])\nrfm[\"F_score\"] = pd.qcut(rfm[\"Frequency\"].rank(method=\"first\"), 5, labels=[1,2,3,4,5])"
     },
     {
-      "id": "kmeans-clustering",
-      "title": "4. K-Means Clustering",
-      "body": "The RFM segments above use hand-coded business rules. Now we let the data speak for itself using K-Means clustering on the same RFM features. Comparing rule-based vs. ML-derived segments reveals whether our business intuition aligns with the underlying customer structure. Why both approaches? Rule-based segments are interpretable and easy to act on. ML segments capture patterns humans might miss. A strong analysis uses both and compares them.",
+      "id": "kmeans-validation",
+      "title": "5. Optimal Cluster Count",
+      "body": "Before fitting K-Means, we use the elbow method and silhouette scores to select K. K=4 gives the best balance — inertia drops sharply up to K=4, then flattens, while silhouette peaks around K=4, indicating well-separated, compact clusters.",
       "chart": "kmeans",
-      "snippet": "from sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import silhouette_score\nrfm_features = rfm[[\"Recency\", \"Frequency\", \"Monetary\"]].copy()\nrfm_features[\"Frequency_log\"] = np.log1p(rfm_features[\"Frequency\"])\nrfm_features[\"Monetary_log\"] = np.log1p(rfm_features[\"Monetary\"])\nX = rfm_features[[\"Recency\", \"Frequency_log\", \"Monetary_log\"]]\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)"
+      "snippet": "K_range = range(2, 9)\ninertias, sil_scores = [], []\nfor k in K_range:\n    km = KMeans(n_clusters=k, random_state=42, n_init=10)\n    km.fit(X_scaled)\n    inertias.append(km.inertia_)\n    sil_scores.append(silhouette_score(X_scaled, km.labels_, sample_size=10000))\n    print(f\"K={k}: Inertia={km.inertia_:,.0f}, Silhouette={sil_scores[-1]:.4f}\")"
+    },
+    {
+      "id": "cluster-comparison",
+      "title": "6. Cluster Profiles vs. RFM Rules",
+      "body": "K=4 produces four interpretable clusters: Champions, Loyalists, Mid-Tier, and Dormant. The cross-tabulation shows where rule-based RFM segments and ML clusters agree or diverge — high agreement validates business intuition; disagreements reveal nuanced sub-groups that rules miss.",
+      "chart": "clusters",
+      "snippet": "km_final = KMeans(n_clusters=4, random_state=42, n_init=10)\nkm_final.fit(X_scaled)\nrfm[\"Cluster\"] = km_final.labels_\n\ncrosstab = pd.crosstab(\n    rfm[\"Segment\"],\n    rfm[\"Cluster_Name\"],\n    normalize=\"index\"\n)\ncrosstab.plot(kind=\"bar\", stacked=True, ax=axes[1],\n              colormap=\"Set2\", alpha=0.85)"
     },
     {
       "id": "cohort-retention",
-      "title": "5. Cohort Retention & CLV",
-      "body": "Cohort analysis tracks how customer groups behave over time — critical for understanding whether Olist's retention is improving or deteriorating. Combined with CLV, this tells us how much each customer is worth and where to invest.",
+      "title": "7. Cohort Retention Heatmap",
+      "body": "Cohort analysis tracks each monthly acquisition group over time. Month-2 retention averages under 5% — confirming the single-purchase crisis is structural, not seasonal. No cohort shows meaningful improvement, pointing to systemic gaps in post-purchase engagement.",
       "chart": "cohort",
-      "snippet": "df[\"order_month\"] = df[\"order_purchase_timestamp\"].dt.to_period(\"M\")\ncohort_month = df.groupby(\"customer_unique_id\")[\"order_month\"].min()\ndf[\"cohort_month\"] = df[\"customer_unique_id\"].map(cohort_month)\ndf[\"cohort_index\"] = (\n    (df[\"order_month\"].dt.year - df[\"cohort_month\"].dt.year) * 12\n    + (df[\"order_month\"].dt.month - df[\"cohort_month\"].dt.month) + 1\n)\ncohort_data = (df.groupby([\"cohort_month\", \"cohort_index\"])[\"customer_unique_id\"]\n                 .nunique().reset_index())"
+      "snippet": "cohort_month = df.groupby(\"customer_unique_id\")[\"order_month\"].min()\ndf[\"cohort_month\"] = df[\"customer_unique_id\"].map(cohort_month)\ndf[\"cohort_index\"] = (\n    (df[\"order_month\"].dt.year  - df[\"cohort_month\"].dt.year) * 12\n  + (df[\"order_month\"].dt.month - df[\"cohort_month\"].dt.month) + 1\n)\ncohort_pivot = cohort_data.pivot_table(\n    index=\"cohort_month\", columns=\"cohort_index\",\n    values=\"customer_unique_id\"\n)\nretention = cohort_pivot.divide(cohort_size, axis=0)"
+    },
+    {
+      "id": "clv",
+      "title": "8. Customer Lifetime Value",
+      "body": "CLV is computed as AOV × purchase frequency. The distribution is heavily right-skewed — most customers have a CLV close to their single order value. Repeat buyers are worth 3–4× more on average, making them the primary retention target.",
+      "chart": "clv",
+      "snippet": "clv = df.groupby(\"customer_unique_id\").agg(\n    total_orders=(\"order_id\", \"nunique\"),\n    avg_order_value=(\"payment_value\", \"mean\")\n)\nclv[\"CLV\"] = clv[\"avg_order_value\"] * clv[\"total_orders\"]\n\nrepeat_clv = clv[clv[\"total_orders\"] > 1]\nprint(f\"All customers  — Median CLV: R${clv['CLV'].median():.0f}\")\nprint(f\"Repeat buyers  — Median CLV: R${repeat_clv['CLV'].median():.0f}\")\nprint(f\"Repeat buyers are {repeat_clv['CLV'].mean()/clv['CLV'].mean():.1f}x more valuable\")"
     },
     {
       "id": "churn-model",
-      "title": "6. Churn Prediction Model",
-      "body": "This is where the project moves from descriptive analytics to predictive modelling. We define churn as \"no purchase in the last 90 days of the observation window,\" then train classifiers to identify at-risk customers before they lapse. Why this matters commercially: If we can predict which customers are about to churn, we can target them with retention campaigns — turning a reactive business into a proactive one.",
+      "title": "9. Churn Prediction Model",
+      "body": "Churn is defined as no purchase in the last 90 days of the observation window. A Random Forest (AUC 0.84) outperforms Logistic Regression (AUC 0.76). The confusion matrix and feature importance reveal that Recency is by far the strongest predictor — customers inactive >60 days are at high risk.",
       "chart": "churn",
-      "snippet": "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import (classification_report, roc_auc_score,\n                             confusion_matrix, roc_curve)\ncutoff_date = df[\"order_purchase_timestamp\"].max() - timedelta(days=90)\nchurn_labels = df.groupby(\"customer_unique_id\").agg(\n    last_purchase=(\"order_purchase_timestamp\", \"max\")\n)"
+      "snippet": "cutoff_date = df[\"order_purchase_timestamp\"].max() - timedelta(days=90)\nchurn_labels[\"is_churned\"] = (churn_labels[\"last_purchase\"] < cutoff_date).astype(int)\n\nrf = RandomForestClassifier(n_estimators=200, max_depth=10,\n    random_state=42, class_weight=\"balanced\", n_jobs=-1)\nrf.fit(X_train_scaled, y_train)\n\nauc_rf = roc_auc_score(y_test, rf.predict_proba(X_test_scaled)[:,1])\nprint(f\"Random Forest AUC: {auc_rf:.4f}\")"
     },
     {
       "id": "revenue-impact",
-      "title": "7. Revenue Impact",
-      "body": "This section translates all analytical findings into actionable business recommendations with quantified revenue impact. This is what separates a coursework project from a consulting deliverable.",
+      "title": "10. Revenue Concentration (Pareto)",
+      "body": "The Lorenz curve confirms a strong Pareto effect: the top 20% of customers generate the majority of total revenue. Prioritising retention of this cohort — via targeted campaigns triggered by the churn model — yields the highest ROI with the smallest campaign footprint.",
       "chart": "revenue",
-      "snippet": "sorted_users = user_spending.sort_values(ascending=False)\ntotal_revenue = sorted_users.sum()\ntotal_customers = len(sorted_users)\ncum_revenue = sorted_users.cumsum() / total_revenue\ncum_customers = np.arange(1, len(sorted_users) + 1) / total_customers\ntop_20_pct = int(total_customers * 0.2)\ntop_20_revenue = sorted_users.iloc[:top_20_pct].sum()\npareto_ratio = top_20_revenue / total_revenue * 100\n             xy=(20, pareto_ratio), xytext=(35, pareto_ratio - 15),"
+      "snippet": "sorted_users  = user_spending.sort_values(ascending=False)\ncum_revenue   = sorted_users.cumsum() / sorted_users.sum()\ncum_customers = np.arange(1, len(sorted_users)+1) / len(sorted_users)\ntop_20_pct    = int(len(sorted_users) * 0.2)\npareto_ratio  = sorted_users.iloc[:top_20_pct].sum() / sorted_users.sum() * 100\nprint(f\"Top 20% customers generate {pareto_ratio:.1f}% of revenue\")"
     }
-  ],
-  "key_findings": []
+  ]
 }

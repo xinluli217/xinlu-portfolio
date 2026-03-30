@@ -9,13 +9,16 @@ import SectionLabel from "../components/SectionLabel.jsx";
 // ─── Chart image map (one PNG per section) ───────────────────────────────────
 
 const CHART_IMGS = {
-  data:    "/charts/chart_data.png",
-  eda:     "/charts/chart_eda.png",
-  rfm:     "/charts/chart_rfm.png",
-  kmeans:  "/charts/chart_kmeans.png",
-  cohort:  "/charts/chart_cohort.png",
-  churn:   "/charts/chart_churn.png",
-  revenue: "/charts/chart_revenue.png",
+  data:     "/charts/chart_data.png",      // spending distribution + top categories
+  eda:      "/charts/chart_eda.png",       // monthly GMV + order volume
+  repeat:   "/charts/chart_repeat.png",   // orders per customer + MAU
+  rfm:      "/charts/chart_rfm.png",       // RFM segments 3-panel
+  kmeans:   "/charts/chart_kmeans.png",    // elbow + silhouette
+  clusters: "/charts/chart_clusters.png", // K-means scatter + crosstab
+  cohort:   "/charts/chart_cohort.png",    // cohort retention heatmap
+  clv:      "/charts/chart_clv.png",       // CLV distribution + KDE
+  churn:    "/charts/chart_churn.png",     // ROC + confusion matrix + feature importance
+  revenue:  "/charts/chart_revenue.png",  // Lorenz / Pareto curve
 };
 
 // ─── Small shared components ─────────────────────────────────────────────────
@@ -70,7 +73,7 @@ function StorySection({ section, index }) {
       className="py-5 border-t"
       style={{ borderColor: "#f0f0f0" }}
     >
-      <div className="flex gap-5 items-start">
+      <div className="flex gap-5 items-center">
         {/* Left — text */}
         <div className="flex-1 min-w-0">
           <p className="text-[10px] font-bold tracking-widest uppercase mb-1.5" style={{ color: "#c8c8c8" }}>
@@ -112,11 +115,12 @@ function StorySection({ section, index }) {
         {/* Right — chart image */}
         {imgSrc && (
           <div className="flex-shrink-0 rounded-xl overflow-hidden"
-            style={{ width: "200px", height: "140px", background: "#fafaf9", border: "1px solid #ebebeb" }}>
+            style={{ width: "240px", background: "#fafaf9", border: "1px solid #ebebeb", marginTop: "6px" }}>
             <img
               src={imgSrc}
               alt={section.title}
-              className="w-full h-full object-cover"
+              className="w-full h-auto block"
+              style={{ objectFit: "contain" }}
               loading="lazy"
             />
           </div>
