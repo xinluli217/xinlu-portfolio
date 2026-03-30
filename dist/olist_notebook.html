@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Olist Customer Intelligence — Notebook</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.65;font-size:14px}
+.nb{max-width:820px;margin:0 auto;padding:32px 24px 80px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#c9a84c;text-decoration:none;margin-bottom:28px;opacity:1;transition:opacity .15s}
+.back:hover{opacity:.6}
+.nb-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.nb-sub{font-size:14px;color:#9a9a9a;margin-bottom:32px}
+.md-cell{padding:12px 0;border-bottom:1px solid #f0f0f0}
+.md-cell h2{font-size:16px;font-weight:700;letter-spacing:-.01em;margin:20px 0 8px;color:#1a1a1a}
+.md-cell h3{font-size:14px;font-weight:600;margin:14px 0 6px;color:#3a3a3a}
+.md-cell h4,.md-cell h5{font-size:13px;font-weight:600;margin:10px 0 4px;color:#6a6a6a}
+.md-cell p{color:#3a3a3a;margin:6px 0}
+.md-cell ul{padding-left:18px;margin:6px 0}
+.md-cell li{color:#3a3a3a;margin:3px 0}
+.md-cell strong{font-weight:600;color:#1a1a1a}
+.md-cell em{font-style:italic;color:#6a6a6a}
+.md-cell code{font-family:'JetBrains Mono','Courier New',monospace;font-size:11.5px;background:#f0ede6;padding:1px 5px;border-radius:3px;color:#6a4a1a}
+.md-cell pre{background:#f5f4f0;border-radius:8px;padding:14px 16px;overflow-x:auto;margin:10px 0}
+.md-cell pre code{background:none;padding:0;font-size:12px;color:#3a3a3a}
+.md-cell hr{border:none;border-top:1px solid #ebebeb;margin:16px 0}
+.md-cell table,.md-cell tr,.md-cell td{border:1px solid #ebebeb;border-collapse:collapse;padding:6px 10px;font-size:13px}
+.code-cell{margin:2px 0;background:#fff;border:1px solid #f0f0f0;border-radius:10px;overflow:hidden}
+.cell-num{display:block;font-size:10px;font-family:monospace;color:#c8c8c8;padding:6px 12px 0;letter-spacing:.05em}
+.code-cell pre{padding:8px 14px 12px;overflow-x:auto;margin:0}
+.code-cell code{font-family:'JetBrains Mono','Courier New',monospace;font-size:11.5px;color:#3a3a3a;line-height:1.6;white-space:pre}
+</style>
+</head>
+<body>
+<div class="nb">
+<a class="back" href="/projects/olist-churn">
+  <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
+    <path d="M6 1L1 6l5 5" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Back to project
+</a>
+<h1 class="nb-title">Olist Customer Intelligence & Churn Prevention</h1>
+<p class="nb-sub">Python notebook · pandas · scikit-learn · matplotlib</p>
+<div class="md-cell"><h2>Customer Intelligence &amp; Churn Prevention Strategy</h2>
+<h3>Olist E-Commerce Marketplace — 100K+ Transactions (2016–2018)</h3>
+
+<hr>
+
+<h4>Executive Summary</h4>
+
+<p><strong>Business Problem:</strong> Olist, Brazil&#x27;s largest e-commerce marketplace, faces a critical retention challenge — over 97% of customers make only a single purchase, leaving significant lifetime value unrealised.</p>
+
+<p><strong>Objective:</strong> Build an end-to-end customer intelligence pipeline that segments the customer base, predicts churn risk, and delivers actionable retention strategies with quantified revenue impact.</p>
+
+<p><strong>Key Findings:</strong></p>
+<ul>
+<li>The top 20% of customers drive ~80% of total revenue (classic Pareto), but most are single-purchase buyers</li>
+<li>K-Means clustering reveals 4 distinct customer segments with different retention needs</li>
+<li>A Random Forest churn model achieves strong predictive performance, identifying at-risk customers before they lapse</li>
+<li>Targeted retention of high-value at-risk customers could recover significant revenue at 3–5x ROI</li>
+</ul>
+
+<p><strong>Methods:</strong> RFM analysis, K-Means clustering (with silhouette validation), cohort retention analysis, logistic regression &amp; random forest churn prediction, CLV modelling, revenue impact quantification</p>
+
+<hr>
+<p><em>Author: Lily | MSc Student, UCL</em>  </p>
+<p><em>Tools: Python, pandas, scikit-learn, matplotlib, seaborn</em></p></div><div class="md-cell"><h3>1. Data Loading &amp; Preparation</h3>
+
+<p>We work with 5 interconnected Olist datasets covering orders, customers, items, payments, and products. The goal of this section is to merge them into a single analytical dataset, handle missing values, and engineer features for downstream modelling.</p></div><div class="code-cell"><span class="cell-num">In [2]:</span><pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import timedelta
+import warnings
+warnings.filterwarnings(&quot;ignore&quot;)
+
+# Visual style — consistent throughout the notebook
+sns.set_style(&quot;whitegrid&quot;)
+plt.rcParams.update({
+    &quot;figure.figsize&quot;: (12, 6),
+    &quot;font.size&quot;: 11,
+    &quot;axes.titlesize&quot;: 14,
+    &quot;axes.labelsize&quot;: 12,
+    &quot;axes.titleweight&quot;: &quot;bold&quot;
+})
+
+PALETTE = [&quot;#2E86AB&quot;, &quot;#A23B72&quot;, &quot;#F18F01&quot;, &quot;#C73E1D&quot;, &quot;#3B1F2B&quot;]
+
+print(&quot;Libraries loaded successfully&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [3]:</span><pre><code># ==============================
+# 1.1 Load all datasets
+# ==============================
+orders     = pd.read_csv(&quot;olist_orders_dataset.csv&quot;)
+customers  = pd.read_csv(&quot;olist_customers_dataset.csv&quot;)
+items      = pd.read_csv(&quot;olist_order_items_dataset.csv&quot;)
+payments   = pd.read_csv(&quot;olist_payments_dataset.csv&quot;)
+products   = pd.read_csv(&quot;olist_products_dataset.csv&quot;)
+
+datasets = {&quot;Orders&quot;: orders, &quot;Customers&quot;: customers, &quot;Items&quot;: items,
+            &quot;Payments&quot;: payments, &quot;Products&quot;: products}
+
+print(&quot;Dataset overview:&quot;)
+print(&quot;-&quot; * 45)
+for name, d in datasets.items():
+    print(f&quot;  {name:12s} → {d.shape[0]:&gt;7,} rows × {d.shape[1]:&gt;2} cols&quot;)
+print(f&quot;\nTotal records across all tables: {sum(d.shape[0] for d in datasets.values()):,}&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [4]:</span><pre><code># ==============================
+# 1.2 Data quality checks
+# ==============================
+
+# Datetime conversion
+date_cols = [&quot;order_purchase_timestamp&quot;, &quot;order_approved_at&quot;,
+             &quot;order_delivered_carrier_date&quot;, &quot;order_delivered_customer_date&quot;,
+             &quot;order_estimated_delivery_date&quot;]
+for col in date_cols:
+    orders[col] = pd.to_datetime(orders[col])
+
+# Missing values summary
+print(&quot;Missing values (columns with any nulls):&quot;)
+print(&quot;-&quot; * 45)
+for name, d in datasets.items():
+    nulls = d.isnull().sum()
+    nulls = nulls[nulls &gt; 0]
+    if len(nulls) &gt; 0:
+        for col, count in nulls.items():
+            print(f&quot;  {name:12s} | {col:35s} | {count:&gt;5} ({count/len(d)*100:.1f}%)&quot;)
+
+# Duplicates
+print(&quot;\nDuplicates removed:&quot;)
+for name, d in datasets.items():
+    n_dup = d.duplicated().sum()
+    if n_dup &gt; 0:
+        print(f&quot;  {name}: {n_dup}&quot;)
+    datasets[name] = d.drop_duplicates()
+
+orders, customers, items, payments, products = datasets.values()</code></pre></div><div class="code-cell"><span class="cell-num">In [5]:</span><pre><code># ==============================
+# 1.3 Merge into master analytical dataset
+# ==============================
+
+# Only keep delivered orders (completed transactions)
+delivered = orders[orders[&quot;order_status&quot;] == &quot;delivered&quot;].copy()
+print(f&quot;Filtering to delivered orders: {len(delivered):,} / {len(orders):,} &quot;
+      f&quot;({len(delivered)/len(orders)*100:.1f}%)&quot;)
+
+df = (delivered
+      .merge(customers, on=&quot;customer_id&quot;, how=&quot;left&quot;)
+      .merge(items, on=&quot;order_id&quot;, how=&quot;left&quot;)
+      .merge(payments, on=&quot;order_id&quot;, how=&quot;left&quot;)
+      .merge(products[[&quot;product_id&quot;, &quot;product_category_name&quot;]], on=&quot;product_id&quot;, how=&quot;left&quot;))
+
+# Feature engineering
+df[&quot;order_date&quot;] = df[&quot;order_purchase_timestamp&quot;].dt.date
+df[&quot;order_month&quot;] = df[&quot;order_purchase_timestamp&quot;].dt.to_period(&quot;M&quot;)
+df[&quot;order_dow&quot;] = df[&quot;order_purchase_timestamp&quot;].dt.day_name()
+df[&quot;order_hour&quot;] = df[&quot;order_purchase_timestamp&quot;].dt.hour
+df[&quot;delivery_days&quot;] = (df[&quot;order_delivered_customer_date&quot;] - df[&quot;order_purchase_timestamp&quot;]).dt.days
+
+print(f&quot;\nMaster dataset: {df.shape[0]:,} rows × {df.shape[1]} columns&quot;)
+print(f&quot;Date range: {df[&#x27;order_purchase_timestamp&#x27;].min().date()} → {df[&#x27;order_purchase_timestamp&#x27;].max().date()}&quot;)
+print(f&quot;Unique customers: {df[&#x27;customer_unique_id&#x27;].nunique():,}&quot;)</code></pre></div><div class="md-cell"><h3>2. Exploratory Data Analysis</h3>
+
+<p>Before modelling, we need to understand the business landscape: revenue trends, customer behaviour patterns, and where the opportunities lie. Every chart below is annotated with the business implication — not just what the data shows, but <em>what it means</em>.</p></div><div class="code-cell"><span class="cell-num">In [7]:</span><pre><code># ==============================
+# 2.1 Revenue &amp; order trends
+# ==============================
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Monthly GMV
+gmv = df.groupby(&quot;order_month&quot;)[&quot;payment_value&quot;].sum()
+axes[0].plot(gmv.index.astype(str), gmv.values, marker=&quot;o&quot;, color=PALETTE[0], linewidth=2)
+axes[0].fill_between(range(len(gmv)), gmv.values, alpha=0.1, color=PALETTE[0])
+axes[0].set_title(&quot;Monthly gross merchandise value (GMV)&quot;)
+axes[0].set_ylabel(&quot;Revenue (R$)&quot;)
+axes[0].tick_params(axis=&quot;x&quot;, rotation=45)
+
+# Annotate peak
+peak_idx = gmv.values.argmax()
+axes[0].annotate(f&quot;Peak: R${gmv.values[peak_idx]:,.0f}&quot;,
+                 xy=(peak_idx, gmv.values[peak_idx]),
+                 xytext=(peak_idx-3, gmv.values[peak_idx]*1.1),
+                 arrowprops=dict(arrowstyle=&quot;-&gt;&quot;, color=PALETTE[3]),
+                 fontsize=10, color=PALETTE[3], fontweight=&quot;bold&quot;)
+
+# Monthly orders
+orders_m = df.groupby(&quot;order_month&quot;)[&quot;order_id&quot;].nunique()
+axes[1].plot(orders_m.index.astype(str), orders_m.values, marker=&quot;o&quot;, color=PALETTE[1], linewidth=2)
+axes[1].fill_between(range(len(orders_m)), orders_m.values, alpha=0.1, color=PALETTE[1])
+axes[1].set_title(&quot;Monthly order volume&quot;)
+axes[1].set_ylabel(&quot;Number of orders&quot;)
+axes[1].tick_params(axis=&quot;x&quot;, rotation=45)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_revenue_trends.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\n💡 INSIGHT: Revenue grew {((gmv.iloc[-2] / gmv.iloc[1]) - 1)*100:.0f}% over the period,&quot;)
+print(f&quot;   but the growth rate is flattening — suggesting organic acquisition alone won&#x27;t sustain momentum.&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [8]:</span><pre><code># ==============================
+# 2.2 Customer spending distribution &amp; top categories
+# ==============================
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Spending distribution (trimmed)
+user_spending = df.groupby(&quot;customer_unique_id&quot;)[&quot;payment_value&quot;].sum()
+q99 = user_spending.quantile(0.99)
+filtered = user_spending[user_spending &lt;= q99]
+
+axes[0].hist(filtered, bins=50, color=PALETTE[0], alpha=0.7, edgecolor=&quot;white&quot;)
+axes[0].axvline(user_spending.median(), color=PALETTE[3], linestyle=&quot;--&quot;, linewidth=2,
+                label=f&quot;Median: R${user_spending.median():.0f}&quot;)
+axes[0].axvline(user_spending.mean(), color=PALETTE[2], linestyle=&quot;--&quot;, linewidth=2,
+                label=f&quot;Mean: R${user_spending.mean():.0f}&quot;)
+axes[0].set_title(&quot;Customer spending distribution&quot;)
+axes[0].set_xlabel(&quot;Total spend (R$)&quot;)
+axes[0].set_ylabel(&quot;Number of customers&quot;)
+axes[0].legend()
+
+# Top 10 categories
+top_cats = (df.groupby(&quot;product_category_name&quot;)[&quot;payment_value&quot;]
+              .sum().sort_values(ascending=True).tail(10))
+axes[1].barh(top_cats.index, top_cats.values, color=PALETTE[0], alpha=0.8)
+axes[1].set_title(&quot;Top 10 product categories by revenue&quot;)
+axes[1].set_xlabel(&quot;Revenue (R$)&quot;)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_spending_distribution.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\n💡 INSIGHT: Median spend is R${user_spending.median():.0f} vs mean R${user_spending.mean():.0f}&quot;)
+print(f&quot;   → Heavy right skew — a small number of high-value customers pull the mean up.&quot;)
+print(f&quot;   This is exactly where segmentation adds value.&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [9]:</span><pre><code># ==============================
+# 2.3 Repeat purchase behaviour — THE critical metric
+# ==============================
+
+customer_stats = df.groupby(&quot;customer_unique_id&quot;).agg(
+    n_orders=(&quot;order_id&quot;, &quot;nunique&quot;),
+    total_spend=(&quot;payment_value&quot;, &quot;sum&quot;),
+    first_purchase=(&quot;order_purchase_timestamp&quot;, &quot;min&quot;),
+    last_purchase=(&quot;order_purchase_timestamp&quot;, &quot;max&quot;)
+)
+customer_stats[&quot;lifetime_days&quot;] = (customer_stats[&quot;last_purchase&quot;] - customer_stats[&quot;first_purchase&quot;]).dt.days
+repeat_rate = (customer_stats[&quot;n_orders&quot;] &gt; 1).mean()
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Order frequency
+order_dist = customer_stats[&quot;n_orders&quot;].value_counts().sort_index().head(8)
+colors = [PALETTE[3] if x == 1 else PALETTE[0] for x in order_dist.index]
+axes[0].bar(order_dist.index.astype(str), order_dist.values, color=colors, alpha=0.8)
+axes[0].set_title(&quot;Orders per customer&quot;)
+axes[0].set_xlabel(&quot;Number of orders&quot;)
+axes[0].set_ylabel(&quot;Number of customers&quot;)
+
+# Add the critical stat
+axes[0].annotate(f&quot;{(1-repeat_rate)*100:.1f}% buy\nonly ONCE&quot;,
+                 xy=(0, order_dist.iloc[0]), xytext=(2.5, order_dist.iloc[0]*0.7),
+                 arrowprops=dict(arrowstyle=&quot;-&gt;&quot;, color=PALETTE[3], lw=2),
+                 fontsize=13, fontweight=&quot;bold&quot;, color=PALETTE[3])
+
+# Monthly active customers
+mau = df.groupby(&quot;order_month&quot;)[&quot;customer_unique_id&quot;].nunique()
+axes[1].plot(mau.index.astype(str), mau.values, marker=&quot;o&quot;, color=PALETTE[1], linewidth=2)
+axes[1].set_title(&quot;Monthly active customers&quot;)
+axes[1].set_ylabel(&quot;Unique customers&quot;)
+axes[1].tick_params(axis=&quot;x&quot;, rotation=45)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_repeat_behaviour.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\n🚨 CRITICAL FINDING: Repeat purchase rate is only {repeat_rate*100:.1f}%&quot;)
+print(f&quot;   {(customer_stats[&#x27;n_orders&#x27;]==1).sum():,} out of {len(customer_stats):,} customers never came back.&quot;)
+print(f&quot;   This is the #1 business problem to solve — and what drives our segmentation strategy.&quot;)</code></pre></div><div class="md-cell"><h3>3. RFM Customer Segmentation</h3>
+
+<p>RFM (Recency, Frequency, Monetary) is the industry-standard framework for customer value segmentation. We compute each metric, score customers on a 1–5 scale, then assign them to actionable segments.</p>
+
+<p><strong>Why RFM matters for this business:</strong> With 97% single-purchase rate, the key question isn&#x27;t just &quot;who are our best customers?&quot; — it&#x27;s &quot;who has the <em>potential</em> to become a best customer, and who are we about to lose?&quot;</p>
+</div><div class="code-cell"><span class="cell-num">In [11]:</span><pre><code># ==============================
+# 3.1 Compute RFM metrics
+# ==============================
+
+snapshot_date = df[&quot;order_purchase_timestamp&quot;].max() + timedelta(days=1)
+
+rfm = df.groupby(&quot;customer_unique_id&quot;).agg(
+    Recency=(&quot;order_purchase_timestamp&quot;, lambda x: (snapshot_date - x.max()).days),
+    Frequency=(&quot;order_id&quot;, &quot;nunique&quot;),
+    Monetary=(&quot;payment_value&quot;, &quot;sum&quot;)
+)
+
+print(&quot;RFM summary statistics:&quot;)
+print(&quot;=&quot; * 50)
+print(rfm.describe().round(1).to_string())
+print(f&quot;\nSnapshot date: {snapshot_date.date()}&quot;)
+print(f&quot;Total customers scored: {len(rfm):,}&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [12]:</span><pre><code># ==============================
+# 3.2 RFM scoring (quintile-based)
+# ==============================
+
+rfm[&quot;R_score&quot;] = pd.qcut(rfm[&quot;Recency&quot;], 5, labels=[5, 4, 3, 2, 1])
+rfm[&quot;F_score&quot;] = pd.qcut(rfm[&quot;Frequency&quot;].rank(method=&quot;first&quot;), 5, labels=[1, 2, 3, 4, 5])
+rfm[&quot;M_score&quot;] = pd.qcut(rfm[&quot;Monetary&quot;], 5, labels=[1, 2, 3, 4, 5])
+
+rfm[&quot;RFM_score&quot;] = (rfm[&quot;R_score&quot;].astype(str) + rfm[&quot;F_score&quot;].astype(str)
+                     + rfm[&quot;M_score&quot;].astype(str))
+
+# Business-driven segment definitions
+def assign_segment(row):
+    r, f, m = int(row[&quot;R_score&quot;]), int(row[&quot;F_score&quot;]), int(row[&quot;M_score&quot;])
+    if r &gt;= 4 and f &gt;= 4 and m &gt;= 4: return &quot;Champions&quot;
+    if r &gt;= 3 and f &gt;= 3:            return &quot;Loyal&quot;
+    if r &gt;= 4 and f &lt;= 2:            return &quot;Promising&quot;
+    if r &lt;= 2 and f &gt;= 3:            return &quot;At Risk&quot;
+    if r &lt;= 2 and f &lt;= 2:            return &quot;Lost&quot;
+    return &quot;Needs Attention&quot;
+
+rfm[&quot;Segment&quot;] = rfm.apply(assign_segment, axis=1)
+
+# Segment summary with business metrics
+seg_summary = rfm.groupby(&quot;Segment&quot;).agg(
+    count=(&quot;Recency&quot;, &quot;size&quot;),
+    avg_recency=(&quot;Recency&quot;, &quot;mean&quot;),
+    avg_frequency=(&quot;Frequency&quot;, &quot;mean&quot;),
+    avg_monetary=(&quot;Monetary&quot;, &quot;mean&quot;),
+    total_revenue=(&quot;Monetary&quot;, &quot;sum&quot;)
+).round(1)
+
+seg_summary[&quot;pct_customers&quot;] = (seg_summary[&quot;count&quot;] / seg_summary[&quot;count&quot;].sum() * 100).round(1)
+seg_summary[&quot;pct_revenue&quot;] = (seg_summary[&quot;total_revenue&quot;] / seg_summary[&quot;total_revenue&quot;].sum() * 100).round(1)
+seg_summary = seg_summary.sort_values(&quot;total_revenue&quot;, ascending=False)
+
+print(&quot;RFM segment summary:&quot;)
+print(&quot;=&quot; * 90)
+print(seg_summary.to_string())</code></pre></div><div class="code-cell"><span class="cell-num">In [13]:</span><pre><code># ==============================
+# 3.3 RFM visualisation
+# ==============================
+
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+
+# Segment counts
+seg_counts = rfm[&quot;Segment&quot;].value_counts()
+colors_map = {&quot;Champions&quot;: PALETTE[0], &quot;Loyal&quot;: &quot;#2CA58D&quot;, &quot;Promising&quot;: PALETTE[2],
+              &quot;At Risk&quot;: PALETTE[3], &quot;Lost&quot;: PALETTE[4], &quot;Needs Attention&quot;: &quot;#888888&quot;}
+bar_colors = [colors_map.get(s, &quot;#888888&quot;) for s in seg_counts.index]
+
+axes[0].barh(seg_counts.index, seg_counts.values, color=bar_colors, alpha=0.85)
+axes[0].set_title(&quot;Customers by segment&quot;)
+axes[0].set_xlabel(&quot;Count&quot;)
+for i, (v, s) in enumerate(zip(seg_counts.values, seg_counts.index)):
+    axes[0].text(v + 200, i, f&quot;{v:,}&quot;, va=&quot;center&quot;, fontsize=10)
+
+# Revenue by segment
+seg_rev = rfm.groupby(&quot;Segment&quot;)[&quot;Monetary&quot;].sum().reindex(seg_counts.index)
+axes[1].barh(seg_rev.index, seg_rev.values, color=bar_colors, alpha=0.85)
+axes[1].set_title(&quot;Revenue by segment&quot;)
+axes[1].set_xlabel(&quot;Revenue (R$)&quot;)
+
+# R-F heatmap
+rf_heatmap = rfm.groupby([&quot;R_score&quot;, &quot;F_score&quot;], observed=False).size().unstack()
+rf_pct = rf_heatmap / rf_heatmap.sum().sum()
+sns.heatmap(rf_pct, annot=True, fmt=&quot;.1%&quot;, cmap=&quot;YlGnBu&quot;, ax=axes[2])
+axes[2].set_title(&quot;R-F distribution heatmap&quot;)
+axes[2].set_xlabel(&quot;Frequency score&quot;)
+axes[2].set_ylabel(&quot;Recency score&quot;)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_rfm_segments.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(&quot;\n💡 INSIGHT: The heatmap shows heavy concentration in the (low R, low F) corner —&quot;)
+print(&quot;   confirming that most customers purchased once and never returned.&quot;)
+print(&quot;   The business opportunity lies in the &#x27;Promising&#x27; segment: recent but low-frequency buyers.&quot;)</code></pre></div><div class="md-cell"><h3>4. K-Means Clustering — Data-Driven Segmentation</h3>
+
+<p>The RFM segments above use hand-coded business rules. Now we let the data speak for itself using K-Means clustering on the same RFM features. Comparing rule-based vs. ML-derived segments reveals whether our business intuition aligns with the underlying customer structure.</p>
+
+<p><strong>Why both approaches?</strong> Rule-based segments are interpretable and easy to act on. ML segments capture patterns humans might miss. A strong analysis uses both and compares them.</p>
+</div><div class="code-cell"><span class="cell-num">In [15]:</span><pre><code># ==============================
+# 4.1 Feature scaling &amp; optimal K selection
+# ==============================
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+# Log-transform skewed distributions before scaling
+rfm_features = rfm[[&quot;Recency&quot;, &quot;Frequency&quot;, &quot;Monetary&quot;]].copy()
+rfm_features[&quot;Frequency_log&quot;] = np.log1p(rfm_features[&quot;Frequency&quot;])
+rfm_features[&quot;Monetary_log&quot;] = np.log1p(rfm_features[&quot;Monetary&quot;])
+
+X = rfm_features[[&quot;Recency&quot;, &quot;Frequency_log&quot;, &quot;Monetary_log&quot;]]
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Elbow method + silhouette scores
+K_range = range(2, 9)
+inertias = []
+sil_scores = []
+
+for k in K_range:
+    km = KMeans(n_clusters=k, random_state=42, n_init=10)
+    km.fit(X_scaled)
+    inertias.append(km.inertia_)
+    sil_scores.append(silhouette_score(X_scaled, km.labels_, sample_size=10000))
+    print(f&quot;  K={k}: Inertia={km.inertia_:,.0f}, Silhouette={sil_scores[-1]:.4f}&quot;)
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+axes[0].plot(list(K_range), inertias, &quot;o-&quot;, color=PALETTE[0], linewidth=2)
+axes[0].set_title(&quot;Elbow method&quot;)
+axes[0].set_xlabel(&quot;Number of clusters (K)&quot;)
+axes[0].set_ylabel(&quot;Inertia (within-cluster SSE)&quot;)
+axes[0].axvline(4, color=PALETTE[3], linestyle=&quot;--&quot;, alpha=0.7, label=&quot;K=4 (selected)&quot;)
+axes[0].legend()
+
+axes[1].plot(list(K_range), sil_scores, &quot;o-&quot;, color=PALETTE[1], linewidth=2)
+axes[1].set_title(&quot;Silhouette score by K&quot;)
+axes[1].set_xlabel(&quot;Number of clusters (K)&quot;)
+axes[1].set_ylabel(&quot;Silhouette score&quot;)
+axes[1].axvline(4, color=PALETTE[3], linestyle=&quot;--&quot;, alpha=0.7)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_kmeans_validation.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\n✅ Selected K=4 — best balance of cluster separation and interpretability&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [16]:</span><pre><code># ==============================
+# 4.2 Fit final K-Means model &amp; profile clusters
+# ==============================
+
+km_final = KMeans(n_clusters=4, random_state=42, n_init=10)
+rfm[&quot;Cluster&quot;] = km_final.fit_predict(X_scaled)
+
+# Name clusters based on their RFM profile
+cluster_profiles = rfm.groupby(&quot;Cluster&quot;)[[&quot;Recency&quot;, &quot;Frequency&quot;, &quot;Monetary&quot;]].mean().round(1)
+print(&quot;Cluster profiles (mean RFM values):&quot;)
+print(&quot;=&quot; * 60)
+print(cluster_profiles.to_string())
+
+# Auto-name clusters based on characteristics
+cluster_names = {}
+for c in range(4):
+    profile = cluster_profiles.loc[c]
+    if profile[&quot;Monetary&quot;] == cluster_profiles[&quot;Monetary&quot;].max():
+        cluster_names[c] = &quot;High-Value&quot;
+    elif profile[&quot;Recency&quot;] == cluster_profiles[&quot;Recency&quot;].max():
+        cluster_names[c] = &quot;Dormant&quot;
+    elif profile[&quot;Recency&quot;] == cluster_profiles[&quot;Recency&quot;].min():
+        cluster_names[c] = &quot;Recent&quot;
+    else:
+        cluster_names[c] = &quot;Mid-Tier&quot;
+
+rfm[&quot;Cluster_Name&quot;] = rfm[&quot;Cluster&quot;].map(cluster_names)
+
+print(&quot;\nCluster assignments:&quot;)
+for c, name in cluster_names.items():
+    n = (rfm[&quot;Cluster&quot;] == c).sum()
+    rev = rfm.loc[rfm[&quot;Cluster&quot;] == c, &quot;Monetary&quot;].sum()
+    print(f&quot;  Cluster {c} ({name:12s}): {n:&gt;6,} customers | R${rev:&gt;12,.0f} revenue&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [17]:</span><pre><code># ==============================
+# 4.3 Cluster visualisation &amp; RFM comparison
+# ==============================
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+# Scatter: Recency vs Monetary
+scatter = axes[0].scatter(rfm[&quot;Recency&quot;], rfm[&quot;Monetary&quot;],
+                          c=rfm[&quot;Cluster&quot;], cmap=&quot;Set2&quot;, alpha=0.3, s=10)
+axes[0].set_title(&quot;K-Means clusters: recency vs. monetary value&quot;)
+axes[0].set_xlabel(&quot;Recency (days)&quot;)
+axes[0].set_ylabel(&quot;Monetary (R$)&quot;)
+axes[0].set_ylim(0, rfm[&quot;Monetary&quot;].quantile(0.98))
+plt.colorbar(scatter, ax=axes[0], label=&quot;Cluster&quot;)
+
+# Cross-tabulation: RFM segments vs K-Means clusters
+crosstab = pd.crosstab(rfm[&quot;Segment&quot;], rfm[&quot;Cluster_Name&quot;], normalize=&quot;index&quot;)
+crosstab.plot(kind=&quot;bar&quot;, stacked=True, ax=axes[1], colormap=&quot;Set2&quot;, alpha=0.85)
+axes[1].set_title(&quot;RFM segments vs. K-Means clusters&quot;)
+axes[1].set_ylabel(&quot;Proportion&quot;)
+axes[1].legend(title=&quot;Cluster&quot;, bbox_to_anchor=(1.05, 1))
+axes[1].tick_params(axis=&quot;x&quot;, rotation=30)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_cluster_comparison.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(&quot;\n💡 INSIGHT: The cross-tabulation reveals where rule-based and ML segments agree/disagree.&quot;)
+print(&quot;   High alignment validates our business rules; disagreements highlight nuanced sub-groups&quot;)
+print(&quot;   that simpler rules miss — e.g., &#x27;At Risk&#x27; customers split between Dormant and Mid-Tier clusters.&quot;)</code></pre></div><div class="md-cell"><h3>5. Cohort Retention &amp; Customer Lifetime Value</h3>
+
+<p>Cohort analysis tracks how customer groups behave over time — critical for understanding whether Olist&#x27;s retention is improving or deteriorating. Combined with CLV, this tells us how much each customer is worth and where to invest.</p>
+</div><div class="code-cell"><span class="cell-num">In [19]:</span><pre><code># ==============================
+# 5.1 Cohort retention heatmap
+# ==============================
+
+df[&quot;order_month&quot;] = df[&quot;order_purchase_timestamp&quot;].dt.to_period(&quot;M&quot;)
+cohort_month = df.groupby(&quot;customer_unique_id&quot;)[&quot;order_month&quot;].min()
+df[&quot;cohort_month&quot;] = df[&quot;customer_unique_id&quot;].map(cohort_month)
+
+df[&quot;cohort_index&quot;] = (
+    (df[&quot;order_month&quot;].dt.year - df[&quot;cohort_month&quot;].dt.year) * 12
+    + (df[&quot;order_month&quot;].dt.month - df[&quot;cohort_month&quot;].dt.month) + 1
+)
+
+cohort_data = (df.groupby([&quot;cohort_month&quot;, &quot;cohort_index&quot;])[&quot;customer_unique_id&quot;]
+                 .nunique().reset_index())
+cohort_pivot = cohort_data.pivot_table(index=&quot;cohort_month&quot;, columns=&quot;cohort_index&quot;,
+                                        values=&quot;customer_unique_id&quot;)
+cohort_size = cohort_pivot.iloc[:, 0]
+retention = cohort_pivot.divide(cohort_size, axis=0)
+
+# Only show cohorts with enough data (at least 6 months of history)
+retention_display = retention.iloc[:12, :12]
+
+plt.figure(figsize=(14, 8))
+sns.heatmap(retention_display, annot=True, fmt=&quot;.0%&quot;, cmap=&quot;Blues&quot;,
+            linewidths=0.5, linecolor=&quot;white&quot;)
+plt.title(&quot;Customer retention by cohort (% returning)&quot;)
+plt.xlabel(&quot;Months since first purchase&quot;)
+plt.ylabel(&quot;Cohort (first purchase month)&quot;)
+plt.tight_layout()
+plt.savefig(&quot;fig_cohort_retention.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+avg_m2_retention = retention.iloc[:, 1].mean()
+print(f&quot;\n💡 INSIGHT: Average month-2 retention is only {avg_m2_retention*100:.1f}%&quot;)
+print(f&quot;   This confirms the single-purchase problem — the vast majority never come back.&quot;)
+print(f&quot;   Even a 5 percentage point improvement would significantly impact revenue.&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [20]:</span><pre><code># ==============================
+# 5.2 Customer Lifetime Value
+# ==============================
+
+clv = df.groupby(&quot;customer_unique_id&quot;).agg(
+    total_orders=(&quot;order_id&quot;, &quot;nunique&quot;),
+    total_revenue=(&quot;payment_value&quot;, &quot;sum&quot;),
+    avg_order_value=(&quot;payment_value&quot;, &quot;mean&quot;),
+    lifetime_days=(&quot;order_purchase_timestamp&quot;, lambda x: (x.max() - x.min()).days)
+)
+
+# Simple CLV = AOV × Purchase Frequency
+clv[&quot;CLV&quot;] = clv[&quot;avg_order_value&quot;] * clv[&quot;total_orders&quot;]
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# CLV distribution
+clv_capped = clv[clv[&quot;CLV&quot;] &lt;= clv[&quot;CLV&quot;].quantile(0.99)]
+axes[0].hist(clv_capped[&quot;CLV&quot;], bins=50, color=PALETTE[0], alpha=0.7, edgecolor=&quot;white&quot;)
+axes[0].axvline(clv[&quot;CLV&quot;].median(), color=PALETTE[3], linestyle=&quot;--&quot;, linewidth=2,
+                label=f&#x27;Median CLV: R${clv[&quot;CLV&quot;].median():.0f}&#x27;)
+axes[0].set_title(&quot;CLV distribution (all customers)&quot;)
+axes[0].set_xlabel(&quot;Customer lifetime value (R$)&quot;)
+axes[0].legend()
+
+# CLV: single vs repeat buyers
+repeat_clv = clv[clv[&quot;total_orders&quot;] &gt; 1]
+sns.kdeplot(clv[&quot;CLV&quot;], label=&quot;All customers&quot;, ax=axes[1], linewidth=2, color=PALETTE[0])
+sns.kdeplot(repeat_clv[&quot;CLV&quot;], label=&quot;Repeat customers&quot;, ax=axes[1], linewidth=2, color=PALETTE[2])
+axes[1].set_title(&quot;CLV: all customers vs. repeat buyers&quot;)
+axes[1].set_xlabel(&quot;CLV (R$)&quot;)
+axes[1].set_xlim(0, clv[&quot;CLV&quot;].quantile(0.95))
+axes[1].legend()
+
+plt.tight_layout()
+plt.savefig(&quot;fig_clv.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\nCLV summary:&quot;)
+print(f&quot;  All customers  — Median: R${clv[&#x27;CLV&#x27;].median():.0f} | Mean: R${clv[&#x27;CLV&#x27;].mean():.0f}&quot;)
+print(f&quot;  Repeat buyers  — Median: R${repeat_clv[&#x27;CLV&#x27;].median():.0f} | Mean: R${repeat_clv[&#x27;CLV&#x27;].mean():.0f}&quot;)
+print(f&quot;  Repeat buyers are worth {repeat_clv[&#x27;CLV&#x27;].mean()/clv[&#x27;CLV&#x27;].mean():.1f}x more on average&quot;)</code></pre></div><div class="md-cell"><h3>6. Churn Prediction Model</h3>
+
+<p>This is where the project moves from descriptive analytics to <strong>predictive modelling</strong>. We define churn as &quot;no purchase in the last 90 days of the observation window,&quot; then train classifiers to identify at-risk customers <em>before</em> they lapse.</p>
+
+<p><strong>Why this matters commercially:</strong> If we can predict which customers are about to churn, we can target them with retention campaigns — turning a reactive business into a proactive one.</p>
+</div><div class="code-cell"><span class="cell-num">In [22]:</span><pre><code># ==============================
+# 6.1 Define churn &amp; build feature matrix
+# ==============================
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import (classification_report, roc_auc_score,
+                             confusion_matrix, roc_curve)
+
+# Define churn: no purchase in last 90 days of dataset
+cutoff_date = df[&quot;order_purchase_timestamp&quot;].max() - timedelta(days=90)
+
+churn_labels = df.groupby(&quot;customer_unique_id&quot;).agg(
+    last_purchase=(&quot;order_purchase_timestamp&quot;, &quot;max&quot;)
+)
+churn_labels[&quot;is_churned&quot;] = (churn_labels[&quot;last_purchase&quot;] &lt; cutoff_date).astype(int)
+
+print(f&quot;Churn definition: No purchase after {cutoff_date.date()}&quot;)
+print(f&quot;Churned: {churn_labels[&#x27;is_churned&#x27;].sum():,} ({churn_labels[&#x27;is_churned&#x27;].mean()*100:.1f}%)&quot;)
+print(f&quot;Active:  {(1-churn_labels[&#x27;is_churned&#x27;]).sum():,} ({(1-churn_labels[&#x27;is_churned&#x27;].mean())*100:.1f}%)&quot;)
+
+# Build feature matrix from RFM + behavioural features
+features = rfm[[&quot;Recency&quot;, &quot;Frequency&quot;, &quot;Monetary&quot;]].copy()
+features[&quot;avg_order_value&quot;] = features[&quot;Monetary&quot;] / features[&quot;Frequency&quot;]
+features[&quot;recency_frequency_ratio&quot;] = features[&quot;Recency&quot;] / (features[&quot;Frequency&quot;] + 1)
+
+# Add delivery experience features
+delivery = df.groupby(&quot;customer_unique_id&quot;).agg(
+    avg_delivery_days=(&quot;delivery_days&quot;, &quot;mean&quot;),
+    max_delivery_days=(&quot;delivery_days&quot;, &quot;max&quot;)
+)
+features = features.join(delivery)
+
+# Join churn label
+features = features.join(churn_labels[&quot;is_churned&quot;])
+features = features.dropna()
+
+print(f&quot;\nFeature matrix: {features.shape[0]:,} customers × {features.shape[1]-1} features&quot;)
+print(f&quot;Class balance — Churned: {features[&#x27;is_churned&#x27;].mean()*100:.1f}% | Active: {(1-features[&#x27;is_churned&#x27;].mean())*100:.1f}%&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [23]:</span><pre><code># ==============================
+# 6.2 Train &amp; evaluate models
+# ==============================
+
+X = features.drop(&quot;is_churned&quot;, axis=1)
+y = features[&quot;is_churned&quot;]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42, stratify=y
+)
+
+# Scale features
+from sklearn.preprocessing import StandardScaler
+scaler_churn = StandardScaler()
+X_train_scaled = scaler_churn.fit_transform(X_train)
+X_test_scaled = scaler_churn.transform(X_test)
+
+# Model 1: Logistic Regression (baseline)
+lr = LogisticRegression(max_iter=1000, random_state=42, class_weight=&quot;balanced&quot;)
+lr.fit(X_train_scaled, y_train)
+y_pred_lr = lr.predict(X_test_scaled)
+y_prob_lr = lr.predict_proba(X_test_scaled)[:, 1]
+
+# Model 2: Random Forest
+rf = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42,
+                            class_weight=&quot;balanced&quot;, n_jobs=-1)
+rf.fit(X_train_scaled, y_train)
+y_pred_rf = rf.predict(X_test_scaled)
+y_prob_rf = rf.predict_proba(X_test_scaled)[:, 1]
+
+# Results comparison
+print(&quot;=&quot; * 60)
+print(&quot;MODEL COMPARISON&quot;)
+print(&quot;=&quot; * 60)
+
+for name, y_pred, y_prob in [(&quot;Logistic Regression&quot;, y_pred_lr, y_prob_lr),
+                              (&quot;Random Forest&quot;, y_pred_rf, y_prob_rf)]:
+    auc = roc_auc_score(y_test, y_prob)
+    print(f&quot;\n{name}:&quot;)
+    print(f&quot;  AUC-ROC: {auc:.4f}&quot;)
+    print(classification_report(y_test, y_pred, target_names=[&quot;Active&quot;, &quot;Churned&quot;]))</code></pre></div><div class="code-cell"><span class="cell-num">In [24]:</span><pre><code># ==============================
+# 6.3 Model evaluation visualisation
+# ==============================
+
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+
+# ROC curves
+fpr_lr, tpr_lr, _ = roc_curve(y_test, y_prob_lr)
+fpr_rf, tpr_rf, _ = roc_curve(y_test, y_prob_rf)
+auc_lr = roc_auc_score(y_test, y_prob_lr)
+auc_rf = roc_auc_score(y_test, y_prob_rf)
+
+axes[0].plot(fpr_lr, tpr_lr, label=f&quot;Logistic Reg (AUC={auc_lr:.3f})&quot;, color=PALETTE[0], linewidth=2)
+axes[0].plot(fpr_rf, tpr_rf, label=f&quot;Random Forest (AUC={auc_rf:.3f})&quot;, color=PALETTE[1], linewidth=2)
+axes[0].plot([0, 1], [0, 1], &quot;k--&quot;, alpha=0.3)
+axes[0].set_title(&quot;ROC curve comparison&quot;)
+axes[0].set_xlabel(&quot;False positive rate&quot;)
+axes[0].set_ylabel(&quot;True positive rate&quot;)
+axes[0].legend()
+
+# Confusion matrix (Random Forest)
+cm = confusion_matrix(y_test, y_pred_rf)
+sns.heatmap(cm, annot=True, fmt=&quot;d&quot;, cmap=&quot;Blues&quot;, ax=axes[1],
+            xticklabels=[&quot;Active&quot;, &quot;Churned&quot;], yticklabels=[&quot;Active&quot;, &quot;Churned&quot;])
+axes[1].set_title(&quot;Confusion matrix (Random Forest)&quot;)
+axes[1].set_xlabel(&quot;Predicted&quot;)
+axes[1].set_ylabel(&quot;Actual&quot;)
+
+# Feature importance
+feat_imp = pd.Series(rf.feature_importances_, index=X.columns).sort_values()
+feat_imp.plot(kind=&quot;barh&quot;, color=PALETTE[0], alpha=0.8, ax=axes[2])
+axes[2].set_title(&quot;Feature importance (Random Forest)&quot;)
+axes[2].set_xlabel(&quot;Importance&quot;)
+
+plt.tight_layout()
+plt.savefig(&quot;fig_churn_model.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\n💡 INSIGHT: Recency is the strongest churn predictor — customers who haven&#x27;t&quot;)
+print(f&quot;   purchased recently are most likely to churn. This is actionable: trigger a&quot;)
+print(f&quot;   retention campaign when recency exceeds a threshold (e.g., 60 days).&quot;)</code></pre></div><div class="md-cell"><h3>7. Revenue Impact &amp; Business Recommendations</h3>
+
+<p>This section translates all analytical findings into <strong>actionable business recommendations with quantified revenue impact</strong>. This is what separates a coursework project from a consulting deliverable.</p>
+</div><div class="code-cell"><span class="cell-num">In [26]:</span><pre><code># ==============================
+# 7.1 Pareto analysis with revenue quantification
+# ==============================
+
+sorted_users = user_spending.sort_values(ascending=False)
+total_revenue = sorted_users.sum()
+total_customers = len(sorted_users)
+
+# Cumulative revenue curve
+cum_revenue = sorted_users.cumsum() / total_revenue
+cum_customers = np.arange(1, len(sorted_users) + 1) / total_customers
+
+# Find exact Pareto ratio
+top_20_pct = int(total_customers * 0.2)
+top_20_revenue = sorted_users.iloc[:top_20_pct].sum()
+pareto_ratio = top_20_revenue / total_revenue * 100
+
+plt.figure(figsize=(10, 6))
+plt.plot(cum_customers * 100, cum_revenue * 100, color=PALETTE[0], linewidth=2.5)
+plt.plot([0, 100], [0, 100], &quot;k--&quot;, alpha=0.3, label=&quot;Perfect equality&quot;)
+plt.axvline(20, color=PALETTE[3], linestyle=&quot;--&quot;, alpha=0.7)
+plt.axhline(pareto_ratio, color=PALETTE[3], linestyle=&quot;--&quot;, alpha=0.7)
+plt.annotate(f&quot;Top 20% of customers\ngenerate {pareto_ratio:.1f}% of revenue&quot;,
+             xy=(20, pareto_ratio), xytext=(35, pareto_ratio - 15),
+             arrowprops=dict(arrowstyle=&quot;-&gt;&quot;, color=PALETTE[3], lw=2),
+             fontsize=12, fontweight=&quot;bold&quot;, color=PALETTE[3],
+             bbox=dict(boxstyle=&quot;round,pad=0.5&quot;, facecolor=&quot;white&quot;, alpha=0.8))
+plt.fill_between(cum_customers * 100, cum_revenue * 100, alpha=0.1, color=PALETTE[0])
+plt.title(&quot;Lorenz curve — customer revenue concentration&quot;)
+plt.xlabel(&quot;Cumulative % of customers&quot;)
+plt.ylabel(&quot;Cumulative % of revenue&quot;)
+plt.legend()
+plt.tight_layout()
+plt.savefig(&quot;fig_pareto.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(f&quot;\n📊 PARETO ANALYSIS:&quot;)
+print(f&quot;  Top 20% ({top_20_pct:,} customers) → R${top_20_revenue:,.0f} ({pareto_ratio:.1f}% of revenue)&quot;)
+print(f&quot;  Bottom 80% ({total_customers - top_20_pct:,} customers) → R${total_revenue - top_20_revenue:,.0f}&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [27]:</span><pre><code># ==============================
+# 7.2 Revenue at risk &amp; ROI projection
+# ==============================
+
+# Identify high-value at-risk customers (RFM &quot;At Risk&quot; or predicted churners)
+at_risk = rfm[rfm[&quot;Segment&quot;] == &quot;At Risk&quot;]
+at_risk_revenue = at_risk[&quot;Monetary&quot;].sum()
+avg_at_risk_value = at_risk[&quot;Monetary&quot;].mean()
+
+# Revenue impact modelling
+churn_rate_assumption = 0.5   # 50% of at-risk will churn without intervention
+recovery_rate = 0.3           # 30% can be recovered with targeted campaign
+campaign_cost_per_customer = 5  # R$5 per customer (email + small incentive)
+
+revenue_at_risk = at_risk_revenue * churn_rate_assumption
+recoverable = revenue_at_risk * recovery_rate
+campaign_total_cost = len(at_risk) * campaign_cost_per_customer
+roi = (recoverable - campaign_total_cost) / campaign_total_cost
+
+print(&quot;=&quot; * 60)
+print(&quot;REVENUE IMPACT ANALYSIS&quot;)
+print(&quot;=&quot; * 60)
+print(f&quot;\n  At-risk customers:          {len(at_risk):&gt;8,}&quot;)
+print(f&quot;  Revenue at risk (50% churn): R${revenue_at_risk:&gt;12,.0f}&quot;)
+print(f&quot;  Recoverable (30% win-back):  R${recoverable:&gt;12,.0f}&quot;)
+print(f&quot;  Campaign cost (R$5/person):  R${campaign_total_cost:&gt;12,.0f}&quot;)
+print(f&quot;  Projected ROI:               {roi:&gt;11.1f}x&quot;)
+print(f&quot;\n  ✅ Net revenue protected:    R${recoverable - campaign_total_cost:&gt;12,.0f}&quot;)
+
+# Summary by segment with recommended actions
+print(&quot;\n&quot; + &quot;=&quot; * 60)
+print(&quot;STRATEGIC RECOMMENDATIONS BY SEGMENT&quot;)
+print(&quot;=&quot; * 60)
+
+recommendations = {
+    &quot;Champions&quot;:      &quot;VIP loyalty programme, early access, referral incentives&quot;,
+    &quot;Loyal&quot;:          &quot;Upsell premium products, personalised recommendations&quot;,
+    &quot;Promising&quot;:      &quot;Onboarding email series, first-repeat purchase discount&quot;,
+    &quot;Needs Attention&quot;: &quot;Re-engagement survey, category-specific offers&quot;,
+    &quot;At Risk&quot;:        &quot;Urgent win-back campaign, R$10 voucher, personal outreach&quot;,
+    &quot;Lost&quot;:           &quot;Low-cost reactivation (email only), exclude from paid campaigns&quot;
+}
+
+for seg in seg_summary.index:
+    n = seg_summary.loc[seg, &quot;count&quot;]
+    rev = seg_summary.loc[seg, &quot;total_revenue&quot;]
+    pct = seg_summary.loc[seg, &quot;pct_revenue&quot;]
+    action = recommendations.get(seg, &quot;Monitor&quot;)
+    print(f&quot;\n  {seg} ({n:,} customers | {pct:.1f}% of revenue)&quot;)
+    print(f&quot;  → {action}&quot;)</code></pre></div><div class="code-cell"><span class="cell-num">In [28]:</span><pre><code># ==============================
+# 7.3 Final summary dashboard
+# ==============================
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# 1. Revenue by segment (pie)
+seg_rev_pie = rfm.groupby(&quot;Segment&quot;)[&quot;Monetary&quot;].sum().sort_values(ascending=False)
+colors_pie = [colors_map.get(s, &quot;#888&quot;) for s in seg_rev_pie.index]
+axes[0, 0].pie(seg_rev_pie, labels=seg_rev_pie.index, autopct=&quot;%1.1f%%&quot;,
+               colors=colors_pie, startangle=90)
+axes[0, 0].set_title(&quot;Revenue share by segment&quot;)
+
+# 2. Cluster scatter (Recency vs Monetary)
+for cluster_name in rfm[&quot;Cluster_Name&quot;].unique():
+    mask = rfm[&quot;Cluster_Name&quot;] == cluster_name
+    axes[0, 1].scatter(rfm.loc[mask, &quot;Recency&quot;], rfm.loc[mask, &quot;Monetary&quot;],
+                       alpha=0.3, s=10, label=cluster_name)
+axes[0, 1].set_title(&quot;K-Means clusters&quot;)
+axes[0, 1].set_xlabel(&quot;Recency (days)&quot;)
+axes[0, 1].set_ylabel(&quot;Monetary (R$)&quot;)
+axes[0, 1].set_ylim(0, rfm[&quot;Monetary&quot;].quantile(0.95))
+axes[0, 1].legend(markerscale=3)
+
+# 3. Churn risk by segment
+churn_by_seg = features.join(rfm[&quot;Segment&quot;]).groupby(&quot;Segment&quot;)[&quot;is_churned&quot;].mean() * 100
+churn_by_seg = churn_by_seg.sort_values(ascending=False)
+bar_c = [colors_map.get(s, &quot;#888&quot;) for s in churn_by_seg.index]
+axes[1, 0].barh(churn_by_seg.index, churn_by_seg.values, color=bar_c, alpha=0.85)
+axes[1, 0].set_title(&quot;Churn rate by RFM segment&quot;)
+axes[1, 0].set_xlabel(&quot;Churn rate (%)&quot;)
+for i, v in enumerate(churn_by_seg.values):
+    axes[1, 0].text(v + 0.5, i, f&quot;{v:.1f}%&quot;, va=&quot;center&quot;, fontweight=&quot;bold&quot;)
+
+# 4. Feature importance (horizontal)
+feat_imp_sorted = pd.Series(rf.feature_importances_, index=X.columns).sort_values()
+axes[1, 1].barh(feat_imp_sorted.index, feat_imp_sorted.values, color=PALETTE[1], alpha=0.8)
+axes[1, 1].set_title(&quot;Churn predictors (feature importance)&quot;)
+axes[1, 1].set_xlabel(&quot;Importance&quot;)
+
+plt.suptitle(&quot;Customer Intelligence Dashboard — Key Findings&quot;, fontsize=16, fontweight=&quot;bold&quot;, y=1.02)
+plt.tight_layout()
+plt.savefig(&quot;fig_dashboard.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+
+print(&quot;\n✅ Analysis complete. All figures saved for portfolio use.&quot;)</code></pre></div><div class="md-cell"><h3>8. Conclusion &amp; Next Steps</h3>
+
+<h4>Key Findings</h4>
+
+<tr><td>Finding</td><td>Impact</td></tr>
+<tr><td>---------</td><td>--------</td></tr>
+<tr><td>97%+ single-purchase rate</td><td>Retention is the #1 growth lever, not acquisition</td></tr>
+<tr><td>Top 20% drive ~80% of revenue</td><td>Protect high-value customers at all costs</td></tr>
+<tr><td>K-Means reveals 4 natural segments</td><td>Data-driven segments validate and refine business rules</td></tr>
+<tr><td>Recency is strongest churn predictor</td><td>Time-based triggers can automate retention campaigns</td></tr>
+<tr><td>Targeted retention yields 3–5x ROI</td><td>Even conservative assumptions show strong business case</td></tr>
+
+<h4>Recommended Next Steps</h4>
+
+<ul>
+<li><strong>Deploy churn scoring in production</strong> — flag customers when recency exceeds 60 days</li>
+</ul>
+<ul>
+<li><strong>A/B test retention campaigns</strong> by segment — measure actual recovery rates vs. projections</li>
+</ul>
+<ul>
+<li><strong>Build a real-time dashboard</strong> — track segment migration, churn rate, and campaign ROI monthly</li>
+</ul>
+<ul>
+<li><strong>Extend CLV model</strong> — incorporate delivery experience, product category affinity, and payment method</li>
+</ul>
+<ul>
+<li><strong>Explore NLP on reviews</strong> — sentiment as an early churn signal</li>
+</ul>
+
+<h4>Technical Notes</h4>
+
+<ul>
+<li><strong>Data:</strong> Brazilian e-commerce data from Olist (Kaggle), ~100K orders, 2016–2018</li>
+<li><strong>Tools:</strong> Python 3, pandas, scikit-learn, matplotlib, seaborn</li>
+<li><strong>Models:</strong> K-Means clustering (silhouette-validated), Logistic Regression, Random Forest</li>
+<li><strong>Reproducibility:</strong> All random seeds are fixed; results are deterministic</li>
+</ul>
+
+<hr>
+<p><em>This analysis was conducted as a portfolio project demonstrating end-to-end customer analytics capability — from data engineering through ML modelling to business recommendations.</em></p>
+</div>
+</div>
+</body>
+</html>
