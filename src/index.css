@@ -22,7 +22,11 @@ html, body, #root {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-cream);
+  background-color: #1a1a18;
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  background-position: center right;
+  background-attachment: fixed;
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
 }

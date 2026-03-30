@@ -13,7 +13,7 @@ export default function InnerLayout({ children, wide = false }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f7f6f2] flex items-center justify-center p-4 md:p-8">
+    <div className="min-h-screen flex items-center justify-center p-4 md:p-8" style={{ backgroundColor: "rgba(20,20,18,0.18)" }}>
       <div
         className="w-full bg-white overflow-hidden"
         style={{

@@ -22,7 +22,8 @@ export default function Home() {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.98 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
-      className="min-h-screen bg-[#f7f6f2] flex items-center justify-center p-4 md:p-8"
+      className="min-h-screen flex items-center justify-center p-4 md:p-8"
+      style={{ backgroundColor: "rgba(20,20,18,0.18)" }}
     >
       <div
         className="w-full max-w-2xl bg-white relative overflow-hidden"
