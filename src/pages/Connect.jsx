@@ -22,8 +22,18 @@ const GITHUB_ICON = (
   </svg>
 );
 
+const DownloadIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 3v10m0 0l-4-4m4 4l4-4M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+
 export default function Connect() {
   const { t } = useTranslation();
+  const resumeFile =
+  i18n.language === "zh"
+    ? "/Xinlu.Li_cv_CN.pdf"
+    : "/Xinlu.Li_cv_EN.pdf";
 
   const links = [
     {
@@ -43,6 +53,13 @@ export default function Connect() {
       valueKey: "connect.github.value",
       href: "https://github.com/",
       icon: GITHUB_ICON,
+    },
+    {
+      labelKey: "connect.resume.label",  // "Resume" / "简历" 
+      valueKey:  "connect.resume.value", // "Download PDF"
+      href: "/",      // place in /public/
+      download: true,
+      icon: <DownloadIcon />,
     },
   ];
 

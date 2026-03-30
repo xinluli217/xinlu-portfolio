@@ -48,6 +48,8 @@
   "connect.linkedin.value": "linkedin.com/in/xinluli",
   "connect.github.label": "GitHub",
   "connect.github.value": "github.com/xinluli",
+  "connect.resume.label": "Resume",
+  "connect.resume.value": "Download PDF",
 
   "project.urban-heat.title": "Urban Heat Island Mapping",
   "project.urban-heat.insight": "Satellite thermal data reveals inequitable heat distribution across urban neighborhoods.",

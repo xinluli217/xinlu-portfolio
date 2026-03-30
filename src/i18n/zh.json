@@ -1,5 +1,5 @@
 {
-  "brand.name": "李心璐",
+  "brand.name": "李欣璐",
   "brand.year": "2026年",
   "lang.switch": "EN",
 
@@ -41,13 +41,15 @@
 
   "page.connect.title": "联系我",
   "page.connect.subtitle": "欢迎洽谈合作与研究项目。",
-  "page.connect.footer": "李心璐 · 地理空间数据分析师 · 2026",
+  "page.connect.footer": "李欣璐 · 地理空间数据分析师 · 2026",
   "connect.email.label": "邮箱",
   "connect.email.value": "xinlu@example.com",
   "connect.linkedin.label": "领英",
   "connect.linkedin.value": "linkedin.com/in/xinluli",
   "connect.github.label": "GitHub",
   "connect.github.value": "github.com/xinluli",
+  "connect.resume.label": "简历",
+  "connect.resume.value": "下载 PDF",
 
   "project.urban-heat.title": "城市热岛效应映射",
   "project.urban-heat.insight": "卫星热成像数据揭示了城市社区间热分布的不平等现象。",
