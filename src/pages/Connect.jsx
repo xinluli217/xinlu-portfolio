@@ -44,13 +44,13 @@ export default function Connect() {
     {
       labelKey: "connect.linkedin.label",
       valueKey: "connect.linkedin.value",
-      href: "www.linkedin.com/in/xinlu-li-39386a3a6",
+      href: "https://www.linkedin.com/in/xinlu-li-39386a3a6",
       icon: LINKEDIN_ICON,
     },
     {
       labelKey: "connect.github.label",
       valueKey: "connect.github.value",
-      href: "https://github.com/",
+      href: "https://github.com/xinluli217",
       icon: GITHUB_ICON,
     },
     {
