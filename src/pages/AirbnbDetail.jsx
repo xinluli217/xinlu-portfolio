@@ -96,28 +96,68 @@ export default function AirbnbDetail() {
             {STATS.map(s => <StatCard key={s.value} {...s} />)}
           </div>
 
-          {/* Download */}
-          <a
-            href="/airbnb_london_tableau.twb"
-            download="airbnb_london_tableau.twb"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: "6px",
-              fontSize: "12px", fontWeight: 500,
-              padding: "8px 14px", borderRadius: "8px",
-              background: "#fafaf8", color: "#6a6a6a",
-              border: "1px solid #ebebeb", textDecoration: "none",
-              transition: "opacity 0.15s",
-            }}
-            onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
-            onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-          >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            Download .twb
-          </a>
+          {/* Buttons */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            <a
+              href="https://public.tableau.com/app/profile/xinlu.li5162/viz/airbnb_london_ds_tableau/1_1"
+              target="_blank" rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                fontSize: "12px", fontWeight: 500,
+                padding: "8px 14px", borderRadius: "8px",
+                background: "#f5ead8", color: "#c9a84c",
+                border: "1px solid #e8d8b8", textDecoration: "none",
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              {t("detail.demo")}
+            </a>
+            <a
+              href="/airbnb_london_tableau.twb"
+              download="airbnb_london_tableau.twb"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                fontSize: "12px", fontWeight: 500,
+                padding: "8px 14px", borderRadius: "8px",
+                background: "#fafaf8", color: "#6a6a6a",
+                border: "1px solid #ebebeb", textDecoration: "none",
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download .twb
+            </a>
+          </div>
+        </div>
+
+        {/* ── Live dashboard embed ── */}
+        <div style={{
+          margin: "28px 0",
+          borderRadius: "16px", overflow: "hidden",
+          border: "1px solid #ebebeb",
+          background: "#fafaf9",
+        }}>
+          <iframe
+            src="https://public.tableau.com/views/airbnb_london_ds_tableau/1_1?:embed=yes&:showVizHome=no&:toolbar=yes&:animate_transition=yes"
+            width="100%"
+            height="820"
+            style={{ display: "block", border: "none" }}
+            title="London Airbnb Market Dashboard"
+            allowFullScreen
+          />
         </div>
 
         {/* ── Sections ── */}
