@@ -1,14 +1,17 @@
 import { useTranslation } from "react-i18next";
 import PageTransition from "../components/PageTransition.jsx";
 import InnerLayout from "../components/InnerLayout.jsx";
-import SectionLabel from "../components/SectionLabel.jsx";
 
-const tools = [
-  "Python", "R", "ArcGIS Pro", "QGIS", "Google Earth Engine",
+const TOOLS = [
+  "Python", "R", "QGIS", "Google Earth Engine",
   "PostGIS", "Scikit-learn", "GeoPandas", "Mapbox GL", "D3.js",
 ];
 
 const TIMELINE_KEYS = ["t0", "t1", "t2", "t3"];
+
+const DIV = (
+  <div style={{ height: "1px", background: "rgba(0,0,0,0.07)", margin: "48px 0" }} />
+);
 
 export default function About() {
   const { t } = useTranslation();
@@ -16,63 +19,97 @@ export default function About() {
   return (
     <InnerLayout>
       <PageTransition>
-        <h2
-          className="text-[22px] font-bold mb-1"
-          style={{ color: "#1a1a1a", letterSpacing: "-0.02em" }}
-        >
+
+        {/* Header */}
+        <h1 style={{
+          fontSize: "48px", fontWeight: 700,
+          letterSpacing: "-0.025em", color: "#111",
+          lineHeight: 1.06, margin: "0 0 32px",
+        }}>
           {t("page.about.title")}
-        </h2>
-        <p className="text-[13px] mb-6" style={{ color: "#9a9a9a" }}>
-          {t("page.about.subtitle")}
-        </p>
+        </h1>
 
         {/* Statement */}
-        <p className="text-[15px] leading-relaxed mb-7" style={{ color: "#3a3a3a" }}>
+        <p style={{
+          fontSize: "18px", lineHeight: 1.72,
+          color: "#4a4a4a", margin: 0,
+          maxWidth: "640px",
+          letterSpacing: "-0.005em",
+        }}>
           {t("page.about.statement")}
         </p>
 
-        <div className="h-px bg-[#f0f0f0] mb-6" />
+        {DIV}
 
         {/* Timeline */}
-        <div className="relative">
-          <div
-            className="absolute left-[5px] top-2 bottom-2 w-px"
-            style={{ background: "#ebebeb" }}
-          />
-          <div className="space-y-5 pl-6">
-            {TIMELINE_KEYS.map((key) => (
-              <div key={key} className="relative">
-                <div
-                  className="absolute -left-[19px] top-[5px] w-[9px] h-[9px] rounded-full"
-                  style={{ background: "#c9a84c", border: "2px solid white" }}
-                />
-                <SectionLabel className="mb-0.5">{t(`about.${key}.period`)}</SectionLabel>
-                <p className="text-[14px] font-semibold mb-0.5" style={{ color: "#1a1a1a" }}>
+        <div>
+          {TIMELINE_KEYS.map((key, i) => (
+            <div
+              key={key}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "100px 1fr",
+                gap: "32px",
+                padding: "32px 0",
+                borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,0.07)",
+                alignItems: "start",
+              }}
+            >
+              {/* Period */}
+              <p style={{
+                fontSize: "11px", fontWeight: "500",
+                letterSpacing: "0.09em", textTransform: "uppercase",
+                color: "#b0a898", margin: 0, paddingTop: "3px",
+              }}>
+                {t(`about.${key}.period`)}
+              </p>
+
+              {/* Content */}
+              <div>
+                <p style={{
+                  fontSize: "16px", fontWeight: 600,
+                  color: "#111", margin: "0 0 8px",
+                  letterSpacing: "-0.01em",
+                }}>
                   {t(`about.${key}.title`)}
                 </p>
-                <p className="text-[13px] leading-relaxed" style={{ color: "#9a9a9a" }}>
+                <p style={{
+                  fontSize: "14.5px", lineHeight: 1.68,
+                  color: "#777", margin: 0,
+                }}>
                   {t(`about.${key}.body`)}
                 </p>
               </div>
+            </div>
+          ))}
+        </div>
+
+        {DIV}
+
+        {/* Tools */}
+        <div>
+          <p style={{
+            fontSize: "11px", fontWeight: "500",
+            letterSpacing: "0.09em", textTransform: "uppercase",
+            color: "#b0a898", margin: "0 0 16px",
+          }}>
+            {t("page.about.tools_label")}
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            {TOOLS.map(tool => (
+              <span key={tool} style={{
+                fontSize: "13px", fontWeight: "500",
+                padding: "6px 14px", borderRadius: "20px",
+                background: "#fff",
+                boxShadow: "0 0 0 1px rgba(0,0,0,0.08)",
+                color: "#444",
+              }}>
+                {tool}
+              </span>
             ))}
           </div>
         </div>
 
-        <div className="h-px bg-[#f0f0f0] my-6" />
-
-        {/* Tools */}
-        <SectionLabel className="mb-3">{t("page.about.tools_label")}</SectionLabel>
-        <div className="flex flex-wrap gap-2">
-          {tools.map((tool) => (
-            <span
-              key={tool}
-              className="text-[12px] font-medium px-2.5 py-1 rounded-lg"
-              style={{ background: "#f5f4f0", color: "#3a3a3a" }}
-            >
-              {tool}
-            </span>
-          ))}
-        </div>
       </PageTransition>
     </InnerLayout>
   );

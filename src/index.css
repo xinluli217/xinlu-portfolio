@@ -1,14 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #f7f6f2;
-  --color-card: #ffffff;
-  --color-ink: #1a1a1a;
-  --color-ink-soft: #3a3a3a;
-  --color-muted: #9a9a9a;
-  --color-subtle: #c8c8c8;
-  --color-border: #ebebeb;
-  --color-gold: #c9a84c;
+  --color-bg:    #f5f1ea;
+  --color-card:  #ffffff;
+  --color-ink:   #111111;
+  --color-soft:  #4a4a4a;
+  --color-faint: #999999;
+  --color-gold:  #c9a84c;
   --font-sans: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -22,14 +20,23 @@ html, body, #root {
 
 body {
   font-family: var(--font-sans);
-  background-color: #1a1a18;
-  background-image: url('/bg.jpg');
-  background-size: cover;
-  background-position: center right;
-  background-attachment: fixed;
-  color: var(--color-ink);
+  background-color: #f5f1ea;
+  color: #111111;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: #f0e8d0; }
-::-webkit-scrollbar { width: 0px; }
+::selection { background: rgba(201,168,76,0.18); }
+::-webkit-scrollbar { width: 0; }
+
+/* Card hover lift — applied via className on interactive cards */
+.card-lift {
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.04) !important;
+}
+
+/* Nav link hover */
+.nav-link { transition: color 0.15s ease; }
+.nav-link:hover { color: #111 !important; }

@@ -1,19 +1,8 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { projects } from "../data/projects.js";
 import PageTransition from "../components/PageTransition.jsx";
 import InnerLayout from "../components/InnerLayout.jsx";
-import { projects } from "../data/projects.js";
-
-function TagPill({ label }) {
-  return (
-    <span
-      className="text-[11px] font-medium px-2 py-0.5 rounded-md"
-      style={{ background: "#f5f4f0", color: "#6a6a6a" }}
-    >
-      {label}
-    </span>
-  );
-}
 
 export default function Projects() {
   const { t } = useTranslation();
@@ -21,52 +10,83 @@ export default function Projects() {
   return (
     <InnerLayout>
       <PageTransition>
-        <h2
-          className="text-[22px] font-bold mb-6"
-          style={{ color: "#1a1a1a", letterSpacing: "-0.02em" }}
-        >
-          {t("page.projects.title")}
-        </h2>
 
-        <div className="space-y-0">
-          {projects.map((project, i) => (
+        <h1 style={{
+          fontSize: "48px", fontWeight: 700,
+          letterSpacing: "-0.025em", color: "#111",
+          lineHeight: 1.06, margin: "0 0 48px",
+        }}>
+          {t("page.projects.title")}
+        </h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {projects.map((project) => (
             <Link
               key={project.id}
               to={`/projects/${project.id}`}
-              className="block group py-5 border-t border-[#f0f0f0] last:border-b transition-colors duration-150 hover:bg-[#fafaf8] -mx-2 px-2 rounded-lg"
+              className="card-lift"
+              style={{
+                display: "block",
+                background: "#fff",
+                borderRadius: "24px",
+                padding: "40px 44px",
+                textDecoration: "none",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.05)",
+              }}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1.5">
-                    <span className="text-[11px] font-mono" style={{ color: "#c8c8c8" }}>
-                      {String(i + 1).padStart(2, "0")}
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "24px" }}>
+                <div style={{ flex: 1 }}>
+
+                  {/* Meta row */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "14px" }}>
+                    <span style={{
+                      fontSize: "11px", fontWeight: "500",
+                      fontFamily: "monospace",
+                      letterSpacing: "0.06em", color: "#ccc",
+                    }}>
+                      {project.meta}
                     </span>
-                    <h3
-                      className="text-[15px] font-semibold leading-snug group-hover:text-[#c9a84c] transition-colors duration-150"
-                      style={{ color: "#1a1a1a" }}
-                    >
-                      {t(`project.${project.id}.title`)}
-                    </h3>
+                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                      {project.tags.map(tag => (
+                        <span key={tag} style={{
+                          fontSize: "11px", fontWeight: "500",
+                          padding: "3px 10px", borderRadius: "20px",
+                          background: "#f0ece4", color: "#777",
+                        }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-[13px] leading-relaxed mb-3 pl-7" style={{ color: "#9a9a9a" }}>
+
+                  <h2 style={{
+                    fontSize: "22px", fontWeight: 700,
+                    color: "#111", margin: "0 0 10px",
+                    letterSpacing: "-0.02em", lineHeight: 1.2,
+                  }}>
+                    {t(`project.${project.id}.title`)}
+                  </h2>
+
+                  <p style={{
+                    fontSize: "14.5px", lineHeight: 1.65,
+                    color: "#777", margin: 0,
+                  }}>
                     {t(`project.${project.id}.insight`)}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 pl-7">
-                    {project.tags.map((tag) => (
-                      <TagPill key={tag} label={tag} />
-                    ))}
-                  </div>
+
                 </div>
-                <svg
-                  width="7" height="12" viewBox="0 0 7 12" fill="none"
-                  className="flex-shrink-0 mt-1 opacity-20 group-hover:opacity-60 transition-opacity"
-                >
-                  <path d="M1 1l5 5-5 5" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="#ccc" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ flexShrink: 0, marginTop: "3px" }}>
+                  <line x1="7" y1="17" x2="17" y2="7"/>
+                  <polyline points="7 7 17 7 17 17"/>
                 </svg>
               </div>
             </Link>
           ))}
         </div>
+
       </PageTransition>
     </InnerLayout>
   );
