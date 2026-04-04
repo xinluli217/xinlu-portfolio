@@ -1,12 +1,16 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { PAGE_VARIANTS, PAGE_TRANSITION } from "../motion/variants.js";
 
 export default function PageTransition({ children }) {
+  const reduced = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.22, ease: "easeOut" }}
+      variants={reduced ? {} : PAGE_VARIANTS}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={reduced ? { duration: 0.15 } : PAGE_TRANSITION}
       style={{ height: "100%" }}
     >
       {children}
