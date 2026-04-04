@@ -59,6 +59,13 @@
   "connect.resume.label": "Resume",
   "connect.resume.value": "Download PDF",
 
+  "project.airbnb-london.title": "London Airbnb Market Analysis",
+  "project.airbnb-london.insight": "60K+ listings across 33 neighbourhoods — spatial pricing, seasonal demand, and host concentration explored through R and Tableau.",
+  "project.airbnb-london.problem": "Inside Airbnb publishes rich listing and calendar data for London, but raw data alone hides the spatial and seasonal patterns that matter to hosts, guests, and policymakers. The goal was to turn three messy CSVs into a coherent market picture.",
+  "project.airbnb-london.method": "Cleaned and reshaped the listings, calendar, and reviews datasets in R — handling missing prices, normalising room types, and computing monthly occupancy proxies from calendar availability. Built four analytical layers: spatial price mapping by neighbourhood, seasonal demand trends, supply vs. occupancy dynamics, and top-10 host concentration. Visualised in a single multi-sheet Tableau dashboard.",
+  "project.airbnb-london.finding": "Inner-east and central neighbourhoods command a consistent price premium. Occupancy peaks sharply in summer and around major events. A small cluster of multi-listing hosts accounts for a disproportionate share of supply — a pattern typical of platform economies.",
+  "project.airbnb-london.impact": "The dashboard lets any stakeholder slice by neighbourhood, room type, and month in real time. Hosts can benchmark their pricing; analysts can identify demand windows; the Tableau workbook is fully reproducible from the Inside Airbnb source data.",
+
   "project.olist-churn.title": "Olist Customer Intelligence & Churn Prevention",
   "project.olist-churn.insight": "97% of customers buy only once — an end-to-end ML pipeline to predict who's about to leave and quantify the cost of letting them go.",
   "project.olist-churn.problem": "Olist, Brazil's largest e-commerce marketplace, faces a severe retention crisis: over 97% of customers make a single purchase and never return, leaving substantial lifetime value unrealised. Acquisition-focused metrics masked this structural weakness entirely.",

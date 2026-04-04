@@ -59,6 +59,13 @@
   "connect.resume.label": "简历",
   "connect.resume.value": "下载 PDF",
 
+  "project.airbnb-london.title": "伦敦 Airbnb 市场分析",
+  "project.airbnb-london.insight": "覆盖 33 个街区的 60,000+ 条房源数据——通过 R 与 Tableau 深入探究空间定价、季节性需求与房东集中度。",
+  "project.airbnb-london.problem": "Inside Airbnb 公开了伦敦的房源与日历数据，但原始数据难以呈现定价与需求的空间及季节规律。本项目旨在将三个零散 CSV 文件转化为连贯的市场洞察。",
+  "project.airbnb-london.method": "在 R 中清洗并整合房源、日历与评论数据集——处理缺失价格、标准化房型，并基于日历可用性计算月度入住率代理指标。构建四个分析维度：按街区空间价格分布、季节性需求趋势、供给与入住率动态，以及头部房东集中度分析。最终整合为一个多工作表 Tableau 仪表板。",
+  "project.airbnb-london.finding": "内东区与中心街区长期保持价格溢价。入住率在暑期及重大活动期间显著攀升。少数多房源房东占据了不成比例的市场供给份额——这是平台经济的典型特征。",
+  "project.airbnb-london.impact": "仪表板支持按街区、房型与月份实时交叉筛选。房东可对标定价，分析师可识别需求窗口；Tableau 工作簿完全基于 Inside Airbnb 原始数据，具备完整可复现性。",
+
   "project.olist-churn.title": "Olist 客户智能与流失预防策略",
   "project.olist-churn.insight": "97% 的客户仅购买一次——端到端机器学习流水线，精准预测谁即将流失并量化损失。",
   "project.olist-churn.problem": "Olist 是巴西最大的电商平台，面临严峻的留存危机：超过 97% 的客户仅完成单次购买便不再回头，导致大量客户生命周期价值流失。以获客为中心的传统指标完全掩盖了这一结构性问题。",
