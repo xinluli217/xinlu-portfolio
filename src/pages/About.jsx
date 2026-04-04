@@ -3,14 +3,25 @@ import PageTransition from "../components/PageTransition.jsx";
 import InnerLayout from "../components/InnerLayout.jsx";
 
 const TOOLS = [
-  "Python", "R", "QGIS", "Google Earth Engine",
-  "PostGIS", "Scikit-learn", "GeoPandas", "Mapbox GL", "D3.js",
+  "Python", "R", "SQL · PostGIS", "Tableau",
+  "QGIS", "Streamlit", "scikit-learn", "GeoPandas", "Git",
 ];
 
+const STRENGTH_KEYS = ["s0", "s1", "s2", "s3"];
 const TIMELINE_KEYS = ["t0", "t1", "t2", "t3"];
 
-const DIV = (
-  <div style={{ height: "1px", background: "rgba(0,0,0,0.07)", margin: "48px 0" }} />
+const Rule = () => (
+  <div style={{ height: "1px", background: "rgba(0,0,0,0.07)", margin: "52px 0" }} />
+);
+
+const Label = ({ children }) => (
+  <p style={{
+    fontSize: "11px", fontWeight: "500",
+    letterSpacing: "0.1em", textTransform: "uppercase",
+    color: "#b0a898", margin: "0 0 20px",
+  }}>
+    {children}
+  </p>
 );
 
 export default function About() {
@@ -20,61 +31,103 @@ export default function About() {
     <InnerLayout>
       <PageTransition>
 
-        {/* Header */}
+        {/* ── 1. Header ── */}
         <h1 style={{
           fontSize: "48px", fontWeight: 700,
           letterSpacing: "-0.025em", color: "#111",
-          lineHeight: 1.06, margin: "0 0 32px",
+          lineHeight: 1.06, margin: "0 0 10px",
         }}>
           {t("page.about.title")}
         </h1>
+        <p style={{ fontSize: "13px", color: "#b0a898", margin: "0 0 36px" }}>
+          {t("page.about.subtitle")}
+        </p>
 
-        {/* Statement */}
+        {/* ── 2. Short intro ── */}
         <p style={{
-          fontSize: "18px", lineHeight: 1.72,
-          color: "#4a4a4a", margin: 0,
+          fontSize: "19px", lineHeight: 1.68,
+          color: "#2a2a2a", margin: 0,
+          maxWidth: "620px",
+          letterSpacing: "-0.01em",
+          fontWeight: "400",
+        }}>
+          {t("page.about.intro")}
+        </p>
+
+        <Rule />
+
+        {/* ── 3. What I Do ── */}
+        <Label>{t("page.about.tools_label") === "Tools" ? "What I Do" : "我的工作"}</Label>
+        <p style={{
+          fontSize: "15px", lineHeight: 1.78,
+          color: "#4a4a4a", margin: "0 0 40px",
           maxWidth: "640px",
-          letterSpacing: "-0.005em",
         }}>
           {t("page.about.statement")}
         </p>
 
-        {DIV}
+        {/* ── 4. Selected Strengths ── */}
+        <Label>{t("page.about.strengths_label")}</Label>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "10px",
+        }}>
+          {STRENGTH_KEYS.map(key => (
+            <div key={key} style={{
+              background: "#fff",
+              borderRadius: "16px",
+              padding: "18px 22px",
+              boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
+              display: "flex",
+              gap: "12px",
+              alignItems: "flex-start",
+            }}>
+              <span style={{
+                fontSize: "13px", color: "#c9a84c",
+                fontWeight: "600", flexShrink: 0, marginTop: "1px",
+              }}>—</span>
+              <p style={{
+                fontSize: "13.5px", lineHeight: 1.6,
+                color: "#3a3a3a", margin: 0,
+              }}>
+                {t(`about.${key}`)}
+              </p>
+            </div>
+          ))}
+        </div>
 
-        {/* Timeline */}
+        <Rule />
+
+        {/* ── 5. Timeline ── */}
         <div>
           {TIMELINE_KEYS.map((key, i) => (
-            <div
-              key={key}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "100px 1fr",
-                gap: "32px",
-                padding: "32px 0",
-                borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,0.07)",
-                alignItems: "start",
-              }}
-            >
-              {/* Period */}
+            <div key={key} style={{
+              display: "grid",
+              gridTemplateColumns: "140px 1fr",
+              gap: "28px",
+              padding: "28px 0",
+              borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,0.07)",
+              alignItems: "start",
+            }}>
               <p style={{
                 fontSize: "11px", fontWeight: "500",
-                letterSpacing: "0.09em", textTransform: "uppercase",
-                color: "#b0a898", margin: 0, paddingTop: "3px",
+                letterSpacing: "0.07em", textTransform: "uppercase",
+                color: "#b0a898", margin: 0, paddingTop: "2px",
+                lineHeight: 1.5,
               }}>
                 {t(`about.${key}.period`)}
               </p>
-
-              {/* Content */}
               <div>
                 <p style={{
-                  fontSize: "16px", fontWeight: 600,
-                  color: "#111", margin: "0 0 8px",
+                  fontSize: "15px", fontWeight: 600,
+                  color: "#111", margin: "0 0 6px",
                   letterSpacing: "-0.01em",
                 }}>
                   {t(`about.${key}.title`)}
                 </p>
                 <p style={{
-                  fontSize: "14.5px", lineHeight: 1.68,
+                  fontSize: "14px", lineHeight: 1.68,
                   color: "#777", margin: 0,
                 }}>
                   {t(`about.${key}.body`)}
@@ -84,30 +137,22 @@ export default function About() {
           ))}
         </div>
 
-        {DIV}
+        <Rule />
 
-        {/* Tools */}
-        <div>
-          <p style={{
-            fontSize: "11px", fontWeight: "500",
-            letterSpacing: "0.09em", textTransform: "uppercase",
-            color: "#b0a898", margin: "0 0 16px",
-          }}>
-            {t("page.about.tools_label")}
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            {TOOLS.map(tool => (
-              <span key={tool} style={{
-                fontSize: "13px", fontWeight: "500",
-                padding: "6px 14px", borderRadius: "20px",
-                background: "#fff",
-                boxShadow: "0 0 0 1px rgba(0,0,0,0.08)",
-                color: "#444",
-              }}>
-                {tool}
-              </span>
-            ))}
-          </div>
+        {/* ── 6. Tools ── */}
+        <Label>{t("page.about.tools_label")}</Label>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          {TOOLS.map(tool => (
+            <span key={tool} style={{
+              fontSize: "13px", fontWeight: "500",
+              padding: "6px 14px", borderRadius: "20px",
+              background: "#fff",
+              boxShadow: "0 0 0 1px rgba(0,0,0,0.08)",
+              color: "#444",
+            }}>
+              {tool}
+            </span>
+          ))}
         </div>
 
       </PageTransition>
