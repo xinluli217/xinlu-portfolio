@@ -11,6 +11,7 @@ const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
 const OlistDetail   = lazy(() => import("./pages/OlistDetail.jsx"));
 const AirbnbDetail  = lazy(() => import("./pages/AirbnbDetail.jsx"));
 const PluginSystem  = lazy(() => import("./pages/PluginSystem.jsx"));
+const JobAgentDetail = lazy(() => import("./pages/JobAgentDetail.jsx"));
 const About         = lazy(() => import("./pages/About.jsx"));
 const Connect       = lazy(() => import("./pages/Connect.jsx"));
 
@@ -44,6 +45,7 @@ function AnimatedRoutes() {
           <Route path="/projects/olist-churn"   element={<OlistDetail />} />
           <Route path="/projects/airbnb-london" element={<AirbnbDetail />} />
           <Route path="/projects/plugin-system"  element={<PluginSystem />} />
+          <Route path="/projects/job-agent"      element={<JobAgentDetail />} />
           <Route path="/projects/:id"         element={<ProjectDetail />} />
           <Route path="/about"       element={<About />} />
           <Route path="/connect"     element={<Connect />} />

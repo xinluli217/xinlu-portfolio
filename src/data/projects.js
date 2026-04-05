@@ -22,4 +22,12 @@ export const projects = [
     meta: "#003",
     githubUrl: "https://github.com/xinlulu217/job_application_tracker",
   },
+  {
+    id: "job-agent",
+    tags: ["Python", "Claude API", "Feishu Bot", "Flask"],
+    avatarColor: "#d4a8c8",
+    initials: "JA",
+    meta: "#004",
+    githubUrl: "https://github.com/xinlulu217/job-agent",
+  },
 ];

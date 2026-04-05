@@ -21,6 +21,7 @@
   "detail.features": "Features",
   "detail.tech": "Tech Stack",
   "detail.github": "View on GitHub",
+  "detail.course": "Interactive Course →",
 
   "project.plugin-system.title": "Job Application Tracker — Chrome Extension",
   "project.plugin-system.insight": "1-click job logging from any job board. Claude AI extracts the role, company, and details; Notion stores the record — no copy-pasting required.",
@@ -103,6 +104,34 @@
   "olist.tool.5.body": "Quantifies revenue concentration: what share do the top 10% and 20% of customers contribute, and what is the median vs. mean spend.",
   "olist.tool.6.title": "A/B Test Design",
   "olist.tool.6.body": "Computes required sample size and statistical power for a retention experiment given baseline rate, expected lift, α, and β.",
+
+  "project.job-agent.title": "AI Job Application Agent",
+  "project.job-agent.insight": "Paste a job URL or description → get a match score, skill gap analysis, tailored cover letter, and ATS keyword recommendations in ~20 seconds. Powered by Claude, deployable as a CLI, REPL, or Feishu chatbot.",
+  "project.job-agent.problem": "Preparing a quality job application takes 30+ minutes per role: reading the JD, mentally matching skills, drafting a cover letter, and guessing which keywords an ATS will look for. At scale this is unsustainable — candidates either rush applications or apply to fewer roles than they should.",
+  "project.job-agent.method": "Built a 4-layer Python agent: an orchestrator that parses user intent (URL, raw text, or command), a tools layer that fetches and cleans JD HTML via httpx + BeautifulSoup, a Claude reasoning layer that scores skill match (0–100), identifies gaps, generates a role-specific cover letter using keyword-frequency template selection, and recommends ATS keywords — all in a single API call with delimiter-based dual-format output (Markdown + JSON). A Feishu bot channel uses Flask + background threading to stay within the platform's 3-second webhook timeout.",
+  "project.job-agent.finding": "Keyword-frequency template selection matched the correct role type in 100% of test cases with zero ML overhead. Delimiter-based prompt engineering (===MARKDOWN_START=== / ===JSON_START===) ensured 100% parseable LLM output. Honest match scoring surfaced real gaps — a 28% score correctly flagged missing FX/trading domain knowledge that would have been missed in a manual review.",
+  "project.job-agent.impact": "Application prep dropped from 30+ minutes to under 30 seconds. The modular architecture passes the 'swap test' — replace Claude with any LLM and the system still works. Three deployment interfaces (CLI, interactive REPL, Feishu chatbot) make it usable for solo job searches or team-wide deployment.",
+
+  "jobagent.arch.label": "Workflow",
+  "jobagent.step.0.label": "Input",
+  "jobagent.step.0.sub": "URL, raw text, or Feishu message",
+  "jobagent.step.1.label": "Parse & Fetch",
+  "jobagent.step.1.sub": "Intent detection + HTML extraction",
+  "jobagent.step.2.label": "Analyse",
+  "jobagent.step.2.sub": "Claude scores, matches & generates",
+  "jobagent.step.3.label": "Output",
+  "jobagent.step.3.sub": "Markdown + JSON + history log",
+
+  "jobagent.feature.0.title": "Skill match scoring",
+  "jobagent.feature.0.body": "Compares your candidate profile against the parsed JD, returning a 0–100 match score with a per-skill breakdown table showing met, partial, and missing requirements.",
+  "jobagent.feature.1.title": "Cover letter generation",
+  "jobagent.feature.1.body": "Selects the best-fit template from 5 role-specific options using keyword frequency, then generates a tailored cover letter that highlights relevant experience and addresses skill gaps.",
+  "jobagent.feature.2.title": "ATS keyword optimisation",
+  "jobagent.feature.2.body": "Extracts high-value keywords from the JD and recommends which ones to weave into your resume and cover letter to maximise applicant tracking system pass-through.",
+  "jobagent.feature.3.title": "Feishu chatbot interface",
+  "jobagent.feature.3.body": "Send a job URL in Feishu and get the full analysis back as a chat message. Background threading handles the 3-second webhook timeout while the analysis runs.",
+
+  "jobagent.footer": "Source code, setup guide, and sample outputs on GitHub.",
 
   "project.olist-churn.title": "Olist Customer Intelligence & Churn Prevention",
   "project.olist-churn.insight": "97% of customers buy only once — an end-to-end ML pipeline to predict who's about to leave and quantify the cost of letting them go.",

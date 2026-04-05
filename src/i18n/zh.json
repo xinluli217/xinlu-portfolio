@@ -21,6 +21,7 @@
   "detail.features": "功能特性",
   "detail.tech": "技术栈",
   "detail.github": "在 GitHub 查看",
+  "detail.course": "互动教程 →",
 
   "project.plugin-system.title": "求职追踪器 — Chrome 扩展",
   "project.plugin-system.insight": "一键记录任意招聘页面的申请信息。Claude AI 自动提取职位、公司与岗位详情，Notion 完成存储——无需手动复制粘贴。",
@@ -103,6 +104,34 @@
   "olist.tool.5.body": "量化营收集中度：前 10% 和 20% 的客户各贡献多少营收，以及消费的中位数与均值对比。",
   "olist.tool.6.title": "A/B 测试设计",
   "olist.tool.6.body": "根据基准转化率、预期提升幅度、显著性水平 α 和检验效能 β，计算留存实验所需的样本量与统计功效。",
+
+  "project.job-agent.title": "AI 求职助手智能体",
+  "project.job-agent.insight": "粘贴职位链接或描述 → 约 20 秒内获得匹配分数、技能差距分析、定制求职信和 ATS 关键词建议。基于 Claude 构建，支持 CLI、交互式终端和飞书机器人三种部署方式。",
+  "project.job-agent.problem": "准备一份高质量的求职申请每个岗位需要 30 分钟以上：阅读 JD、手动匹配技能、撰写求职信、猜测 ATS 关注的关键词。大规模投递时这套流程难以持续——求职者要么草率投递，要么因精力有限而错过合适的岗位。",
+  "project.job-agent.method": "构建了四层 Python 智能体架构：编排层解析用户意图（URL、原始文本或命令）；工具层通过 httpx + BeautifulSoup 抓取和清洗 JD 页面；Claude 推理层在单次 API 调用中完成技能匹配评分（0–100）、差距识别、基于关键词频率的模板选择生成求职信，以及 ATS 关键词推荐——输出采用分隔符双格式（Markdown + JSON）。飞书机器人通道使用 Flask + 后台线程处理平台 3 秒 webhook 超时限制。",
+  "project.job-agent.finding": "关键词频率模板选择在全部测试用例中实现 100% 正确的岗位类型匹配，且无需任何机器学习开销。分隔符提示工程（===MARKDOWN_START=== / ===JSON_START===）确保 LLM 输出 100% 可解析。诚实的匹配评分暴露了真实差距——28% 的得分准确标记出缺失的外汇/交易领域知识，这在人工审查中很可能被忽略。",
+  "project.job-agent.impact": "求职准备时间从 30 分钟以上缩短至 30 秒以内。模块化架构通过「替换测试」——将 Claude 替换为任何其他 LLM，系统仍可正常运行。三种部署接口（CLI、交互式终端、飞书机器人）适用于个人求职或团队批量使用。",
+
+  "jobagent.arch.label": "工作流程",
+  "jobagent.step.0.label": "输入",
+  "jobagent.step.0.sub": "URL、原始文本或飞书消息",
+  "jobagent.step.1.label": "解析与抓取",
+  "jobagent.step.1.sub": "意图识别 + HTML 内容提取",
+  "jobagent.step.2.label": "分析",
+  "jobagent.step.2.sub": "Claude 评分、匹配与生成",
+  "jobagent.step.3.label": "输出",
+  "jobagent.step.3.sub": "Markdown + JSON + 历史记录",
+
+  "jobagent.feature.0.title": "技能匹配评分",
+  "jobagent.feature.0.body": "将候选人档案与解析后的 JD 进行对比，返回 0–100 匹配分数及逐项技能分解表，标注已满足、部分满足和缺失的要求。",
+  "jobagent.feature.1.title": "求职信生成",
+  "jobagent.feature.1.body": "通过关键词频率从 5 个岗位专用模板中选择最佳匹配，然后生成突出相关经验、针对技能差距的定制求职信。",
+  "jobagent.feature.2.title": "ATS 关键词优化",
+  "jobagent.feature.2.body": "从 JD 中提取高价值关键词，建议将哪些词融入简历和求职信，以最大化通过 ATS 筛选的概率。",
+  "jobagent.feature.3.title": "飞书机器人接口",
+  "jobagent.feature.3.body": "在飞书中发送职位链接，即可收到完整分析结果。后台线程处理平台 3 秒 webhook 超时，同时完成分析任务。",
+
+  "jobagent.footer": "源代码、配置指南和示例输出均在 GitHub 上。",
 
   "project.olist-churn.title": "Olist 客户智能与流失预防策略",
   "project.olist-churn.insight": "97% 的客户仅购买一次——端到端机器学习流水线，精准预测谁即将流失并量化损失。",

@@ -1,0 +1,316 @@
+<section class="module" id="module-5">
+  <div class="module-content">
+
+    <!-- ── SCREEN 1: Opening ─────────────────────────────────────── -->
+    <div class="module-header animate-in">
+      <span class="module-number">05</span>
+      <h1 class="module-title">Going Live — The Feishu Bot</h1>
+      <p class="module-subtitle">From terminal tool to team-wide chat integration</p>
+    </div>
+
+    <p class="animate-in">
+      The agent works great in the terminal. You type a job URL, you get a polished analysis back. But what if your whole team wants to use it — without opening a laptop, without touching a command line?
+      That's where <span class="glossary-term" data-definition="Feishu (also called Lark outside China) is a workplace collaboration app by ByteDance, similar to Slack or Microsoft Teams. It supports bots that can receive and reply to messages via webhooks.">Feishu</span> comes in.
+    </p>
+
+    <p class="animate-in">
+      Feishu lets you build a <span class="glossary-term" data-definition="A bot is an automated account in a chat platform that can receive messages, process them with code, and send replies — all without human intervention.">bot</span> that lives right inside a group chat. A teammate pastes a job link, the bot replies with a full analysis. No terminal, no setup — just a message. The magic that makes this possible is a <span class="glossary-term" data-definition="A webhook is a way for one app to notify another app in real time. When an event happens (like a new message), the source app sends an HTTP POST request to a URL you provide — your server gets the data immediately.">webhook</span>: Feishu delivers every incoming message to your server as an <span class="glossary-term" data-definition="HTTP POST is a type of web request used to send data to a server. In webhooks, the sender (Feishu) POSTs a JSON payload containing the message details to your server's URL.">HTTP POST</span> request.
+    </p>
+
+    <p class="animate-in">
+      The <span class="glossary-term" data-definition="Flask is a lightweight Python web framework. It lets you define URL routes (like /feishu/webhook) and attach Python functions to them so your server can respond to HTTP requests.">Flask</span> server in <code>app/channels/feishu_bot.py</code> is the receptionist at the front desk — it greets every incoming webhook, hands off the real work to colleagues in the back office, and keeps the door open for the next visitor.
+    </p>
+
+    <div class="callout animate-in">
+      <div class="callout-title">What is Feishu/Lark?</div>
+      <div class="callout-body">Feishu is ByteDance's enterprise collaboration platform, dominant in Chinese tech companies. Outside China it's called Lark. The same codebase, the same API. If you've used Slack or Teams, the mental model is identical — the only difference is the package name: <code>lark_oapi</code>.</div>
+    </div>
+
+    <!-- ── SCREEN 2: The 3-Second Problem ────────────────────────── -->
+    <div class="module-header animate-in" style="margin-top: var(--space-16);">
+      <h2 class="module-title" style="font-size: var(--text-3xl);">The 3-Second Problem</h2>
+    </div>
+
+    <p class="animate-in">
+      Here's the catch. When Feishu sends a webhook to your server, it expects a response within <strong>3 seconds</strong>. If your server takes longer, Feishu assumes something went wrong and retries — sending the same message again and again. Your agent calls Claude, parses a job description, writes a cover letter. That takes <strong>15–20 seconds</strong>.
+    </p>
+
+    <p class="animate-in">
+      Do the maths: 15 seconds &gt; 3 seconds. If you try to do all the work before replying, every single message triggers a cascade of retries. The user ends up with five identical analyses in their chat. Not great.
+    </p>
+
+    <div class="callout animate-in">
+      <div class="callout-title">The Insight: Acknowledge First, Work Later</div>
+      <div class="callout-body">The solution is to split the response from the work. The Flask route returns <code>{"msg": "ok"}</code> with a <span class="glossary-term" data-definition="HTTP 200 OK is the status code a server sends to say 'I received your request successfully.' Feishu stops retrying as soon as it sees a 200.">200 status</span> the moment the webhook arrives — before any analysis happens. The heavy lifting is handed off to a <span class="glossary-term" data-definition="A background thread is a parallel execution path in the same program. While the main thread returns 200 to Feishu, the background thread independently runs the agent logic, then sends the result back via the Feishu API.">background thread</span> that starts simultaneously and sends the real reply whenever it's ready.</div>
+    </div>
+
+    <p class="animate-in">
+      Think of it like a receptionist at a busy office. When a visitor arrives, the receptionist doesn't make them stand at the door while the whole office scrambles to prepare. She says "Welcome, I'll let the team know you're here" — and the visitor is seated immediately. The colleagues in the back get the message and do the actual work at their own pace.
+    </p>
+
+    <!-- ── SCREEN 3: Group Chat Animation ────────────────────────── -->
+    <div class="module-header animate-in" style="margin-top: var(--space-16);">
+      <h2 class="module-title" style="font-size: var(--text-3xl);">The Full Interaction Flow</h2>
+      <p class="module-subtitle">Watch the webhook travel through the system</p>
+    </div>
+
+    <div class="chat-window animate-in" id="chat-module5">
+      <div class="chat-messages">
+
+        <!-- msg 0: Feishu Server sends webhook -->
+        <div class="chat-message" data-msg="0" data-sender="feishu-server" style="display:none">
+          <div class="chat-avatar" style="background: var(--color-actor-2)">F</div>
+          <div class="chat-bubble">
+            <span class="chat-sender" style="color: var(--color-actor-2)">Feishu Server</span>
+            <p>POST /feishu/webhook<br><code>{"event_type": "im.message.receive_v1", "content": "analyze https://jobs.example.com/senior-pm"}</code></p>
+          </div>
+        </div>
+
+        <!-- msg 1: Flask acknowledges immediately -->
+        <div class="chat-message" data-msg="1" data-sender="flask" style="display:none">
+          <div class="chat-avatar" style="background: var(--color-actor-1)">W</div>
+          <div class="chat-bubble">
+            <span class="chat-sender" style="color: var(--color-actor-1)">Flask (Webhook Handler)</span>
+            <p>Got it! Returning <code>{"msg": "ok"}</code> with HTTP 200 — right now, before any processing. Feishu won't retry.</p>
+          </div>
+        </div>
+
+        <!-- msg 2: Flask spawns background thread -->
+        <div class="chat-message" data-msg="2" data-sender="flask" style="display:none">
+          <div class="chat-avatar" style="background: var(--color-actor-1)">W</div>
+          <div class="chat-bubble">
+            <span class="chat-sender" style="color: var(--color-actor-1)">Flask (to Background Thread)</span>
+            <p>Hey, I've started a daemon thread for you — process this job URL: <code>https://jobs.example.com/senior-pm</code>. I'll keep the front door open.</p>
+          </div>
+        </div>
+
+        <!-- msg 3: Background thread acknowledges user -->
+        <div class="chat-message" data-msg="3" data-sender="background" style="display:none">
+          <div class="chat-avatar" style="background: var(--color-actor-3)">T</div>
+          <div class="chat-bubble">
+            <span class="chat-sender" style="color: var(--color-actor-3)">Background Thread</span>
+            <p>On it! Sending an acknowledgment to the user in Feishu chat now: "Analysing job opportunity, please wait..."</p>
+          </div>
+        </div>
+
+        <!-- msg 4: Background thread does the heavy work -->
+        <div class="chat-message" data-msg="4" data-sender="background" style="display:none">
+          <div class="chat-avatar" style="background: var(--color-actor-3)">T</div>
+          <div class="chat-bubble">
+            <span class="chat-sender" style="color: var(--color-actor-3)">Background Thread (thinking...)</span>
+            <p>Calling <code>handle_user_request()</code>... fetching the JD... calling Claude... parsing the structured output... generating cover letter... this takes about 15 seconds, but nobody's waiting at the front door.</p>
+          </div>
+        </div>
+
+        <!-- msg 5: Background thread delivers results -->
+        <div class="chat-message" data-msg="5" data-sender="background" style="display:none">
+          <div class="chat-avatar" style="background: var(--color-actor-3)">T</div>
+          <div class="chat-bubble">
+            <span class="chat-sender" style="color: var(--color-actor-3)">Background Thread</span>
+            <p>Done! Sending the full analysis back to the user via <code>_send_reply(message_id, summary)</code>. The user sees match score, skill table, and cover letter — all in the Feishu thread.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="chat-typing" style="display:none">
+        <div class="chat-avatar" id="chat-module5-typing-avatar">?</div>
+        <div class="chat-typing-dots">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>
+      </div>
+
+      <div class="chat-controls">
+        <button class="btn chat-next-btn">Next Message</button>
+        <button class="btn chat-all-btn">Play All</button>
+        <button class="btn chat-reset-btn">Replay</button>
+        <span class="chat-progress"></span>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 4: Code Translation ────────────────────────────── -->
+    <div class="module-header animate-in" style="margin-top: var(--space-16);">
+      <h2 class="module-title" style="font-size: var(--text-3xl);">The Webhook Handler, Decoded</h2>
+      <p class="module-subtitle">Every line has a reason</p>
+    </div>
+
+    <div class="translation-block animate-in">
+      <div class="translation-code">
+        <span class="translation-label">CODE</span>
+        <pre><code>
+<span class="code-line"><span class="code-operator">@</span><span class="code-function">app.route</span>(<span class="code-string">"/feishu/webhook"</span>, methods=[<span class="code-string">"POST"</span>])</span>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">webhook</span>():</span>
+<span class="code-line">    body = request.<span class="code-function">get_json</span>(silent=<span class="code-keyword">True</span>) <span class="code-keyword">or</span> {}</span>
+<span class="code-line">    <span class="code-keyword">if</span> body.<span class="code-function">get</span>(<span class="code-string">"type"</span>) == <span class="code-string">"url_verification"</span>:</span>
+<span class="code-line">        challenge = body.<span class="code-function">get</span>(<span class="code-string">"challenge"</span>, <span class="code-string">""</span>)</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-function">jsonify</span>({<span class="code-string">"challenge"</span>: challenge})</span>
+<span class="code-line">    event_type = body.<span class="code-function">get</span>(<span class="code-string">"header"</span>, {}).<span class="code-function">get</span>(<span class="code-string">"event_type"</span>, <span class="code-string">""</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> event_type == <span class="code-string">"im.message.receive_v1"</span>:</span>
+<span class="code-line">        thread = threading.<span class="code-function">Thread</span>(</span>
+<span class="code-line">            target=_process_message,</span>
+<span class="code-line">            args=(body,),</span>
+<span class="code-line">            daemon=<span class="code-keyword">True</span></span>
+<span class="code-line">        )</span>
+<span class="code-line">        thread.<span class="code-function">start</span>()</span>
+<span class="code-line">    <span class="code-keyword">return</span> <span class="code-function">jsonify</span>({<span class="code-string">"msg"</span>: <span class="code-string">"ok"</span>})</span>
+        </code></pre>
+      </div>
+      <div class="translation-english">
+        <span class="translation-label">PLAIN ENGLISH</span>
+        <div class="translation-lines">
+          <p class="tl"><strong>Line 1–2:</strong> Register this function as the handler for any POST request arriving at <code>/feishu/webhook</code>.</p>
+          <p class="tl"><strong>Line 3:</strong> Parse the incoming <span class="glossary-term" data-definition="JSON (JavaScript Object Notation) is a text format for structured data. Feishu sends all webhook payloads as JSON — key/value pairs containing the event type, message content, sender info, etc.">JSON</span> body. If it's malformed, default to an empty dict instead of crashing.</p>
+          <p class="tl"><strong>Lines 4–6:</strong> Handle the <span class="glossary-term" data-definition="URL verification is a one-time handshake Feishu performs when you first register a webhook URL. It sends a challenge string and expects it echoed back, confirming your server is alive and controlled by you.">URL verification challenge</span> — a one-time setup handshake Feishu requires to confirm you own the server.</p>
+          <p class="tl"><strong>Line 7:</strong> Extract the event type from the nested header. Feishu wraps metadata in a <code>header</code> object.</p>
+          <p class="tl"><strong>Lines 8–13:</strong> If it's a new incoming message, spin up a <span class="glossary-term" data-definition="A daemon thread is a background thread that automatically exits when the main program exits. Setting daemon=True means you don't have to manually clean it up — Python handles it.">daemon thread</span> pointing at <code>_process_message</code> and start it immediately.</p>
+          <p class="tl"><strong>Line 14:</strong> Return 200 OK right away — regardless of how long the background thread takes. Feishu is satisfied and won't retry.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 5: The 3 Interfaces ────────────────────────────── -->
+    <div class="module-header animate-in" style="margin-top: var(--space-16);">
+      <h2 class="module-title" style="font-size: var(--text-3xl);">One Agent, Three Interfaces</h2>
+      <p class="module-subtitle">The power of decoupled architecture</p>
+    </div>
+
+    <p class="animate-in">
+      Here's something elegant hidden in this codebase. The CLI, the interactive REPL, and the Feishu bot are three completely different front doors — but they all walk into the same room. Every single interface ultimately calls one function: <code>handle_user_request()</code> in <code>app/agent/orchestrator.py</code>.
+    </p>
+
+    <p class="animate-in">
+      This is <span class="glossary-term" data-definition="Decoupled architecture means separating the user interface (how the user interacts) from the core logic (what the system does). You can add, change, or remove interfaces without touching the agent brain.">decoupled architecture</span> in practice. The interfaces know nothing about Claude, cover letters, or JSON parsing. The orchestrator knows nothing about Feishu message IDs, terminal ANSI colours, or argparse arguments. They only share one contract: pass in a string, get back a summary string and an optional list of saved files.
+    </p>
+
+    <div class="animate-in" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); margin: var(--space-8) 0;">
+
+      <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-6); box-shadow: var(--shadow-sm);">
+        <div style="font-size: var(--text-2xl); margin-bottom: var(--space-3);">⌨️</div>
+        <h3 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-2);">CLI</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-3);">
+          <code>app/main.py</code><br>
+          <span class="glossary-term" data-definition="argparse is Python's built-in library for parsing command-line arguments. It lets you define sub-commands like 'analyze', 'history', and 'interactive', and maps them to Python functions.">argparse</span> parses flags → calls <code>handle_user_request()</code> → prints result to terminal
+        </p>
+        <code style="font-size: var(--text-xs); color: var(--color-accent);">python -m app.main analyze "url"</code>
+      </div>
+
+      <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-6); box-shadow: var(--shadow-sm);">
+        <div style="font-size: var(--text-2xl); margin-bottom: var(--space-3);">💬</div>
+        <h3 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-2);">Interactive REPL</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-3);">
+          <code>cmd_interactive()</code> in <code>main.py</code><br>
+          <span class="glossary-term" data-definition="A REPL (Read-Eval-Print Loop) is an interactive session where the program reads your input, evaluates it, prints the result, and waits for the next input. Like a Python shell, but for your agent.">REPL loop</span> reads stdin → calls <code>handle_user_request()</code> → prints result, loops
+        </p>
+        <code style="font-size: var(--text-xs); color: var(--color-accent);">python -m app.main interactive</code>
+      </div>
+
+      <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-6); box-shadow: var(--shadow-sm);">
+        <div style="font-size: var(--text-2xl); margin-bottom: var(--space-3);">🤖</div>
+        <h3 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-2);">Feishu Bot</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: var(--space-3);">
+          <code>app/channels/feishu_bot.py</code><br>
+          Webhook → Flask → daemon thread → calls <code>handle_user_request()</code> → replies via <span class="glossary-term" data-definition="The Lark OpenAPI (lark_oapi) is the official Python SDK for Feishu/Lark. It handles authentication, request signing, and the ReplyMessage API call that sends a message back to a specific chat.">lark_oapi</span>
+        </p>
+        <code style="font-size: var(--text-xs); color: var(--color-accent);">python -m app.channels.feishu_bot</code>
+      </div>
+
+    </div>
+
+    <div class="callout animate-in">
+      <div class="callout-title">Why This Pattern Matters</div>
+      <div class="callout-body">Want to add a Slack bot tomorrow? A web API? A mobile app? You write the interface adapter — roughly 50 lines — and the entire agent brain comes for free. The <code>handle_user_request()</code> function is your stable contract. Build around it, not inside it.</div>
+    </div>
+
+    <!-- ── SCREEN 6: Wrap-Up & Quiz ───────────────────────────────── -->
+    <div class="module-header animate-in" style="margin-top: var(--space-16);">
+      <h2 class="module-title" style="font-size: var(--text-3xl);">You've Built It End to End</h2>
+    </div>
+
+    <p class="animate-in">
+      You now understand a complete AI agent system — from user input to LLM reasoning to structured output, deployed across multiple interfaces. In five modules you've traced the full journey: a user types a job URL, the <span class="glossary-term" data-definition="The intent parser classifies what the user wants — analyze a job, see history, or get help — so the orchestrator can route to the right logic without the user needing to learn special syntax.">intent parser</span> classifies it, the <span class="glossary-term" data-definition="The orchestrator is the brain of the system. It coordinates fetching the job description, loading the candidate profile, selecting the right prompt template, calling Claude, and packaging the output.">orchestrator</span> coordinates the workflow, <span class="glossary-term" data-definition="Claude is Anthropic's large language model. The agent calls it via the Claude API, passing a structured prompt and receiving a structured JSON response with match score, skill analysis, cover letter, and ATS suggestions.">Claude</span> reasons over the data, and a structured result lands in a terminal, a REPL, or a Feishu chat — all from the same underlying logic.
+    </p>
+
+    <div class="callout animate-in">
+      <div class="callout-title">Key Takeaways from This Course</div>
+      <div class="callout-body">
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-3);">
+          <li style="display: flex; gap: var(--space-3); align-items: flex-start;">
+            <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">01</span>
+            <span><strong>Intent parsing decouples input from action.</strong> The system understands your intent before deciding what to do — no rigid command syntax required.</span>
+          </li>
+          <li style="display: flex; gap: var(--space-3); align-items: flex-start;">
+            <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">02</span>
+            <span><strong>Structured prompts produce structured outputs.</strong> <span class="glossary-term" data-definition="Pydantic is a Python data validation library. The agent uses it to define the exact shape of Claude's JSON output — if Claude returns something unexpected, Pydantic catches it immediately.">Pydantic</span> schemas enforce that Claude returns parseable, typed data — not freeform prose.</span>
+          </li>
+          <li style="display: flex; gap: var(--space-3); align-items: flex-start;">
+            <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">03</span>
+            <span><strong>Threading solves real-time constraints.</strong> Any time you integrate with a system that has a timeout, the acknowledge-then-process pattern is your friend.</span>
+          </li>
+          <li style="display: flex; gap: var(--space-3); align-items: flex-start;">
+            <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">04</span>
+            <span><strong>One core function, many interfaces.</strong> <code>handle_user_request()</code> is the system's stable contract. The CLI, REPL, and Feishu bot are just different front doors into the same room.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="module-header animate-in" style="margin-top: var(--space-12);">
+      <h2 class="module-title" style="font-size: var(--text-2xl);">Final Check</h2>
+    </div>
+
+    <div class="quiz-container animate-in" id="quiz-module5">
+
+      <div class="quiz-question-block"
+           data-correct="option-b"
+           data-explanation-right="Exactly right. Without threading, the webhook handler blocks for 15–20 seconds waiting for the agent to finish. Feishu's 3-second timeout expires, it retries the webhook, and the user ends up with multiple duplicate analyses."
+           data-explanation-wrong="Think about what Feishu does when it doesn't get a 200 within 3 seconds. It retries — which triggers your handler again for the same message.">
+        <h3 class="quiz-question">Feishu sends a webhook. The agent analysis takes 20 seconds. What happens if you <em>don't</em> use threading?</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>Nothing bad — Feishu waits patiently for as long as needed</span>
+          </button>
+          <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>Feishu times out after 3 seconds, retries the webhook, and the user gets duplicate messages</span>
+          </button>
+          <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>The Flask server crashes immediately</span>
+          </button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-question-block"
+           data-correct="option-b"
+           data-explanation-right="Correct! handle_user_request() in app/agent/orchestrator.py is the single entry point called by all three interfaces — CLI, interactive REPL, and the Feishu bot."
+           data-explanation-wrong="Not quite. Look at the imports in feishu_bot.py, main.py, and the interactive loop — they all share one imported function from orchestrator.py.">
+        <h3 class="quiz-question">All three interfaces — CLI, REPL, and Feishu bot — share the same core function. What is it called?</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>run_agent()</span>
+          </button>
+          <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>handle_user_request()</span>
+          </button>
+          <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>process_message()</span>
+          </button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+      <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+
+    </div>
+
+  </div>
+</section>
