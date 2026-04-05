@@ -101,7 +101,7 @@ export default function Connect() {
               <div style={{
                 width: "40px", height: "40px",
                 borderRadius: "12px",
-                background: "#fff",
+                background: "#f5f5f5",
                 boxShadow: "0 0 0 1px rgba(0,0,0,0.08)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 color: "#555", flexShrink: 0,

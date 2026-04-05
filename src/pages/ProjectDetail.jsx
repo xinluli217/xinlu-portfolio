@@ -33,10 +33,10 @@ export default function ProjectDetail() {
         <Link
           to="/projects"
           className="inline-flex items-center gap-1.5 text-[13px] mb-5 transition-opacity hover:opacity-60"
-          style={{ color: "#c9a84c" }}
+          style={{ color: "#FF9398" }}
         >
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-            <path d="M7 12L1 6.5 7 1" stroke="#c9a84c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7 12L1 6.5 7 1" stroke="#FF9398" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           {t("detail.back")}
         </Link>
@@ -48,7 +48,7 @@ export default function ProjectDetail() {
               <span
                 key={tag}
                 className="text-[11px] font-medium px-2 py-0.5 rounded-md"
-                style={{ background: "#f5f4f0", color: "#6a6a6a" }}
+                style={{ background: "#f5f5f5", color: "#6a6a6a" }}
               >
                 {tag}
               </span>
@@ -71,7 +71,7 @@ export default function ProjectDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-opacity hover:opacity-60"
-              style={{ color: "#c9a84c" }}
+              style={{ color: "#FF9398" }}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

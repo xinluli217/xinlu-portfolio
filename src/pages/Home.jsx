@@ -28,8 +28,8 @@ const HERO_LINE = {
 
 // ─── Static style tokens ─────────────────────────────────────────────────────
 
-const CARD      = { background: "#fff",     borderRadius: "24px", boxShadow: "0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.05)" };
-const WARM_CARD = { background: "#ede8df",  borderRadius: "24px", boxShadow: "0 0 0 1px rgba(0,0,0,0.04)" };
+const CARD      = { background: "#f5f5f5",  borderRadius: "24px", boxShadow: "0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.05)" };
+const WARM_CARD = { background: "#f5f5f5",  borderRadius: "24px", boxShadow: "0 0 0 1px rgba(0,0,0,0.04)" };
 const HOVER_BOX_SHADOW = "0 10px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.04)";
 
 const MotionLink = motion.create(Link);
@@ -52,7 +52,7 @@ export default function Home() {
       animate="animate"
       exit="exit"
       transition={reduced ? { duration: 0.15 } : { duration: 0.4, ease: EASE }}
-      style={{ minHeight: "100vh", background: "#f5f1ea" }}
+      style={{ minHeight: "100vh", background: "#ffffff" }}
     >
       <SiteNav />
 

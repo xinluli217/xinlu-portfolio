@@ -1,0 +1,1 @@
+import{j as o}from"./index-DS0VaiWf.js";function r({children:t,className:e="mb-1.5"}){return o.jsx("p",{className:`text-[10px] font-bold tracking-widest uppercase ${e}`,style:{color:"#555555"},children:t})}export{r as S};

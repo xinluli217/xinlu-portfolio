@@ -16,7 +16,7 @@ export default function LanguageToggle() {
       className="flex items-center gap-0 rounded-full overflow-hidden border text-[12px] font-medium select-none"
       style={{
         borderColor: "#ebebeb",
-        background: "#fafaf8",
+        background: "#f5f5f5",
         height: "26px",
       }}
       title="Switch language"
@@ -25,7 +25,7 @@ export default function LanguageToggle() {
         className="px-2.5 h-full flex items-center transition-colors duration-150"
         style={{
           color: isEN ? "#1a1a1a" : "#c8c8c8",
-          background: isEN ? "white" : "transparent",
+          background: isEN ? "#ffffff" : "transparent",
           boxShadow: isEN ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
           borderRadius: "9999px",
         }}
@@ -36,7 +36,7 @@ export default function LanguageToggle() {
         className="px-2.5 h-full flex items-center transition-colors duration-150"
         style={{
           color: !isEN ? "#1a1a1a" : "#c8c8c8",
-          background: !isEN ? "white" : "transparent",
+          background: !isEN ? "#ffffff" : "transparent",
           boxShadow: !isEN ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
           borderRadius: "9999px",
         }}

@@ -43,7 +43,7 @@ export default function Projects() {
               }}
               style={{
                 display: "block",
-                background: "#fff",
+                background: "#f5f5f5",
                 borderRadius: "24px",
                 padding: "40px 44px",
                 textDecoration: "none",
@@ -66,7 +66,7 @@ export default function Projects() {
                         <span key={tag} style={{
                           fontSize: "11px", fontWeight: "500",
                           padding: "3px 10px", borderRadius: "20px",
-                          background: "#f0ece4", color: "#777",
+                          background: "#ebebeb", color: "#777",
                         }}>
                           {tag}
                         </span>

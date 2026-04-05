@@ -1,7 +1,7 @@
 export const projects = [
   {
     id: "olist-churn",
-    tags: ["Python", "Machine Learning", "Customer Analytics"],
+    tags: ["Python", "Machine Learning", "Customer Analytics", "Claude API"],
     avatarColor: "#a8d4c8",
     initials: "OC",
     meta: "#001",

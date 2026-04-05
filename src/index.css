@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg:    #f5f1ea;
-  --color-card:  #ffffff;
+  --color-bg:    #ffffff;
+  --color-card:  #f5f5f5;
   --color-ink:   #111111;
   --color-soft:  #4a4a4a;
   --color-faint: #999999;
-  --color-gold:  #c9a84c;
+  --color-accent: #FF9398;
   --font-sans: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -20,12 +20,12 @@ html, body, #root {
 
 body {
   font-family: var(--font-sans);
-  background-color: #f5f1ea;
+  background-color: #ffffff;
   color: #111111;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(201,168,76,0.18); }
+::selection { background: rgba(255,147,152,0.18); }
 ::-webkit-scrollbar { width: 0; }
 
 /* Card hover lift — applied via className on interactive cards */

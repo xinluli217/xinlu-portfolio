@@ -8,7 +8,7 @@ function TagPill({ children }) {
     <span style={{
       fontSize: "11px", fontWeight: "500",
       padding: "3px 10px", borderRadius: "6px",
-      background: "#f5f4f0", color: "#6a6a6a",
+      background: "#f5f5f5", color: "#6a6a6a",
     }}>
       {children}
     </span>
@@ -19,7 +19,7 @@ function StatCard({ value, label, sub }) {
   return (
     <div style={{
       borderRadius: "12px", padding: "14px 16px",
-      background: "#fafaf9", border: "1px solid #f0f0f0",
+      background: "#f5f5f5", border: "1px solid #e8e8e8",
     }}>
       <p style={{ fontSize: "20px", fontWeight: 700, color: "#1a1a1a", letterSpacing: "-0.03em", margin: "0 0 4px" }}>{value}</p>
       <p style={{ fontSize: "12px", fontWeight: 500, color: "#3a3a3a", margin: "0 0 2px" }}>{label}</p>
@@ -30,7 +30,7 @@ function StatCard({ value, label, sub }) {
 
 function Section({ label, children }) {
   return (
-    <div style={{ padding: "28px 0", borderTop: "1px solid #f0f0f0" }}>
+    <div style={{ padding: "28px 0", borderTop: "1px solid #e8e8e8" }}>
       <p style={{
         fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em",
         textTransform: "uppercase", color: "#c8c8c8", margin: "0 0 10px",
@@ -64,14 +64,14 @@ export default function AirbnbDetail() {
         <Link to="/projects"
           style={{
             display: "inline-flex", alignItems: "center", gap: "6px",
-            fontSize: "13px", color: "#c9a84c", marginBottom: "20px",
+            fontSize: "13px", color: "#FF9398", marginBottom: "20px",
             textDecoration: "none", opacity: 1, transition: "opacity 0.15s",
           }}
           onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
           onMouseLeave={e => e.currentTarget.style.opacity = "1"}
         >
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-            <path d="M7 12L1 6.5 7 1" stroke="#c9a84c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 12L1 6.5 7 1" stroke="#FF9398" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           {t("detail.back")}
         </Link>
@@ -105,8 +105,8 @@ export default function AirbnbDetail() {
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 fontSize: "12px", fontWeight: 500,
                 padding: "8px 14px", borderRadius: "8px",
-                background: "#f5ead8", color: "#c9a84c",
-                border: "1px solid #e8d8b8", textDecoration: "none",
+                background: "#ffe0e1", color: "#FF9398",
+                border: "1px solid rgba(255,147,152,0.3)", textDecoration: "none",
                 transition: "opacity 0.15s",
               }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
@@ -126,8 +126,8 @@ export default function AirbnbDetail() {
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 fontSize: "12px", fontWeight: 500,
                 padding: "8px 14px", borderRadius: "8px",
-                background: "#fafaf8", color: "#6a6a6a",
-                border: "1px solid #ebebeb", textDecoration: "none",
+                background: "#f5f5f5", color: "#6a6a6a",
+                border: "1px solid #e8e8e8", textDecoration: "none",
                 transition: "opacity 0.15s",
               }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
@@ -147,8 +147,8 @@ export default function AirbnbDetail() {
         <div style={{
           margin: "28px 0",
           borderRadius: "16px", overflow: "hidden",
-          border: "1px solid #ebebeb",
-          background: "#fafaf9",
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
         }}>
           <iframe
             src="https://public.tableau.com/views/airbnb_london_ds_tableau/1_1?:embed=yes&:showVizHome=no&:toolbar=yes&:animate_transition=yes"

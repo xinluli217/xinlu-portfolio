@@ -30,7 +30,7 @@ function Divider() {
 function TagPill({ children }) {
   return (
     <span className="text-[11px] font-medium px-2 py-0.5 rounded-md"
-      style={{ background: "#f5f4f0", color: "#6a6a6a" }}>
+      style={{ background: "#f5f5f5", color: "#6a6a6a" }}>
       {children}
     </span>
   );
@@ -42,8 +42,8 @@ function ActionBtn({ href, download, primary, children }) {
       target={download ? "_self" : "_blank"} rel="noopener noreferrer"
       className="inline-flex items-center gap-1.5 text-[12px] font-medium px-3.5 py-2 rounded-lg transition-all duration-150 hover:opacity-80"
       style={primary
-        ? { background: "#f5ead8", color: "#c9a84c", border: "1px solid #e8d8b8" }
-        : { background: "#fafaf8", color: "#6a6a6a", border: "1px solid #ebebeb" }}>
+        ? { background: "#ffe0e1", color: "#FF9398", border: "1px solid rgba(255,147,152,0.3)" }
+        : { background: "#f5f5f5", color: "#6a6a6a", border: "1px solid #e8e8e8" }}>
       {children}
     </a>
   );
@@ -51,7 +51,7 @@ function ActionBtn({ href, download, primary, children }) {
 
 function StatCard({ value, label, sub }) {
   return (
-    <div className="rounded-xl p-3.5" style={{ background: "#fafaf9", border: "1px solid #f0f0f0" }}>
+    <div className="rounded-xl p-3.5" style={{ background: "#f5f5f5", border: "1px solid #e8e8e8" }}>
       <p className="text-[20px] font-bold leading-none mb-1" style={{ color: "#1a1a1a", letterSpacing: "-0.03em" }}>{value}</p>
       <p className="text-[12px] font-medium mb-0.5" style={{ color: "#3a3a3a" }}>{label}</p>
       {sub && <p className="text-[10.5px]" style={{ color: "#9a9a9a" }}>{sub}</p>}
@@ -104,7 +104,7 @@ function StorySection({ section, index }) {
                 className="overflow-hidden"
               >
                 <pre className="mt-2 rounded-lg overflow-x-auto text-[10.5px] leading-relaxed p-3"
-                  style={{ background: "#f5f4f0", color: "#3a3a3a", fontFamily: "'JetBrains Mono','Courier New',monospace" }}>
+                  style={{ background: "#f5f5f5", color: "#3a3a3a", fontFamily: "'JetBrains Mono','Courier New',monospace" }}>
                   {section.snippet}
                 </pre>
               </motion.div>
@@ -115,7 +115,7 @@ function StorySection({ section, index }) {
         {/* Right — chart image */}
         {imgSrc && (
           <div className="flex-shrink-0 rounded-xl overflow-hidden"
-            style={{ width: "320px", background: "#fafaf9", border: "1px solid #ebebeb", marginTop: "6px" }}>
+            style={{ width: "320px", background: "#f5f5f5", border: "1px solid #e8e8e8", marginTop: "6px" }}>
             <img
               src={imgSrc}
               alt={section.title}
@@ -152,9 +152,9 @@ export default function OlistDetail() {
         {/* ── Back ── */}
         <Link to="/projects"
           className="inline-flex items-center gap-1.5 text-[13px] mb-5 transition-opacity hover:opacity-60"
-          style={{ color: "#c9a84c" }}>
+          style={{ color: "#FF9398" }}>
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-            <path d="M7 12L1 6.5 7 1" stroke="#c9a84c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 12L1 6.5 7 1" stroke="#FF9398" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           {t("detail.back")}
         </Link>
@@ -194,6 +194,81 @@ export default function OlistDetail() {
               </svg>
               Download .ipynb
             </ActionBtn>
+          </div>
+        </div>
+
+        <Divider />
+
+        {/* ── AI Agent ── */}
+        <div style={{ marginBottom: "8px" }}>
+          <p className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: "#c8c8c8" }}>
+            {t("detail.agent")}
+          </p>
+
+          {/* intro */}
+          <div style={{
+            borderRadius: "16px",
+            border: "1px solid rgba(255,147,152,0.25)",
+            background: "#ffe0e1",
+            padding: "20px 24px",
+            marginBottom: "10px",
+          }}>
+            <div style={{
+              display: "flex", alignItems: "flex-start",
+              justifyContent: "space-between", gap: "24px",
+              flexWrap: "wrap",
+            }}>
+              <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#3a3a3a", margin: 0, flex: 1 }}>
+                {t("olist.agent.intro")}
+              </p>
+              <a
+                href="https://github.com/xinlulu217/olist-customer-intelligence"
+                target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "6px",
+                  fontSize: "11px", fontWeight: 600,
+                  padding: "7px 14px", borderRadius: "8px",
+                  background: "#ffffff", color: "#1a1a1a",
+                  border: "1px solid rgba(255,147,152,0.3)",
+                  textDecoration: "none", whiteSpace: "nowrap",
+                  transition: "opacity 0.15s", flexShrink: 0,
+                }}
+                onMouseEnter={e => e.currentTarget.style.opacity = "0.7"}
+                onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                {t("detail.github")}
+              </a>
+            </div>
+          </div>
+
+          {/* 7 tool cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+            {[0, 1, 2, 3, 4, 5, 6].map(i => (
+              <div
+                key={i}
+                style={{
+                  borderRadius: "12px", padding: "14px 16px",
+                  background: "#f5f5f5", border: "1px solid #e8e8e8",
+                }}
+              >
+                <p style={{
+                  fontSize: "10px", fontWeight: 700,
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                  color: "#FF9398", margin: "0 0 5px",
+                }}>
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <p style={{ fontSize: "12px", fontWeight: 600, color: "#1a1a1a", margin: "0 0 4px" }}>
+                  {t(`olist.tool.${i}.title`)}
+                </p>
+                <p style={{ fontSize: "11.5px", lineHeight: 1.55, color: "#6a6a6a", margin: 0 }}>
+                  {t(`olist.tool.${i}.body`)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 

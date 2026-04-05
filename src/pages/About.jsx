@@ -100,7 +100,7 @@ export default function About() {
               key={key}
               variants={strengthChild}
               style={{
-                background: "#fff",
+                background: "#f5f5f5",
                 borderRadius: "16px",
                 padding: "18px 22px",
                 boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
@@ -110,7 +110,7 @@ export default function About() {
               }}
             >
               <span style={{
-                fontSize: "13px", color: "#c9a84c",
+                fontSize: "13px", color: "#FF9398",
                 fontWeight: "600", flexShrink: 0, marginTop: "1px",
               }}>—</span>
               <p style={{
@@ -187,7 +187,7 @@ export default function About() {
                 style={{
                   fontSize: "13px", fontWeight: "500",
                   padding: "6px 14px", borderRadius: "20px",
-                  background: "#fff",
+                  background: "#f5f5f5",
                   boxShadow: "0 0 0 1px rgba(0,0,0,0.08)",
                   color: "#444",
                 }}
