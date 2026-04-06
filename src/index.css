@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg:    #ffffff;
-  --color-card:  #f5f5f5;
-  --color-ink:   #111111;
-  --color-soft:  #4a4a4a;
-  --color-faint: #999999;
-  --color-accent: #FF9398;
-  --font-sans: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --color-bg:      #FAF7F2;
+  --color-bg-warm: #F5F0E8;
+  --color-card:    #FFFFFF;
+  --color-surface: #FDF9F3;
+  --color-ink:     #2C2A28;
+  --color-soft:    #6B6560;
+  --color-faint:   #9E9790;
+  --color-accent:  #E06B56;
+  --color-accent-hover: #C85A47;
+  --color-accent-light: #FDECEA;
+  --color-accent-muted: #E89585;
+  --color-border:  #E5DFD6;
+  --color-border-light: #EEEBE5;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans: "DM Sans", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 * { box-sizing: border-box; }
@@ -20,12 +29,13 @@ html, body, #root {
 
 body {
   font-family: var(--font-sans);
-  background-color: #ffffff;
-  color: #111111;
+  background-color: #FAF7F2;
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(253,236,234,0.35) 0%, transparent 60%);
+  color: #2C2A28;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: rgba(255,147,152,0.18); }
+::selection { background: rgba(224,107,86,0.15); }
 ::-webkit-scrollbar { width: 0; }
 
 /* Card hover lift — applied via className on interactive cards */
@@ -34,12 +44,12 @@ body {
 }
 .card-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.04) !important;
+  box-shadow: 0 10px 32px rgba(44,42,40,0.08), 0 0 0 1px rgba(44,42,40,0.06) !important;
 }
 
 /* Nav link hover */
 .nav-link { transition: color 0.15s ease; }
-.nav-link:hover { color: #111 !important; }
+.nav-link:hover { color: #2C2A28 !important; }
 
 /* Respect system reduced-motion preference for any CSS-based effects */
 @media (prefers-reduced-motion: reduce) {

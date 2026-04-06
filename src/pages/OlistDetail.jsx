@@ -24,13 +24,13 @@ const CHART_IMGS = {
 // ─── Small shared components ─────────────────────────────────────────────────
 
 function Divider() {
-  return <div className="h-px my-5" style={{ background: "#f0f0f0" }} />;
+  return <div className="h-px my-5" style={{ background: "#EEEBE5" }} />;
 }
 
 function TagPill({ children }) {
   return (
     <span className="text-[11px] font-medium px-2 py-0.5 rounded-md"
-      style={{ background: "#f5f5f5", color: "#6a6a6a" }}>
+      style={{ background: "#FFFFFF", color: "#6B6560" }}>
       {children}
     </span>
   );
@@ -42,8 +42,8 @@ function ActionBtn({ href, download, primary, children }) {
       target={download ? "_self" : "_blank"} rel="noopener noreferrer"
       className="inline-flex items-center gap-1.5 text-[12px] font-medium px-3.5 py-2 rounded-lg transition-all duration-150 hover:opacity-80"
       style={primary
-        ? { background: "#ffe0e1", color: "#FF9398", border: "1px solid rgba(255,147,152,0.3)" }
-        : { background: "#f5f5f5", color: "#6a6a6a", border: "1px solid #e8e8e8" }}>
+        ? { background: "#FDECEA", color: "#E06B56", border: "1px solid rgba(224,107,86,0.3)" }
+        : { background: "#FFFFFF", color: "#6B6560", border: "1px solid #E5DFD6" }}>
       {children}
     </a>
   );
@@ -51,10 +51,10 @@ function ActionBtn({ href, download, primary, children }) {
 
 function StatCard({ value, label, sub }) {
   return (
-    <div className="rounded-xl p-3.5" style={{ background: "#f5f5f5", border: "1px solid #e8e8e8" }}>
-      <p className="text-[20px] font-bold leading-none mb-1" style={{ color: "#1a1a1a", letterSpacing: "-0.03em" }}>{value}</p>
-      <p className="text-[12px] font-medium mb-0.5" style={{ color: "#3a3a3a" }}>{label}</p>
-      {sub && <p className="text-[10.5px]" style={{ color: "#9a9a9a" }}>{sub}</p>}
+    <div className="rounded-xl p-3.5" style={{ background: "#FFFFFF", border: "1px solid #E5DFD6" }}>
+      <p className="text-[20px] font-bold leading-none mb-1" style={{ color: "#2C2A28", letterSpacing: "-0.03em" }}>{value}</p>
+      <p className="text-[12px] font-medium mb-0.5" style={{ color: "#4A4540" }}>{label}</p>
+      {sub && <p className="text-[10.5px]" style={{ color: "#9E9790" }}>{sub}</p>}
     </div>
   );
 }
@@ -71,22 +71,22 @@ function StorySection({ section, index }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, delay: index * 0.06 }}
       className="py-5 border-t"
-      style={{ borderColor: "#f0f0f0" }}
+      style={{ borderColor: "#EEEBE5" }}
     >
       <div className="flex gap-5 items-center">
         {/* Left — text */}
         <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-bold tracking-widest uppercase mb-1.5" style={{ color: "#c8c8c8" }}>
+          <p className="text-[10px] font-bold tracking-widest uppercase mb-1.5" style={{ color: "#C4BDB4" }}>
             {section.title}
           </p>
-          <p className="text-[13px] leading-relaxed" style={{ color: "#3a3a3a" }}>
+          <p className="text-[13px] leading-relaxed" style={{ color: "#4A4540" }}>
             {section.body}
           </p>
           {section.snippet && (
             <button
               onClick={() => setShowCode(v => !v)}
               className="mt-2.5 text-[11px] font-medium transition-opacity hover:opacity-60 flex items-center gap-1"
-              style={{ color: "#9a9a9a" }}
+              style={{ color: "#9E9790" }}
             >
               <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <polyline points="5 3 10 8 5 13"/>
@@ -104,7 +104,7 @@ function StorySection({ section, index }) {
                 className="overflow-hidden"
               >
                 <pre className="mt-2 rounded-lg overflow-x-auto text-[10.5px] leading-relaxed p-3"
-                  style={{ background: "#f5f5f5", color: "#3a3a3a", fontFamily: "'JetBrains Mono','Courier New',monospace" }}>
+                  style={{ background: "#FFFFFF", color: "#4A4540", fontFamily: "'JetBrains Mono', monospace" }}>
                   {section.snippet}
                 </pre>
               </motion.div>
@@ -115,7 +115,7 @@ function StorySection({ section, index }) {
         {/* Right — chart image */}
         {imgSrc && (
           <div className="flex-shrink-0 rounded-xl overflow-hidden"
-            style={{ width: "320px", background: "#f5f5f5", border: "1px solid #e8e8e8", marginTop: "6px" }}>
+            style={{ width: "320px", background: "#FFFFFF", border: "1px solid #E5DFD6", marginTop: "6px" }}>
             <img
               src={imgSrc}
               alt={section.title}
@@ -152,9 +152,9 @@ export default function OlistDetail() {
         {/* ── Back ── */}
         <Link to="/projects"
           className="inline-flex items-center gap-1.5 text-[13px] mb-5 transition-opacity hover:opacity-60"
-          style={{ color: "#FF9398" }}>
+          style={{ color: "#E06B56" }}>
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-            <path d="M7 12L1 6.5 7 1" stroke="#FF9398" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 12L1 6.5 7 1" stroke="#E06B56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           {t("detail.back")}
         </Link>
@@ -165,10 +165,10 @@ export default function OlistDetail() {
             {TAGS.map(tag => <TagPill key={tag}>{tag}</TagPill>)}
           </div>
           <h1 className="text-[21px] font-bold leading-snug mb-2"
-            style={{ color: "#1a1a1a", letterSpacing: "-0.02em" }}>
+            style={{ color: "#2C2A28", letterSpacing: "-0.02em", fontFamily: "'Bricolage Grotesque', system-ui, sans-serif" }}>
             Olist Customer Intelligence &amp; Churn Prevention
           </h1>
-          <p className="text-[13.5px] leading-relaxed mb-4" style={{ color: "#6a6a6a" }}>
+          <p className="text-[13.5px] leading-relaxed mb-4" style={{ color: "#6B6560" }}>
             {data?.subtitle ?? "97% of customers buy only once — an end-to-end ML pipeline to predict who's about to leave, segment who's worth saving, and quantify the cost of doing nothing."}
           </p>
 
@@ -201,15 +201,15 @@ export default function OlistDetail() {
 
         {/* ── AI Agent ── */}
         <div style={{ marginBottom: "8px" }}>
-          <p className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: "#c8c8c8" }}>
+          <p className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: "#C4BDB4" }}>
             {t("detail.agent")}
           </p>
 
           {/* intro */}
           <div style={{
             borderRadius: "16px",
-            border: "1px solid rgba(255,147,152,0.25)",
-            background: "#ffe0e1",
+            border: "1px solid rgba(224,107,86,0.25)",
+            background: "#FDECEA",
             padding: "20px 24px",
             marginBottom: "10px",
           }}>
@@ -218,7 +218,7 @@ export default function OlistDetail() {
               justifyContent: "space-between", gap: "24px",
               flexWrap: "wrap",
             }}>
-              <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#3a3a3a", margin: 0, flex: 1 }}>
+              <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#4A4540", margin: 0, flex: 1 }}>
                 {t("olist.agent.intro")}
               </p>
               <a
@@ -228,8 +228,8 @@ export default function OlistDetail() {
                   display: "inline-flex", alignItems: "center", gap: "6px",
                   fontSize: "11px", fontWeight: 600,
                   padding: "7px 14px", borderRadius: "8px",
-                  background: "#ffffff", color: "#1a1a1a",
-                  border: "1px solid rgba(255,147,152,0.3)",
+                  background: "#FFFFFF", color: "#2C2A28",
+                  border: "1px solid rgba(224,107,86,0.3)",
                   textDecoration: "none", whiteSpace: "nowrap",
                   transition: "opacity 0.15s", flexShrink: 0,
                 }}
@@ -251,20 +251,20 @@ export default function OlistDetail() {
                 key={i}
                 style={{
                   borderRadius: "12px", padding: "14px 16px",
-                  background: "#f5f5f5", border: "1px solid #e8e8e8",
+                  background: "#FFFFFF", border: "1px solid #E5DFD6",
                 }}
               >
                 <p style={{
                   fontSize: "10px", fontWeight: 700,
                   letterSpacing: "0.1em", textTransform: "uppercase",
-                  color: "#FF9398", margin: "0 0 5px",
+                  color: "#E06B56", margin: "0 0 5px",
                 }}>
                   {String(i + 1).padStart(2, "0")}
                 </p>
-                <p style={{ fontSize: "12px", fontWeight: 600, color: "#1a1a1a", margin: "0 0 4px" }}>
+                <p style={{ fontSize: "12px", fontWeight: 600, color: "#2C2A28", margin: "0 0 4px" }}>
                   {t(`olist.tool.${i}.title`)}
                 </p>
-                <p style={{ fontSize: "11.5px", lineHeight: 1.55, color: "#6a6a6a", margin: 0 }}>
+                <p style={{ fontSize: "11.5px", lineHeight: 1.55, color: "#6B6560", margin: 0 }}>
                   {t(`olist.tool.${i}.body`)}
                 </p>
               </div>
@@ -279,7 +279,7 @@ export default function OlistDetail() {
           <SectionLabel className="mb-0">Analysis</SectionLabel>
           {data?.sections
             ? data.sections.map((s, i) => <StorySection key={s.id} section={s} index={i}/>)
-            : <p className="text-[13px] py-6 text-center" style={{ color: "#c8c8c8" }}>Loading…</p>
+            : <p className="text-[13px] py-6 text-center" style={{ color: "#C4BDB4" }}>Loading…</p>
           }
         </div>
 

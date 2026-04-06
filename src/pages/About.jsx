@@ -14,14 +14,14 @@ const STRENGTH_KEYS = ["s0", "s1", "s2", "s3"];
 const TIMELINE_KEYS = ["t0", "t1", "t2", "t3"];
 
 const Rule = () => (
-  <div style={{ height: "1px", background: "rgba(0,0,0,0.07)", margin: "52px 0" }} />
+  <div style={{ height: "1px", background: "#E5DFD6", margin: "52px 0" }} />
 );
 
 const Label = ({ children }) => (
   <p style={{
     fontSize: "11px", fontWeight: "500",
     letterSpacing: "0.1em", textTransform: "uppercase",
-    color: "#b0a898", margin: "0 0 20px",
+    color: "#9E9790", margin: "0 0 20px",
   }}>
     {children}
   </p>
@@ -47,12 +47,13 @@ export default function About() {
         {/* ── 1. Header ── */}
         <h1 style={{
           fontSize: "48px", fontWeight: 700,
-          letterSpacing: "-0.025em", color: "#111",
+          fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+          letterSpacing: "-0.025em", color: "#2C2A28",
           lineHeight: 1.06, margin: "0 0 10px",
         }}>
           {t("page.about.title")}
         </h1>
-        <p style={{ fontSize: "13px", color: "#b0a898", margin: "0 0 36px" }}>
+        <p style={{ fontSize: "13px", color: "#9E9790", margin: "0 0 36px" }}>
           {t("page.about.subtitle")}
         </p>
 
@@ -60,7 +61,7 @@ export default function About() {
         <FadeIn delay={0.1}>
           <p style={{
             fontSize: "19px", lineHeight: 1.68,
-            color: "#2a2a2a", margin: 0,
+            color: "#2C2A28", margin: 0,
             maxWidth: "620px",
             letterSpacing: "-0.01em",
             fontWeight: "400",
@@ -76,7 +77,7 @@ export default function About() {
           <Label>{t("page.about.tools_label") === "Tools" ? "What I Do" : "我的工作"}</Label>
           <p style={{
             fontSize: "15px", lineHeight: 1.78,
-            color: "#4a4a4a", margin: "0 0 40px",
+            color: "#6B6560", margin: "0 0 40px",
             maxWidth: "640px",
           }}>
             {t("page.about.statement")}
@@ -100,22 +101,22 @@ export default function About() {
               key={key}
               variants={strengthChild}
               style={{
-                background: "#f5f5f5",
+                background: "#FFFFFF",
                 borderRadius: "16px",
                 padding: "18px 22px",
-                boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
+                boxShadow: "0 0 0 1px rgba(44,42,40,0.06)",
                 display: "flex",
                 gap: "12px",
                 alignItems: "flex-start",
               }}
             >
               <span style={{
-                fontSize: "13px", color: "#FF9398",
+                fontSize: "13px", color: "#E06B56",
                 fontWeight: "600", flexShrink: 0, marginTop: "1px",
               }}>—</span>
               <p style={{
                 fontSize: "13.5px", lineHeight: 1.6,
-                color: "#3a3a3a", margin: 0,
+                color: "#4A4540", margin: 0,
               }}>
                 {t(`about.${key}`)}
               </p>
@@ -134,13 +135,13 @@ export default function About() {
                 gridTemplateColumns: "140px 1fr",
                 gap: "28px",
                 padding: "28px 0",
-                borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,0.07)",
+                borderTop: i === 0 ? "none" : "1px solid #E5DFD6",
                 alignItems: "start",
               }}>
                 <p style={{
                   fontSize: "11px", fontWeight: "500",
                   letterSpacing: "0.07em", textTransform: "uppercase",
-                  color: "#b0a898", margin: 0, paddingTop: "2px",
+                  color: "#9E9790", margin: 0, paddingTop: "2px",
                   lineHeight: 1.5,
                 }}>
                   {t(`about.${key}.period`)}
@@ -148,12 +149,12 @@ export default function About() {
                 <div>
                   <p style={{
                     fontSize: "15px", fontWeight: 600,
-                    color: "#111", margin: "0 0 6px",
+                    color: "#2C2A28", margin: "0 0 6px",
                     letterSpacing: "-0.01em",
                   }}>
                     {t(`about.${key}.title`)}
                   </p>
-                  <p style={{ fontSize: "14px", lineHeight: 1.68, color: "#777", margin: 0 }}>
+                  <p style={{ fontSize: "14px", lineHeight: 1.68, color: "#6B6560", margin: 0 }}>
                     {t(`about.${key}.body`)}
                   </p>
                 </div>
@@ -187,9 +188,9 @@ export default function About() {
                 style={{
                   fontSize: "13px", fontWeight: "500",
                   padding: "6px 14px", borderRadius: "20px",
-                  background: "#f5f5f5",
-                  boxShadow: "0 0 0 1px rgba(0,0,0,0.08)",
-                  color: "#444",
+                  background: "#FFFFFF",
+                  boxShadow: "0 0 0 1px rgba(44,42,40,0.08)",
+                  color: "#4A4540",
                 }}
               >
                 {tool}

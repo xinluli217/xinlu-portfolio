@@ -8,8 +8,8 @@ import { EASE } from "../motion/variants.js";
 
 const MotionLink = motion.create(Link);
 
-const CARD_SHADOW      = "0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.05)";
-const CARD_SHADOW_HOVER = "0 10px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.04)";
+const CARD_SHADOW      = "0 1px 4px rgba(44,42,40,0.04), 0 0 0 1px rgba(44,42,40,0.06)";
+const CARD_SHADOW_HOVER = "0 10px 32px rgba(44,42,40,0.08), 0 0 0 1px rgba(44,42,40,0.06)";
 
 export default function Projects() {
   const { t }   = useTranslation();
@@ -21,7 +21,8 @@ export default function Projects() {
 
         <h1 style={{
           fontSize: "48px", fontWeight: 700,
-          letterSpacing: "-0.025em", color: "#111",
+          fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+          letterSpacing: "-0.025em", color: "#2C2A28",
           lineHeight: 1.06, margin: "0 0 48px",
         }}>
           {t("page.projects.title")}
@@ -43,7 +44,7 @@ export default function Projects() {
               }}
               style={{
                 display: "block",
-                background: "#f5f5f5",
+                background: "#FFFFFF",
                 borderRadius: "24px",
                 padding: "40px 44px",
                 textDecoration: "none",
@@ -57,7 +58,7 @@ export default function Projects() {
                   <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "14px" }}>
                     <span style={{
                       fontSize: "11px", fontWeight: "500",
-                      fontFamily: "monospace", letterSpacing: "0.06em", color: "#ccc",
+                      fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.06em", color: "#C4BDB4",
                     }}>
                       {project.meta}
                     </span>
@@ -66,7 +67,7 @@ export default function Projects() {
                         <span key={tag} style={{
                           fontSize: "11px", fontWeight: "500",
                           padding: "3px 10px", borderRadius: "20px",
-                          background: "#ebebeb", color: "#777",
+                          background: "#F5F0E8", color: "#6B6560",
                         }}>
                           {tag}
                         </span>
@@ -76,20 +77,21 @@ export default function Projects() {
 
                   <h2 style={{
                     fontSize: "22px", fontWeight: 700,
-                    color: "#111", margin: "0 0 10px",
+                    fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+                    color: "#2C2A28", margin: "0 0 10px",
                     letterSpacing: "-0.02em", lineHeight: 1.2,
                   }}>
                     {t(`project.${project.id}.title`)}
                   </h2>
 
-                  <p style={{ fontSize: "14.5px", lineHeight: 1.65, color: "#777", margin: 0 }}>
+                  <p style={{ fontSize: "14.5px", lineHeight: 1.65, color: "#6B6560", margin: 0 }}>
                     {t(`project.${project.id}.insight`)}
                   </p>
 
                 </div>
 
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                  stroke="#ccc" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                  stroke="#C4BDB4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
                   style={{ flexShrink: 0, marginTop: "3px" }}>
                   <line x1="7" y1="17" x2="17" y2="7"/>
                   <polyline points="7 7 17 7 17 17"/>

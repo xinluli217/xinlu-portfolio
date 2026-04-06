@@ -21,11 +21,11 @@ function PageLoader() {
   return (
     <div
       className="min-h-screen flex items-center justify-center"
-      style={{ background: "#ffffff" }}
+      style={{ background: "#FAF7F2" }}
     >
       <div
         className="w-2 h-2 rounded-full animate-pulse"
-        style={{ background: "#FF9398", opacity: 0.6 }}
+        style={{ background: "#E06B56", opacity: 0.6 }}
       />
     </div>
   );

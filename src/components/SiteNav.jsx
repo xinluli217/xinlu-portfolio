@@ -15,10 +15,10 @@ export default function SiteNav() {
   return (
     <header style={{
       position: "sticky", top: 0, zIndex: 50,
-      background: "rgba(255,255,255,0.88)",
+      background: "rgba(250,247,242,0.88)",
       backdropFilter: "blur(20px)",
       WebkitBackdropFilter: "blur(20px)",
-      borderBottom: "1px solid rgba(0,0,0,0.06)",
+      borderBottom: "1px solid rgba(44,42,40,0.06)",
     }}>
       <div style={{
         maxWidth: "1100px", margin: "0 auto",
@@ -26,8 +26,9 @@ export default function SiteNav() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <Link to="/" style={{
-          fontSize: "14px", fontWeight: "600",
-          color: "#111", textDecoration: "none",
+          fontSize: "14px", fontWeight: "700",
+          fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+          color: "#2C2A28", textDecoration: "none",
           letterSpacing: "-0.01em",
         }}>
           {t("brand.name")}
@@ -44,7 +45,7 @@ export default function SiteNav() {
                 style={{
                   fontSize: "13px",
                   fontWeight: active ? "500" : "400",
-                  color: active ? "#111" : "#888",
+                  color: active ? "#2C2A28" : "#9E9790",
                   textDecoration: "none",
                 }}
               >

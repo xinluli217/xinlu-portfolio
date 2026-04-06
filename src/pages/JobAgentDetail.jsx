@@ -27,8 +27,8 @@ function TagPill({ children }) {
     <span style={{
       fontSize: "11px", fontWeight: "500",
       padding: "3px 10px", borderRadius: "6px",
-      background: "#f5f5f5", color: "#6a6a6a",
-      border: "1px solid #e8e8e8",
+      background: "#FFFFFF", color: "#6B6560",
+      border: "1px solid #E5DFD6",
     }}>
       {children}
     </span>
@@ -39,25 +39,25 @@ function StatCard({ value, label, sub }) {
   return (
     <div style={{
       borderRadius: "12px", padding: "14px 16px",
-      background: "#f5f5f5", border: "1px solid #e8e8e8",
+      background: "#FFFFFF", border: "1px solid #E5DFD6",
     }}>
-      <p style={{ fontSize: "20px", fontWeight: 700, color: "#1a1a1a", letterSpacing: "-0.03em", margin: "0 0 4px" }}>{value}</p>
-      <p style={{ fontSize: "12px", fontWeight: 500, color: "#3a3a3a", margin: "0 0 2px" }}>{label}</p>
-      {sub && <p style={{ fontSize: "10.5px", color: "#9a9a9a", margin: 0 }}>{sub}</p>}
+      <p style={{ fontSize: "20px", fontWeight: 700, color: "#2C2A28", letterSpacing: "-0.03em", margin: "0 0 4px" }}>{value}</p>
+      <p style={{ fontSize: "12px", fontWeight: 500, color: "#4A4540", margin: "0 0 2px" }}>{label}</p>
+      {sub && <p style={{ fontSize: "10.5px", color: "#9E9790", margin: 0 }}>{sub}</p>}
     </div>
   );
 }
 
 function Section({ label, children }) {
   return (
-    <div style={{ padding: "28px 0", borderTop: "1px solid #e8e8e8" }}>
+    <div style={{ padding: "28px 0", borderTop: "1px solid #E5DFD6" }}>
       <p style={{
         fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em",
-        textTransform: "uppercase", color: "#c8c8c8", margin: "0 0 10px",
+        textTransform: "uppercase", color: "#C4BDB4", margin: "0 0 10px",
       }}>
         {label}
       </p>
-      <p style={{ fontSize: "14px", lineHeight: 1.75, color: "#3a3a3a", margin: 0 }}>
+      <p style={{ fontSize: "14px", lineHeight: 1.75, color: "#4A4540", margin: 0 }}>
         {children}
       </p>
     </div>
@@ -68,10 +68,10 @@ function FeatureCard({ title, body }) {
   return (
     <div style={{
       borderRadius: "12px", padding: "18px 20px",
-      background: "#f5f5f5", border: "1px solid #e8e8e8",
+      background: "#FFFFFF", border: "1px solid #E5DFD6",
     }}>
-      <p style={{ fontSize: "13px", fontWeight: 600, color: "#1a1a1a", margin: "0 0 6px" }}>{title}</p>
-      <p style={{ fontSize: "13px", lineHeight: 1.7, color: "#6a6a6a", margin: 0 }}>{body}</p>
+      <p style={{ fontSize: "13px", fontWeight: 600, color: "#2C2A28", margin: "0 0 6px" }}>{title}</p>
+      <p style={{ fontSize: "13px", lineHeight: 1.7, color: "#6B6560", margin: 0 }}>{body}</p>
     </div>
   );
 }
@@ -87,14 +87,14 @@ export default function JobAgentDetail() {
         <Link to="/projects"
           style={{
             display: "inline-flex", alignItems: "center", gap: "6px",
-            fontSize: "13px", color: "#FF9398", marginBottom: "20px",
+            fontSize: "13px", color: "#E06B56", marginBottom: "20px",
             textDecoration: "none", transition: "opacity 0.15s",
           }}
           onMouseEnter={e => e.currentTarget.style.opacity = "0.6"}
           onMouseLeave={e => e.currentTarget.style.opacity = "1"}
         >
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-            <path d="M7 12L1 6.5 7 1" stroke="#FF9398" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 12L1 6.5 7 1" stroke="#E06B56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           {t("detail.back")}
         </Link>
@@ -106,11 +106,12 @@ export default function JobAgentDetail() {
           </div>
           <h1 style={{
             fontSize: "21px", fontWeight: 700, letterSpacing: "-0.02em",
-            color: "#1a1a1a", margin: "0 0 10px", lineHeight: 1.3,
+            color: "#2C2A28", margin: "0 0 10px", lineHeight: 1.3,
+            fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
           }}>
             {t("project.job-agent.title")}
           </h1>
-          <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#6a6a6a", margin: "0 0 20px" }}>
+          <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#6B6560", margin: "0 0 20px" }}>
             {t("project.job-agent.insight")}
           </p>
 
@@ -128,8 +129,8 @@ export default function JobAgentDetail() {
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 fontSize: "12px", fontWeight: 500,
                 padding: "8px 16px", borderRadius: "8px",
-                background: "#ffe0e1", color: "#FF9398",
-                border: "1px solid rgba(255,147,152,0.3)",
+                background: "#FDECEA", color: "#E06B56",
+                border: "1px solid rgba(224,107,86,0.3)",
                 textDecoration: "none",
                 transition: "opacity 0.15s",
               }}
@@ -150,8 +151,8 @@ export default function JobAgentDetail() {
                 display: "inline-flex", alignItems: "center", gap: "8px",
                 fontSize: "12px", fontWeight: 500,
                 padding: "8px 16px", borderRadius: "8px",
-                background: "#f5f5f5", color: "#1a1a1a",
-                border: "1px solid #e8e8e8",
+                background: "#FFFFFF", color: "#2C2A28",
+                border: "1px solid #E5DFD6",
                 textDecoration: "none",
                 transition: "opacity 0.15s",
               }}
@@ -170,13 +171,13 @@ export default function JobAgentDetail() {
         <div style={{
           margin: "28px 0",
           borderRadius: "16px",
-          border: "1px solid rgba(255,147,152,0.25)",
-          background: "#ffe0e1",
+          border: "1px solid rgba(224,107,86,0.25)",
+          background: "#FDECEA",
           padding: "32px 36px",
         }}>
           <p style={{
             fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "#555555", margin: "0 0 24px",
+            textTransform: "uppercase", color: "#6B6560", margin: "0 0 24px",
           }}>
             {t("jobagent.arch.label")}
           </p>
@@ -197,7 +198,7 @@ export default function JobAgentDetail() {
             ].map((item, i) =>
               item === null ? (
                 <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="rgba(0,0,0,0.12)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                  stroke="rgba(44,42,40,0.12)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
                   style={{ margin: "0 auto" }}>
                   <line x1="5" y1="12" x2="19" y2="12"/>
                   <polyline points="12 5 19 12 12 19"/>
@@ -206,10 +207,10 @@ export default function JobAgentDetail() {
                 <div key={item.step} style={{ textAlign: "center" }}>
                   <p style={{
                     fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em",
-                    color: "#FF9398", margin: "0 0 6px", fontFamily: "monospace",
+                    color: "#E06B56", margin: "0 0 6px", fontFamily: "'JetBrains Mono', monospace",
                   }}>{item.step}</p>
-                  <p style={{ fontSize: "13px", fontWeight: 600, color: "#1a1a1a", margin: "0 0 4px" }}>{item.label}</p>
-                  <p style={{ fontSize: "11px", lineHeight: 1.5, color: "#555555", margin: 0 }}>{item.sub}</p>
+                  <p style={{ fontSize: "13px", fontWeight: 600, color: "#2C2A28", margin: "0 0 4px" }}>{item.label}</p>
+                  <p style={{ fontSize: "11px", lineHeight: 1.5, color: "#6B6560", margin: 0 }}>{item.sub}</p>
                 </div>
               )
             )}
@@ -217,10 +218,10 @@ export default function JobAgentDetail() {
         </div>
 
         {/* ── Features ── */}
-        <div style={{ padding: "28px 0", borderTop: "1px solid #e8e8e8" }}>
+        <div style={{ padding: "28px 0", borderTop: "1px solid #E5DFD6" }}>
           <p style={{
             fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "#c8c8c8", margin: "0 0 14px",
+            textTransform: "uppercase", color: "#C4BDB4", margin: "0 0 14px",
           }}>
             {t("detail.features")}
           </p>
@@ -236,10 +237,10 @@ export default function JobAgentDetail() {
         </div>
 
         {/* ── Tech Stack ── */}
-        <div style={{ padding: "28px 0", borderTop: "1px solid #e8e8e8" }}>
+        <div style={{ padding: "28px 0", borderTop: "1px solid #E5DFD6" }}>
           <p style={{
             fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "#c8c8c8", margin: "0 0 14px",
+            textTransform: "uppercase", color: "#C4BDB4", margin: "0 0 14px",
           }}>
             {t("detail.tech")}
           </p>
@@ -247,7 +248,7 @@ export default function JobAgentDetail() {
             {TECH.map(({ group, items }) => (
               <div key={group}>
                 <p style={{
-                  fontSize: "11px", fontWeight: 600, color: "#5a5a5a",
+                  fontSize: "11px", fontWeight: 600, color: "#6B6560",
                   margin: "0 0 8px", letterSpacing: "0.02em",
                 }}>
                   {group}
@@ -257,9 +258,9 @@ export default function JobAgentDetail() {
                     <span key={item} style={{
                       display: "inline-block", fontSize: "11px",
                       padding: "3px 10px", borderRadius: "6px",
-                      background: "#f5f5f5",
-                      border: "1px solid #e8e8e8",
-                      color: "#6a6a6a",
+                      background: "#FFFFFF",
+                      border: "1px solid #E5DFD6",
+                      color: "#6B6560",
                       width: "fit-content",
                     }}>
                       {item}
@@ -288,11 +289,11 @@ export default function JobAgentDetail() {
         {/* ── Footer CTA ── */}
         <div style={{
           padding: "28px 0 0",
-          borderTop: "1px solid #e8e8e8",
+          borderTop: "1px solid #E5DFD6",
           display: "flex", alignItems: "center", justifyContent: "space-between",
           flexWrap: "wrap", gap: "12px",
         }}>
-          <p style={{ fontSize: "13px", color: "#6a6a6a", margin: 0 }}>
+          <p style={{ fontSize: "13px", color: "#6B6560", margin: 0 }}>
             {t("jobagent.footer")}
           </p>
           <a
@@ -302,8 +303,8 @@ export default function JobAgentDetail() {
               display: "inline-flex", alignItems: "center", gap: "8px",
               fontSize: "12px", fontWeight: 500,
               padding: "8px 16px", borderRadius: "8px",
-              background: "#f5f5f5", color: "#1a1a1a",
-              border: "1px solid #e8e8e8",
+              background: "#FFFFFF", color: "#2C2A28",
+              border: "1px solid #E5DFD6",
               textDecoration: "none",
               transition: "opacity 0.15s",
             }}

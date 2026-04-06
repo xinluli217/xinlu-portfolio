@@ -69,13 +69,14 @@ export default function ConnectSection() {
         id="about-connect-heading"
         style={{
           fontSize: "48px", fontWeight: 700,
-          letterSpacing: "-0.025em", color: "#1a1a1a",
+          fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+          letterSpacing: "-0.025em", color: "#2C2A28",
           lineHeight: 1.06, margin: "0 0 12px",
         }}
       >
         {t("page.connect.title")}
       </h2>
-      <p style={{ fontSize: "15px", color: "#555555", margin: "0 0 52px" }}>
+      <p style={{ fontSize: "15px", color: "#6B6560", margin: "0 0 52px" }}>
         {t("page.connect.subtitle")}
       </p>
 
@@ -92,7 +93,7 @@ export default function ConnectSection() {
               alignItems: "center",
               gap: "20px",
               padding: "24px 0",
-              borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,0.08)",
+              borderTop: i === 0 ? "none" : "1px solid #E5DFD6",
               textDecoration: "none",
               cursor: "pointer",
               transition: "opacity 0.18s ease",
@@ -103,10 +104,10 @@ export default function ConnectSection() {
             <div style={{
               width: "40px", height: "40px",
               borderRadius: "12px",
-              background: "#f5f5f5",
-              border: "1px solid #e8e8e8",
+              background: "#FFFFFF",
+              border: "1px solid #E5DFD6",
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#6a6a6a", flexShrink: 0,
+              color: "#6B6560", flexShrink: 0,
             }}>
               {link.icon}
             </div>
@@ -115,13 +116,13 @@ export default function ConnectSection() {
               <p style={{
                 fontSize: "11px", fontWeight: "500",
                 letterSpacing: "0.09em", textTransform: "uppercase",
-                color: "#555555", margin: "0 0 3px",
+                color: "#9E9790", margin: "0 0 3px",
               }}>
                 {link.label}
               </p>
               <p style={{
                 fontSize: "15px", fontWeight: "500",
-                color: "#1a1a1a", margin: 0,
+                color: "#2C2A28", margin: 0,
                 letterSpacing: "-0.01em",
               }}>
                 {link.value}
@@ -129,7 +130,7 @@ export default function ConnectSection() {
             </div>
 
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="rgba(0,0,0,0.22)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              stroke="rgba(44,42,40,0.22)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <line x1="7" y1="17" x2="17" y2="7"/>
               <polyline points="7 7 17 7 17 17"/>
             </svg>
@@ -139,7 +140,7 @@ export default function ConnectSection() {
 
       <p style={{
         fontSize: "12px", textAlign: "center",
-        color: "#333333", marginTop: "64px",
+        color: "#C4BDB4", marginTop: "64px",
       }}>
         {t("page.connect.footer")}
       </p>

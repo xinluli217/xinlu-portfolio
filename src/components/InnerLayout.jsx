@@ -2,7 +2,7 @@ import SiteNav from "./SiteNav.jsx";
 
 export default function InnerLayout({ children, wide = false }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#ffffff" }}>
+    <div style={{ minHeight: "100vh", background: "#FAF7F2" }}>
       <SiteNav />
       <main style={{
         maxWidth: wide ? "1100px" : "860px",

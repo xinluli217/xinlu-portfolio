@@ -28,9 +28,9 @@ const HERO_LINE = {
 
 // ─── Static style tokens ─────────────────────────────────────────────────────
 
-const CARD      = { background: "#f5f5f5",  borderRadius: "24px", boxShadow: "0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.05)" };
-const WARM_CARD = { background: "#f5f5f5",  borderRadius: "24px", boxShadow: "0 0 0 1px rgba(0,0,0,0.04)" };
-const HOVER_BOX_SHADOW = "0 10px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.04)";
+const CARD      = { background: "#FFFFFF",  borderRadius: "24px", boxShadow: "0 1px 4px rgba(44,42,40,0.04), 0 0 0 1px rgba(44,42,40,0.06)" };
+const WARM_CARD = { background: "#FFFFFF",  borderRadius: "24px", boxShadow: "0 0 0 1px rgba(44,42,40,0.05)" };
+const HOVER_BOX_SHADOW = "0 10px 32px rgba(44,42,40,0.08), 0 0 0 1px rgba(44,42,40,0.06)";
 
 const MotionLink = motion.create(Link);
 
@@ -47,12 +47,12 @@ export default function Home() {
 
   return (
     <motion.div
-      variants={reduced ? {} : { ...PAGE_VARIANTS, animate: { opacity: 1 } }}
+      variants={reduced ? {} : PAGE_VARIANTS}
       initial="initial"
       animate="animate"
       exit="exit"
       transition={reduced ? { duration: 0.15 } : { duration: 0.4, ease: EASE }}
-      style={{ minHeight: "100vh", background: "#ffffff" }}
+      style={{ minHeight: "100vh", background: "#FAF7F2" }}
     >
       <SiteNav />
 
@@ -93,7 +93,7 @@ export default function Home() {
               style={{
                 fontSize: "11px", fontWeight: "500",
                 letterSpacing: "0.11em", textTransform: "uppercase",
-                color: "#b0a898", marginBottom: "22px",
+                color: "#9E9790", marginBottom: "22px",
               }}
             >
               {t("hero.role").replace("\n", " ")}
@@ -105,7 +105,8 @@ export default function Home() {
               style={{
                 fontSize: "clamp(44px, 4.8vw, 70px)",
                 fontWeight: 700, lineHeight: 1.06,
-                letterSpacing: "-0.03em", color: "#111",
+                fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+                letterSpacing: "-0.03em", color: "#2C2A28",
                 margin: 0,
               }}
             >
@@ -128,7 +129,7 @@ export default function Home() {
               gridArea: "photo",
               borderRadius: "24px",
               overflow: "hidden",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)",
+              boxShadow: "0 1px 4px rgba(44,42,40,0.06), 0 0 0 1px rgba(44,42,40,0.06)",
             }}
           >
             <motion.img
@@ -151,7 +152,7 @@ export default function Home() {
               alignItems: "center",
             }}
           >
-            <p style={{ fontSize: "15px", lineHeight: 1.75, color: "#5a5248", margin: 0 }}>
+            <p style={{ fontSize: "15px", lineHeight: 1.75, color: "#6B6560", margin: 0 }}>
               {t("page.about.statement")}
             </p>
           </motion.div>
@@ -181,16 +182,19 @@ export default function Home() {
               <span style={{
                 fontSize: "11px", fontWeight: "500",
                 letterSpacing: "0.09em", textTransform: "uppercase",
-                color: "#ccc",
+                color: "#C4BDB4",
               }}>
                 {card.num}
               </span>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontSize: "17px", fontWeight: 600, color: "#111", letterSpacing: "-0.01em" }}>
+                <span style={{
+                  fontSize: "17px", fontWeight: 600, color: "#2C2A28", letterSpacing: "-0.01em",
+                  fontFamily: "'Bricolage Grotesque', system-ui, sans-serif",
+                }}>
                   {card.label}
                 </span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="#c8c8c8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  stroke="#C4BDB4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="7" y1="17" x2="17" y2="7"/>
                   <polyline points="7 7 17 7 17 17"/>
                 </svg>

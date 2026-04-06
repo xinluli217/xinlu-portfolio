@@ -21,7 +21,7 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <InnerLayout>
-        <p style={{ color: "#9a9a9a" }}>Project not found.</p>
+        <p style={{ color: "#9E9790" }}>Project not found.</p>
       </InnerLayout>
     );
   }
@@ -33,10 +33,10 @@ export default function ProjectDetail() {
         <Link
           to="/projects"
           className="inline-flex items-center gap-1.5 text-[13px] mb-5 transition-opacity hover:opacity-60"
-          style={{ color: "#FF9398" }}
+          style={{ color: "#E06B56" }}
         >
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
-            <path d="M7 12L1 6.5 7 1" stroke="#FF9398" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7 12L1 6.5 7 1" stroke="#E06B56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           {t("detail.back")}
         </Link>
@@ -48,7 +48,7 @@ export default function ProjectDetail() {
               <span
                 key={tag}
                 className="text-[11px] font-medium px-2 py-0.5 rounded-md"
-                style={{ background: "#f5f5f5", color: "#6a6a6a" }}
+                style={{ background: "#FFFFFF", color: "#6B6560" }}
               >
                 {tag}
               </span>
@@ -56,11 +56,11 @@ export default function ProjectDetail() {
           </div>
           <h1
             className="text-[24px] font-bold leading-tight mb-2"
-            style={{ color: "#1a1a1a", letterSpacing: "-0.02em" }}
+            style={{ color: "#2C2A28", letterSpacing: "-0.02em", fontFamily: "'Bricolage Grotesque', system-ui, sans-serif" }}
           >
             {t(`project.${id}.title`)}
           </h1>
-          <p className="text-[14px] leading-relaxed mb-3" style={{ color: "#6a6a6a" }}>
+          <p className="text-[14px] leading-relaxed mb-3" style={{ color: "#6B6560" }}>
             {t(`project.${id}.insight`)}
           </p>
 
@@ -71,7 +71,7 @@ export default function ProjectDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-opacity hover:opacity-60"
-              style={{ color: "#FF9398" }}
+              style={{ color: "#E06B56" }}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -84,14 +84,14 @@ export default function ProjectDetail() {
           )}
         </div>
 
-        <div className="h-px bg-[#f0f0f0] mb-5" />
+        <div className="h-px bg-[#EEEBE5] mb-5" />
 
         {/* Sections */}
         <div className="space-y-8">
           {sections.map((s) => (
             <div key={s.key}>
               <SectionLabel>{t(s.labelKey)}</SectionLabel>
-              <p className="text-[15px] leading-relaxed" style={{ color: "#3a3a3a" }}>
+              <p className="text-[15px] leading-relaxed" style={{ color: "#4A4540" }}>
                 {t(`project.${id}.${s.key}`)}
               </p>
             </div>
