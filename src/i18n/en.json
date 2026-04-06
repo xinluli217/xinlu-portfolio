@@ -22,6 +22,7 @@
   "detail.tech": "Tech Stack",
   "detail.github": "View on GitHub",
   "detail.course": "Interactive Course →",
+  "detail.pmCourse": "PM Course →",
 
   "project.plugin-system.title": "Job Application Tracker — Chrome Extension",
   "project.plugin-system.insight": "1-click job logging from any job board. Claude AI extracts the role, company, and details; Notion stores the record — no copy-pasting required.",

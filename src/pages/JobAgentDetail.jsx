@@ -145,6 +145,27 @@ export default function JobAgentDetail() {
               {t("detail.course")}
             </a>
             <a
+              href="/job-agent-pm-course/index.html"
+              target="_blank" rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                fontSize: "12px", fontWeight: 500,
+                padding: "8px 16px", borderRadius: "8px",
+                background: "#FDECEA", color: "#E06B56",
+                border: "1px solid rgba(224,107,86,0.3)",
+                textDecoration: "none",
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.75"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+              </svg>
+              {t("detail.pmCourse")}
+            </a>
+            <a
               href={GITHUB_URL}
               target="_blank" rel="noopener noreferrer"
               style={{

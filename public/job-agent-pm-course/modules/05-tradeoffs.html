@@ -1,0 +1,182 @@
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <div class="lang-en"><h1 class="module-title">Trade-offs &amp; Decisions</h1><p class="module-subtitle">What was built vs. cut — and what does that reveal about priorities?</p></div>
+      <div class="lang-zh"><h1 class="module-title">权衡与决策</h1><p class="module-subtitle">做了什么，放弃了什么——这揭示了什么样的优先级？</p></div>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Every product decision is a seesaw</h2><p>Product decisions are made under real constraints — limited time, real API costs, a single developer, specific use cases in mind. Every choice pushes one side of the seesaw up and the other down. A PM's job isn't to judge these choices — it's to understand <em>what they reveal about priorities</em>.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">每个产品决策都是一个跷跷板</h2><p>产品决策在真实约束下做出——时间有限、<span class="term" data-tooltip="API成本——每次调用 Claude 等 AI 服务的费用。对每个职位都运行完整分析，即使匹配度很低，成本会显著增加。">API成本</span>真实存在、只有一个开发者、心里有特定的使用场景。每个选择都让跷跷板一端上升，另一端下降。产品经理的工作不是评判这些选择的对错——而是理解<em>它们揭示了什么优先级</em>。</p></div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Decision 1: Two-phase analysis</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">决策一：两阶段分析流程</h2></div>
+        <div class="tradeoff-matrix animate-in">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">Free keyword scan first; only call AI if user confirms</span>
+            <span class="tradeoff-decision-text lang-zh">先进行免费关键词扫描；仅在用户确认后才调用 AI</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr>
+              <th class="lang-en">Option</th><th class="lang-zh">方案</th>
+              <th class="lang-en">What You Gain</th><th class="lang-zh">获得什么</th>
+              <th class="lang-en">What You Give Up</th><th class="lang-zh">放弃什么</th>
+              <th class="lang-en">Status</th><th class="lang-zh">状态</th>
+            </tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td data-label="Option"><strong class="lang-en">Two-phase: free scan first</strong><strong class="lang-zh">两阶段：先免费扫描</strong></td>
+                <td data-label="Gain"><span class="lang-en">Instant fit signal. API cost only for roles user decides to pursue</span><span class="lang-zh">即时匹配信号。API成本仅用于用户决定追求的职位</span></td>
+                <td data-label="Give Up"><span class="lang-en">Extra step before full value. Some users may abandon at the yes/no prompt</span><span class="lang-zh">获取完整价值前多了一步。部分用户可能在确认步骤流失</span></td>
+                <td data-label="Status"><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td data-label="Option"><span class="lang-en">Full AI analysis immediately</span><span class="lang-zh">直接进行完整 AI 分析</span></td>
+                <td data-label="Gain"><span class="lang-en">Frictionless — one input, full output instantly</span><span class="lang-zh">无摩擦——一次输入，立即获得完整输出</span></td>
+                <td data-label="Give Up"><span class="lang-en">Higher API cost per session; wasted analysis on poor-fit roles</span><span class="lang-zh">每次会话API成本更高；在低匹配职位上浪费分析</span></td>
+                <td data-label="Status"><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top: var(--space-4); color: var(--color-text-secondary); font-size: var(--text-sm)">
+          <span class="lang-en"><strong>What this reveals:</strong> Optimized for cost efficiency over frictionless UX. Reasonable for a personal tool where the builder pays the API bill themselves.</span>
+          <span class="lang-zh"><strong>揭示的优先级：</strong>以用户体验摩擦换取成本效率。对于开发者自付 API 账单的个人工具来说，这是合理的权衡。</span>
+        </p>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Decisions 2 &amp; 3: No web UI. No ML templates.</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">决策二 &amp; 三：无 Web UI，无机器学习模板匹配</h2></div>
+        <div class="tradeoff-matrix animate-in">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">CLI + Feishu only — no browser interface</span>
+            <span class="tradeoff-decision-text lang-zh">仅命令行 + 飞书——无浏览器界面</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr><th class="lang-en">Option</th><th class="lang-zh">方案</th><th class="lang-en">Gain</th><th class="lang-zh">获得</th><th class="lang-en">Give Up</th><th class="lang-zh">放弃</th><th class="lang-en">Status</th><th class="lang-zh">状态</th></tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td><strong class="lang-en">CLI + Feishu bot</strong><strong class="lang-zh">命令行 + 飞书机器人</strong></td>
+                <td><span class="lang-en">Fast to build. Fits the builder's own workflow perfectly.</span><span class="lang-zh">开发速度快。完全契合开发者自己的工作流。</span></td>
+                <td><span class="lang-en">Non-technical users can't use it. Limits mass-market potential severely.</span><span class="lang-zh">非技术用户无法使用。严重限制了大众市场潜力。</span></td>
+                <td><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="lang-en">Web app</span><span class="lang-zh">Web 应用</span></td>
+                <td><span class="lang-en">Accessible to anyone with a browser. Much larger audience.</span><span class="lang-zh">任何有浏览器的人都可访问，受众更广泛。</span></td>
+                <td><span class="lang-en">Significantly more development effort. Auth, hosting, frontend.</span><span class="lang-zh">开发工作量显著增加。需要认证、托管、前端。</span></td>
+                <td><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tradeoff-matrix animate-in" style="margin-top: var(--space-6)">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">Template selection via keyword frequency — no ML</span>
+            <span class="tradeoff-decision-text lang-zh">通过关键词频率选择模板——不用机器学习</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr><th class="lang-en">Option</th><th class="lang-zh">方案</th><th class="lang-en">Gain</th><th class="lang-zh">获得</th><th class="lang-en">Give Up</th><th class="lang-zh">放弃</th><th class="lang-en">Status</th><th class="lang-zh">状态</th></tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td><strong class="lang-en">Keyword frequency</strong><strong class="lang-zh">关键词频率匹配</strong></td>
+                <td><span class="lang-en">Zero ML overhead. 100% correct in all test cases. Transparent.</span><span class="lang-zh">零机器学习开销。测试用例100%准确。逻辑透明可调试。</span></td>
+                <td><span class="lang-en">May fail on unusual JD phrasing not in the keyword list.</span><span class="lang-zh">对不在关键词表中的非常规JD表述可能失效。</span></td>
+                <td><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="lang-en">ML classification</span><span class="lang-zh">机器学习分类</span></td>
+                <td><span class="lang-en">More robust to varied phrasing. Generalizes to new role types.</span><span class="lang-zh">对多样化表述更鲁棒，能泛化到新职位类型。</span></td>
+                <td><span class="lang-en">Training data, model management, more failure modes. Overkill for 5 categories.</span><span class="lang-zh">需要训练数据、模型管理、更多故障模式。对5个模板类别来说过度设计。</span></td>
+                <td><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Decision 4: LLM-agnostic architecture</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">决策四：大语言模型无关的架构</h2></div>
+        <div class="tradeoff-matrix animate-in">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">Isolate AI to reasoning only — tools layer has zero LLM dependency</span>
+            <span class="tradeoff-decision-text lang-zh">将 AI 限定于推理层——工具层对大语言模型零依赖</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr><th class="lang-en">Option</th><th class="lang-zh">方案</th><th class="lang-en">Gain</th><th class="lang-zh">获得</th><th class="lang-en">Give Up</th><th class="lang-zh">放弃</th><th class="lang-en">Status</th><th class="lang-zh">状态</th></tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td><strong class="lang-en">LLM-agnostic design</strong><strong class="lang-zh">大模型无关设计</strong></td>
+                <td><span class="lang-en">Swap Claude for any model without changing business logic. Avoids <span class="term" data-tooltip="Vendor lock-in — when a product is so tied to one supplier that switching away is prohibitively expensive.">vendor lock-in</span>.</span><span class="lang-zh">无需修改业务逻辑即可替换 Claude。避免<span class="term" data-tooltip="供应商锁定——产品与某家供应商深度绑定，切换成本极高。保持架构灵活性可规避此风险。">供应商锁定</span>。</span></td>
+                <td><span class="lang-en">More architectural discipline. Can't use LLM-specific features in the tools layer.</span><span class="lang-zh">需要更严格的架构规范。工具层无法使用特定大模型的专属功能。</span></td>
+                <td><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="lang-en">Tightly coupled LLM</span><span class="lang-zh">与大模型紧耦合</span></td>
+                <td><span class="lang-en">Easier to write initially.</span><span class="lang-zh">初期开发更简单。</span></td>
+                <td><span class="lang-en">Hard to switch models. Non-deterministic behavior in data layer. Harder to test.</span><span class="lang-zh">难以更换模型。数据层行为不确定。更难测试。</span></td>
+                <td><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prd-callout animate-in" style="margin-top: var(--space-6)">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">⚠️</span>
+            <span class="prd-callout-label lang-en">A PM Would Flag This Risk</span>
+            <span class="prd-callout-label lang-zh">产品经理会标记这个风险</span>
+          </div>
+          <div class="prd-callout-body lang-en">The single-user design is the product's biggest strategic constraint. No auth, no multi-tenancy — it can't be monetized, can't grow through word-of-mouth, can't scale without a rebuild. <em>A PM planning the next phase would flag this as the primary architectural blocker to any future growth.</em></div>
+          <div class="prd-callout-body lang-zh">单用户设计是产品最大的战略约束。没有认证机制，没有多租户支持——无法变现，无法通过口碑增长，不重构就无法规模化。<em>规划下一阶段的产品经理会将其标记为未来增长的首要架构障碍。</em></div>
+        </div>
+        <div class="quiz-container animate-in" id="quiz-module5" style="margin-top: var(--space-8)">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Right. CLI only, single user, two-phase flow — all prioritized the builder's own workflow and cost efficiency. Built by one person, for one person."
+               data-explanation-wrong="Think about who built this and for whom. What constraints was a solo developer working under?">
+            <h3 class="quiz-question lang-en">Looking across all trade-off decisions, what single underlying priority do they collectively reveal?</h3>
+            <h3 class="quiz-question lang-zh">综合所有权衡决策来看，它们共同揭示了什么核心优先级？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Maximizing the number of users who can access the product</span>
+                <span class="lang-zh">最大化能够使用产品的用户数量</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Ensuring the product could be sold to enterprise clients</span>
+                <span class="lang-zh">确保产品可以销售给企业客户</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Building the highest-value tool as quickly as possible for the builder's own workflow, without over-engineering</span>
+                <span class="lang-zh">为开发者自己的工作流尽快构建高价值工具，不过度工程化</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Minimizing the match score computation time</span>
+                <span class="lang-zh">最小化匹配分数的计算时间</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
