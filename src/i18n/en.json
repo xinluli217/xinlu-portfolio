@@ -43,7 +43,7 @@
   "page.about.title": "About",
   "page.about.subtitle": "MSc Geospatial Sciences · UCL",
   "page.about.intro": "MSc Geospatial Sciences student at UCL, combining spatial analysis, data engineering, and visual communication to turn complex datasets into clear decisions — whether that's a routing algorithm, a market dashboard, or a quantitative study.",
-  "page.about.statement": "My work spans the full analysis pipeline: writing SQL to extract and clean raw data, applying Python for modelling and automation, then designing the output in Tableau, R, or Streamlit so findings reach the people who need them. I'm drawn to problems where location is a variable — where proximity, density, or terrain changes the answer.",
+  "page.about.statement": "My main focus is on data analytics and product management, and I have experience with Python, SQL, and machine learning, as well as projects in quantitative analysis and user behavior analysis.I’m also interested in product management, especially in bridging data insights with product decisions and bringing ideas into real-world applications. I’m currently looking for opportunities in data analytics, data science, or product management, and I’m excited to work on more interesting and impactful projects.",
   "page.about.tools_label": "Tools",
   "page.about.strengths_label": "Selected Strengths",
 
