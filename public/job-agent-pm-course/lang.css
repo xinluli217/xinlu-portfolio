@@ -2,11 +2,11 @@
    Bilingual Toggle — English / Chinese
    ============================================================= */
 
-.lang-zh { display: none; }
-.lang-en { display: block; }
+:not(html).lang-zh { display: none; }
+:not(html).lang-en { display: block; }
 
-html.lang-zh .lang-zh { display: block; }
-html.lang-zh .lang-en { display: none; }
+html.lang-zh :not(html).lang-zh { display: block; }
+html.lang-zh :not(html).lang-en { display: none; }
 
 /* Language toggle button in nav */
 #lang-toggle-btn {

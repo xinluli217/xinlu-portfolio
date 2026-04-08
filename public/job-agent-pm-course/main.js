@@ -103,6 +103,11 @@
 
   $$('.animate-in').forEach(el => revealObserver.observe(el));
 
+  // Safety fallback: reveal all elements if observer hasn't fired after 2s
+  setTimeout(() => {
+    $$('.animate-in:not(.visible)').forEach(el => el.classList.add('visible'));
+  }, 2000);
+
   // Stagger children
   $$('.stagger-children').forEach(parent => {
     Array.from(parent.children).forEach((child, i) => {

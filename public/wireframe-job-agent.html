@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wireframe — JobAgent Detail Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #F5F0E8;
+      font-family: 'Inter', system-ui, sans-serif;
+      padding: 40px 20px 80px;
+      color: #2C2A28;
+    }
+
+    .page-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #C4BDB4;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .canvas {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── Wireframe block base ── */
+    .block {
+      background: #FFFFFF;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 12px;
+      padding: 16px 20px;
+      position: relative;
+    }
+
+    .block-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #C4BDB4;
+      margin-bottom: 8px;
+    }
+
+    .block-note {
+      font-size: 10px;
+      color: #9E9790;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── Annotation pill ── */
+    .annotation {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .annotation.new    { background: #E8F5E9; color: #388E3C; }
+    .annotation.change { background: #FFF3E0; color: #E65100; }
+    .annotation.keep   { background: #F0F0F0; color: #9E9790; }
+
+    /* ── Back link ── */
+    .back-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: transparent;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 8px;
+    }
+    .back-row .arrow { width: 20px; height: 12px; background: #E5DFD6; border-radius: 3px; }
+    .back-row .back-text { font-size: 11px; color: #9E9790; }
+
+    /* ── Tags row ── */
+    .tags-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag-pill {
+      height: 20px;
+      background: #F5F0E8;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 10px;
+      color: #9E9790;
+    }
+
+    /* ── Hook section ── */
+    .hook-block {
+      background: #fff;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 12px;
+      padding: 24px 24px 20px;
+    }
+    .hook-headline {
+      height: 28px;
+      background: #E5DFD6;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      width: 90%;
+    }
+    .hook-sub {
+      height: 16px;
+      background: #F0EBE3;
+      border-radius: 5px;
+      width: 70%;
+      margin-bottom: 6px;
+    }
+    .hook-sub.short { width: 50%; }
+
+    /* ── Metrics grid ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .metric-card {
+      background: #F5F0E8;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 10px;
+      padding: 14px 12px;
+    }
+    .metric-value {
+      height: 22px;
+      background: #E5DFD6;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      width: 60%;
+    }
+    .metric-label {
+      height: 12px;
+      background: #EDE8E0;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      width: 85%;
+    }
+    .metric-sub {
+      height: 10px;
+      background: #F0EBE3;
+      border-radius: 3px;
+      width: 95%;
+    }
+    .metric-note {
+      font-size: 9px;
+      color: #C4BDB4;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* ── Buttons ── */
+    .buttons-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-wire {
+      height: 32px;
+      border-radius: 8px;
+      border: 1.5px dashed #D0C8BC;
+      padding: 0 16px;
+      font-size: 10px;
+      color: #9E9790;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-wire .icon-box { width: 12px; height: 12px; background: #E5DFD6; border-radius: 2px; }
+    .btn-wire.primary { background: #FDECEA; border-color: rgba(224,107,86,0.3); color: #E06B56; }
+    .btn-wire.primary .icon-box { background: rgba(224,107,86,0.2); }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: #E5DFD6; }
+
+    /* ── Narrative section ── */
+    .narrative-block {
+      background: #fff;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .section-title {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #C4BDB4;
+      margin-bottom: 12px;
+    }
+    .text-line {
+      height: 13px;
+      background: #F0EBE3;
+      border-radius: 4px;
+      margin-bottom: 7px;
+    }
+    .text-line.full { width: 100%; }
+    .text-line.long { width: 88%; }
+    .text-line.med  { width: 72%; }
+    .text-line.short { width: 55%; }
+
+    /* ── Insight block (highlighted) ── */
+    .insight-block {
+      background: #FDECEA;
+      border: 1.5px dashed rgba(224,107,86,0.4);
+      border-radius: 12px;
+      padding: 22px 24px;
+      position: relative;
+    }
+    .insight-block .section-title { color: #E06B56; }
+    .insight-block .text-line { background: rgba(224,107,86,0.12); }
+    .insight-quote {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.6);
+      border-left: 3px solid #E06B56;
+      border-radius: 0 6px 6px 0;
+    }
+    .insight-quote .text-line { background: rgba(224,107,86,0.15); }
+
+    /* ── Decisions block ── */
+    .decisions-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .decision-row {
+      display: grid;
+      grid-template-columns: 28px 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px 16px;
+      background: #F5F0E8;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 10px;
+    }
+    .decision-num {
+      width: 24px;
+      height: 24px;
+      background: #E5DFD6;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #9E9790;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .decision-col-label {
+      font-size: 9px;
+      color: #C4BDB4;
+      margin-bottom: 5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Honest reflection ── */
+    .reflection-block {
+      background: #fff;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .reflection-inner {
+      padding: 14px 16px;
+      background: #F5F0E8;
+      border-radius: 8px;
+      border-left: 3px solid #C4BDB4;
+    }
+
+    /* ── Architecture (existing) ── */
+    .arch-block {
+      background: #FDECEA;
+      border: 1.5px dashed rgba(224,107,86,0.3);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .arch-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+      gap: 6px;
+      align-items: center;
+      margin-top: 14px;
+    }
+    .arch-step {
+      background: rgba(255,255,255,0.6);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .arch-step .num-bar { height: 10px; background: rgba(224,107,86,0.2); border-radius: 3px; width: 40%; margin: 0 auto 6px; }
+    .arch-step .label-bar { height: 12px; background: rgba(44,42,40,0.08); border-radius: 3px; margin-bottom: 4px; }
+    .arch-step .sub-bar { height: 9px; background: rgba(44,42,40,0.05); border-radius: 3px; width: 80%; margin: 0 auto; }
+    .arch-arrow { width: 16px; height: 16px; background: rgba(224,107,86,0.15); border-radius: 50%; margin: 0 auto; }
+
+    /* ── Tech stack ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .tech-col .col-header { height: 12px; background: #E5DFD6; border-radius: 3px; margin-bottom: 8px; }
+    .tech-pill { height: 22px; background: #F5F0E8; border-radius: 6px; margin-bottom: 5px; }
+
+    /* ── Footer CTA ── */
+    .footer-cta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      background: #fff;
+      border: 1.5px dashed #D0C8BC;
+      border-radius: 12px;
+    }
+    .footer-text { height: 13px; background: #F0EBE3; border-radius: 4px; width: 220px; }
+    .footer-btn { height: 32px; width: 100px; background: #F5F0E8; border-radius: 8px; }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: #6B6560;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* ── Section number badge ── */
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 9px;
+      font-weight: 700;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .badge-new    { background: #E8F5E9; color: #388E3C; }
+    .badge-change { background: #FFF3E0; color: #E65100; }
+    .badge-keep   { background: #F0F0F0; color: #9E9790; }
+
+    .section-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .section-row .section-title { margin-bottom: 0; }
+
+    .content-note {
+      font-size: 10px;
+      color: #9E9790;
+      line-height: 1.65;
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: #FAFAF8;
+      border-radius: 6px;
+      border: 1px solid #E5DFD6;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="page-label">Wireframe · JobAgent Detail Page · PM Narrative Arc</p>
+
+  <div class="canvas">
+
+    <!-- Back -->
+    <div class="back-row">
+      <div class="arrow"></div>
+      <span class="back-text">← Back to Projects</span>
+    </div>
+
+    <!-- ZONE 1: Header -->
+    <div class="block" style="padding: 22px 24px;">
+      <span class="annotation keep">keep · enhanced</span>
+      <div class="section-row">
+        <span class="section-badge badge-keep">1</span>
+        <span class="section-title">Header Zone</span>
+      </div>
+      <div class="tags-row" style="margin-bottom: 14px;">
+        <div class="tag-pill">Python</div>
+        <div class="tag-pill">Claude API</div>
+        <div class="tag-pill">Feishu</div>
+        <div class="tag-pill">Flask</div>
+      </div>
+
+      <!-- Hook headline -->
+      <div class="hook-headline"></div>
+      <div class="hook-sub"></div>
+      <div class="hook-sub short"></div>
+      <div class="content-note">
+        Hook — user-first, 1–2 sentences. Leads with the pain, not the technology.<br>
+        e.g. "Job searching has a hidden tax: you invest an hour before you know if you're a fit. I built a tool to move that cost to 20 seconds."
+      </div>
+    </div>
+
+    <!-- ZONE 2: Metrics Block -->
+    <div class="block" style="padding: 18px 24px;">
+      <span class="annotation change">reframed</span>
+      <div class="section-row" style="margin-bottom: 14px;">
+        <span class="section-badge badge-change">2</span>
+        <span class="section-title">Metrics Block — User Outcome Focus</span>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value"></div>
+          <div class="metric-label"></div>
+          <div class="metric-sub"></div>
+          <div class="metric-note">~20s · vs 30+ min manual</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value"></div>
+          <div class="metric-label"></div>
+          <div class="metric-sub"></div>
+          <div class="metric-note">2 markets · China → UK</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value"></div>
+          <div class="metric-label"></div>
+          <div class="metric-sub"></div>
+          <div class="metric-note">3 outputs · per JD analysis</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value"></div>
+          <div class="metric-label"></div>
+          <div class="metric-sub"></div>
+          <div class="metric-note">0→1 · interview prep feature</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONE 3: Action Buttons -->
+    <div class="block" style="padding: 14px 24px;">
+      <span class="annotation keep">keep</span>
+      <div class="section-row" style="margin-bottom: 10px;">
+        <span class="section-badge badge-keep">3</span>
+        <span class="section-title">Action Buttons</span>
+      </div>
+      <div class="buttons-row">
+        <div class="btn-wire primary"><div class="icon-box"></div>Tech Course</div>
+        <div class="btn-wire primary"><div class="icon-box"></div>PM Course</div>
+        <div class="btn-wire"><div class="icon-box"></div>GitHub</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ZONE 4: The Problem (Situation) -->
+    <div class="narrative-block" style="position: relative;">
+      <span class="annotation new">new · rewritten</span>
+      <div class="section-row" style="margin-bottom: 12px;">
+        <span class="section-badge badge-new">4</span>
+        <span class="section-title">The Problem — Situation</span>
+      </div>
+      <div class="text-line full"></div>
+      <div class="text-line long"></div>
+      <div class="text-line full"></div>
+      <div class="text-line med"></div>
+      <div class="content-note">
+        The false hope cycle: read JD carefully → build excitement → discover 3 missing skills → start over.<br>
+        The real cost isn't rejection — it's the time invested before finding out. Cover letter = re-reading the same JD 4–5 times.
+      </div>
+    </div>
+
+    <!-- ZONE 5: The Insight (PM moment — highlighted) -->
+    <div class="insight-block">
+      <span class="annotation new" style="position: absolute; top: 12px; right: 16px;">new · PM signal</span>
+      <div class="section-row" style="margin-bottom: 12px;">
+        <span class="section-badge" style="background:#FDECEA; color:#E06B56;">5</span>
+        <span class="section-title">The Insight — What JDs don't tell you</span>
+      </div>
+      <div class="text-line full" style="background: rgba(224,107,86,0.12);"></div>
+      <div class="text-line long" style="background: rgba(224,107,86,0.12);"></div>
+      <div class="insight-quote">
+        <div class="text-line full"></div>
+        <div class="text-line med"></div>
+      </div>
+      <div class="content-note" style="background: rgba(255,255,255,0.5); border-color: rgba(224,107,86,0.2);">
+        Key insight: JDs are written by HR. Interviews are run by hiring managers. What they list ≠ what they probe.<br>
+        This section explains WHY an interview prep feature exists — user insight → product decision chain.<br>
+        <strong style="color: #E06B56;">This is the "I want to talk to this person" moment.</strong>
+      </div>
+    </div>
+
+    <!-- ZONE 6: Key Decisions -->
+    <div class="narrative-block" style="position: relative;">
+      <span class="annotation new">new · decision layer</span>
+      <div class="section-row" style="margin-bottom: 14px;">
+        <span class="section-badge badge-new">6</span>
+        <span class="section-title">Key Decisions — Why this, not that</span>
+      </div>
+      <div class="decisions-grid">
+        <div class="decision-row">
+          <div class="decision-num">1</div>
+          <div>
+            <div class="decision-col-label">Decision</div>
+            <div class="text-line full" style="height: 11px;"></div>
+            <div class="text-line long" style="height: 11px;"></div>
+          </div>
+          <div>
+            <div class="decision-col-label">Why — not just what</div>
+            <div class="text-line full" style="height: 11px;"></div>
+            <div class="text-line med" style="height: 11px;"></div>
+          </div>
+        </div>
+        <div class="decision-row">
+          <div class="decision-num">2</div>
+          <div>
+            <div class="decision-col-label">Decision</div>
+            <div class="text-line full" style="height: 11px;"></div>
+            <div class="text-line long" style="height: 11px;"></div>
+          </div>
+          <div>
+            <div class="decision-col-label">Why — not just what</div>
+            <div class="text-line full" style="height: 11px;"></div>
+            <div class="text-line med" style="height: 11px;"></div>
+          </div>
+        </div>
+        <div class="decision-row">
+          <div class="decision-num">3</div>
+          <div>
+            <div class="decision-col-label">Decision</div>
+            <div class="text-line full" style="height: 11px;"></div>
+            <div class="text-line long" style="height: 11px;"></div>
+          </div>
+          <div>
+            <div class="decision-col-label">Why — not just what</div>
+            <div class="text-line full" style="height: 11px;"></div>
+            <div class="text-line med" style="height: 11px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="content-note">
+        3 decisions: (1) Feishu — meets users where they work in China (2) Speed over capability — tried multiple models, latency wins (3) WhatsApp + Notion next — same tool, new distribution layer for UK market.
+      </div>
+    </div>
+
+    <!-- ZONE 7: Architecture Diagram (existing) -->
+    <div class="arch-block" style="position: relative;">
+      <span class="annotation keep" style="position: absolute; top: 12px; right: 16px;">keep · existing</span>
+      <div class="section-row">
+        <span class="section-badge badge-keep">7</span>
+        <span class="section-title" style="color: #6B6560;">Architecture Diagram</span>
+      </div>
+      <div class="arch-flow">
+        <div class="arch-step">
+          <div class="num-bar"></div>
+          <div class="label-bar"></div>
+          <div class="sub-bar"></div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step">
+          <div class="num-bar"></div>
+          <div class="label-bar"></div>
+          <div class="sub-bar"></div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step">
+          <div class="num-bar"></div>
+          <div class="label-bar"></div>
+          <div class="sub-bar"></div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-step">
+          <div class="num-bar"></div>
+          <div class="label-bar"></div>
+          <div class="sub-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONE 8: What I'd Do Differently -->
+    <div class="reflection-block" style="position: relative;">
+      <span class="annotation new">new · honest signal</span>
+      <div class="section-row" style="margin-bottom: 14px;">
+        <span class="section-badge badge-new">8</span>
+        <span class="section-title">What I'd Do Differently</span>
+      </div>
+      <div class="reflection-inner">
+        <div class="text-line full"></div>
+        <div class="text-line long"></div>
+        <div class="text-line med"></div>
+      </div>
+      <div class="content-note">
+        1–2 honest lines. Shows intellectual honesty and PM maturity.<br>
+        e.g. "I built for myself first. The next version needs real user sessions — I don't yet know if the interview prep output is what someone needs the night before an interview, or if it surfaces the wrong anxiety."<br>
+        <strong>This is the second "I want to talk to this person" moment.</strong>
+      </div>
+    </div>
+
+    <!-- ZONE 9: Tech Stack -->
+    <div class="block" style="padding: 18px 24px; position: relative;">
+      <span class="annotation keep">keep</span>
+      <div class="section-row" style="margin-bottom: 4px;">
+        <span class="section-badge badge-keep">9</span>
+        <span class="section-title">Tech Stack</span>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-col">
+          <div class="col-header"></div>
+          <div class="tech-pill"></div>
+        </div>
+        <div class="tech-col">
+          <div class="col-header"></div>
+          <div class="tech-pill"></div>
+          <div class="tech-pill"></div>
+        </div>
+        <div class="tech-col">
+          <div class="col-header"></div>
+          <div class="tech-pill"></div>
+          <div class="tech-pill"></div>
+          <div class="tech-pill"></div>
+        </div>
+        <div class="tech-col">
+          <div class="col-header"></div>
+          <div class="tech-pill"></div>
+        </div>
+        <div class="tech-col">
+          <div class="col-header"></div>
+          <div class="tech-pill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONE 10: Footer CTA -->
+    <div class="footer-cta" style="position: relative;">
+      <span class="annotation keep" style="position: absolute; top: 10px; right: 14px;">keep</span>
+      <div>
+        <div class="section-badge badge-keep" style="display: inline-flex; margin-right: 6px;">10</div>
+        <div class="footer-text" style="display: inline-block; vertical-align: middle;"></div>
+      </div>
+      <div class="footer-btn"></div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #E8F5E9; border: 1px solid #388E3C;"></div>
+      New section
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #FFF3E0; border: 1px solid #E65100;"></div>
+      Existing — reframed
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #F0F0F0; border: 1px solid #9E9790;"></div>
+      Keep as-is
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #FDECEA; border: 1px solid rgba(224,107,86,0.4);"></div>
+      PM signal highlight
+    </div>
+  </div>
+
+</body>
+</html>
