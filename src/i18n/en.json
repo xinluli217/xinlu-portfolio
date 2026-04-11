@@ -4,11 +4,20 @@
   "lang.switch": "中文",
 
   "hero.greeting": "Hello,\nI'm Xinlu :)",
-  "hero.role": "Geospatial\nData Analyst",
+  "hero.role": "Data & Product · UCL MSc · Open to Work",
+  "hero.sub": "I turn messy data into clear decisions — and build the tools to act on them.",
+  "hero.statement": "MSc Geospatial Sciences at UCL. I build end-to-end data pipelines, ML models, and product tools — then think through the decisions behind them.",
+  "hero.cta.primary": "View Projects",
+  "hero.cta.secondary": "Download CV",
+
+  "featured.label": "Featured Work",
+  "featured.all": "View all projects",
+  "featured.cta": "View case study",
+  "featured.jobagent.desc": "Paste a JD → get match score, cover letter, and interview prep in 20 seconds. Built for China (Feishu); UK market (WhatsApp + Notion) planned.",
+  "featured.olist.desc": "97% of customers buy once and never return. End-to-end ML pipeline — RFM, K-Means, Random Forest — to find who's worth saving.",
 
   "nav.home": "Home",
   "nav.projects": "Projects",
-  "nav.about": "About",
   "nav.connect": "Connect",
 
   "page.projects.title": "Selected Work",
@@ -73,33 +82,6 @@
   "plugin.feature.3.title": "Works everywhere",
   "plugin.feature.3.body": "The content script runs on all job boards. LinkedIn, Indeed, Glassdoor, Lever, Greenhouse — if the role is on a webpage, the extension can log it.",
 
-  "page.about.title": "About",
-  "page.about.subtitle": "MSc Geospatial Sciences · UCL",
-  "page.about.intro": "MSc Geospatial Sciences student at UCL, combining spatial analysis, data engineering, and visual communication to turn complex datasets into clear decisions — whether that's a routing algorithm, a market dashboard, or a quantitative study.",
-  "page.about.statement": "My main focus is on data analytics and product management, and I have experience with Python, SQL, and machine learning, as well as projects in quantitative analysis and user behavior analysis.I’m also interested in product management, especially in bridging data insights with product decisions and bringing ideas into real-world applications. I’m currently looking for opportunities in data analytics, data science, or product management, and I’m excited to work on more interesting and impactful projects.",
-  "page.about.tools_label": "Tools",
-  "page.about.strengths_label": "Selected Strengths",
-
-  "about.s0": "End-to-end data pipelines — SQL extraction, Python transformation, and production-ready reporting",
-  "about.s1": "Spatial analysis with QGIS, PostGIS, GeoPandas, and geographically weighted regression",
-  "about.s2": "Dashboard and visual storytelling — Tableau, ggplot2, and interactive Streamlit tools",
-  "about.s3": "Quantitative research design — led a 200-participant study analysed with t-tests and ANOVA",
-
-  "about.t0.period": "UCL · 2025–26",
-  "about.t0.title": "MSc Geospatial Sciences",
-  "about.t0.body": "Spatial databases, geocomputation, and machine learning. Modules in Python and R with distinction-level marks. Dissertation focused on spatial prediction methods.",
-
-  "about.t1.period": "Ping An · 2023–24",
-  "about.t1.title": "Data Analysis Intern",
-  "about.t1.body": "Built SQL pipelines to extract and standardise sales metrics across five competitor companies, producing reusable tables that fed four recurring business reports.",
-
-  "about.t2.period": "Projects · 2025–26",
-  "about.t2.title": "Tools & Dashboards",
-  "about.t2.body": "Built a 60K-record London Airbnb dashboard in R and Tableau, and an elevation-aware evacuation routing tool in Python and Streamlit using OpenStreetMap data.",
-
-  "about.t3.period": "Research · 2024–25",
-  "about.t3.title": "Quantitative Study, n=200",
-  "about.t3.body": "Designed and analysed a controlled study on gender differences in auditory HMI acceptance for autonomous vehicles. Applied t-tests and ANOVA; delivered an 8,000-word data-driven dissertation.",
 
   "page.connect.title": "Get in touch",
   "page.connect.subtitle": "Open to collaborations and research partnerships.",
@@ -205,5 +187,6 @@
   "project.olist-churn.problem": "Olist, Brazil's largest e-commerce marketplace, faces a severe retention crisis: over 97% of customers make a single purchase and never return, leaving substantial lifetime value unrealised. Acquisition-focused metrics masked this structural weakness entirely.",
   "project.olist-churn.method": "Built a full customer analytics pipeline on 100K+ transactions across 2016–2018. Steps: RFM segmentation with quintile scoring, K-Means clustering (silhouette-validated, k=4), cohort retention heatmaps, CLV modelling, and a Random Forest churn classifier trained on recency, frequency, monetary value, and delivery experience features. Paired with an interactive A/B test sample size calculator for experiment planning.",
   "project.olist-churn.finding": "Recency is the dominant churn predictor. K-Means surfaces 4 behaviorally distinct segments that sharpen the RFM rules. Top 20% of customers drive ~80% of revenue — yet most remain single-purchase buyers with untapped repeat potential. The Random Forest model achieves strong ROC-AUC, identifying at-risk customers before they silently lapse.",
+  "detail.prd": "View PRD →",
   "project.olist-churn.impact": "Targeted retention of high-value at-risk segments projects a 3–5× ROI on campaign spend. The accompanying A/B test calculator operationalises the findings — letting the team size experiments rigorously before launch, turning a one-off analysis into a repeatable retention infrastructure."
 }

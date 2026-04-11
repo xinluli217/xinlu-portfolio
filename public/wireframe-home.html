@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wireframe — Home Page Redesign v3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #FAF7F2;
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(253,236,234,0.35) 0%, transparent 60%);
+      font-family: 'DM Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      padding: 32px 24px 80px;
+      color: #2C2A28;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Page title ── */
+    .page-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: #B0A89E; text-align: center; margin-bottom: 28px;
+    }
+
+    .canvas { max-width: 900px; margin: 0 auto; }
+
+    /* ── Nav ── */
+    .nav {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 8px 20px;
+    }
+    .nav-brand { font-size: 14px; font-weight: 700; color: #2C2A28; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-link { font-size: 12px; color: #9E9790; }
+    .nav-lang {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 20px;
+      background: #FFFFFF; border: 1px solid #E5DFD6; color: #6B6560;
+    }
+
+    /* ── Bento grid ── */
+    .bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        "greeting greeting photo"
+        "desc     desc     photo"
+        "nav1     nav2     nav3";
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    /* ── Card base ── */
+    .card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid #E5DFD6;
+      position: relative;
+    }
+
+    /* annotation pill */
+    .pill {
+      position: absolute; top: 10px; right: 12px;
+      font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 3px 7px; border-radius: 12px;
+    }
+    .pill.new    { background: rgba(74,222,128,0.12); color: #16A34A; }
+    .pill.change { background: rgba(234,179,8,0.12);  color: #B45309; }
+    .pill.keep   { background: rgba(0,0,0,0.04);      color: #B0A89E; }
+
+    /* ── Greeting card ── */
+    .greeting {
+      grid-area: greeting;
+      padding: 44px 48px 38px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      min-height: 260px;
+    }
+    .greeting-role {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #E06B56; margin-bottom: 14px;
+    }
+    .greeting-headline {
+      font-size: 48px; font-weight: 800;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      line-height: 1.04; letter-spacing: -0.04em;
+      color: #2C2A28; margin-bottom: 12px;
+    }
+    .greeting-sub {
+      font-size: 15px; color: #6B6560;
+      line-height: 1.65; margin-bottom: 22px;
+    }
+    .cta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      padding: 10px 20px; border-radius: 8px;
+      background: #E06B56; color: #FFFFFF;
+      border: none; cursor: pointer;
+    }
+    .cta-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500;
+      padding: 10px 20px; border-radius: 8px;
+      background: transparent; color: #6B6560;
+      border: 1px solid #E5DFD6; cursor: pointer;
+    }
+
+    /* ── Photo ── */
+    .photo-cell {
+      grid-area: photo;
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid #E5DFD6;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 360px;
+      position: relative;
+    }
+    .photo-circle {
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: #EDE8E2;
+      border: 2px dashed #C4BDB4;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-circle-label {
+      font-size: 10px; color: #B0A89E;
+      font-style: italic; text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── Statement card ── */
+    .desc {
+      grid-area: desc;
+      padding: 22px 36px;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .desc-text {
+      font-size: 13.5px; color: #6B6560; line-height: 1.7;
+      flex: 1; min-width: 200px;
+    }
+    .chips { display: flex; gap: 5px; flex-wrap: wrap; }
+    .chip {
+      font-size: 10px; font-weight: 500;
+      padding: 3px 10px; border-radius: 6px;
+      background: #F7F4EF; color: #6B6560;
+      border: 1px solid #E5DFD6;
+    }
+
+    /* ── Nav cards ── */
+    .nav-card {
+      padding: 20px 24px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      min-height: 100px;
+    }
+    .nav-card-num {
+      font-size: 10px; font-weight: 700;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      letter-spacing: 0.09em; color: #D0CAC2;
+    }
+    .nav-card-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .nav-card-label {
+      font-size: 15px; font-weight: 600; color: #4A4540;
+      letter-spacing: -0.01em;
+    }
+    .arrow { font-size: 13px; color: #C4BDB4; }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: #EEEBE5; margin: 6px 0; }
+
+    /* ── Featured Work strip ── */
+    .featured-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 4px; margin-bottom: 10px;
+    }
+    .featured-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: #C4BDB4;
+    }
+    .featured-all {
+      font-size: 11px; color: #E06B56;
+      font-weight: 500; text-decoration: none;
+    }
+
+    /* ── Horizontal featured card ── */
+    .featured-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid #E5DFD6;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .fc-text {
+      flex: 1;
+      padding: 28px 32px;
+      display: flex; flex-direction: column;
+      gap: 10px;
+    }
+
+    .fc-thumb {
+      width: 280px;
+      flex-shrink: 0;
+      background: #F7F4EF;
+      border-left: 1px solid #E5DFD6;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px;
+      padding: 24px;
+    }
+
+    /* thumbnail placeholder */
+    .thumb-box {
+      width: 100%; height: 100px;
+      border-radius: 8px;
+      background: #EEEBE5;
+      border: 1px dashed #C4BDB4;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .thumb-label { font-size: 9px; color: #C4BDB4; font-style: italic; }
+
+    /* mini metric pills */
+    .thumb-metrics { display: flex; gap: 6px; }
+    .thumb-metric {
+      background: #F7F4EF;
+      border: 1px solid #E5DFD6;
+      border-radius: 8px; padding: 8px 12px; text-align: center;
+    }
+    .tm-value {
+      font-size: 16px; font-weight: 700; color: #E06B56;
+      letter-spacing: -0.02em;
+    }
+    .tm-label { font-size: 8px; color: #9E9790; margin-top: 2px; }
+
+    .fc-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .fc-tag {
+      font-size: 10px; font-weight: 500;
+      padding: 2px 8px; border-radius: 5px;
+      background: #F7F4EF; color: #9E9790;
+      border: 1px solid #E5DFD6;
+    }
+
+    .fc-title {
+      font-size: 18px; font-weight: 700;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      color: #2C2A28; letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .fc-desc {
+      font-size: 13px; color: #6B6560; line-height: 1.7;
+    }
+
+    .fc-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; color: #E06B56;
+      margin-top: auto;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex; gap: 20px;
+      justify-content: center; margin-top: 36px; flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; color: #9E9790;
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 3px;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      background: #FEF6F0;
+      border: 1px solid rgba(224,107,86,0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 11px; color: #6B6560;
+      line-height: 1.7; margin-top: 10px;
+    }
+    .callout strong { color: #E06B56; }
+  </style>
+</head>
+<body>
+
+  <p class="page-label">原型图 v3 · Home Page · 原版暖色系 + 原版字体(Bricolage/DM Sans) + 横排 Featured Cards + 圆形头像</p>
+
+  <div class="canvas">
+
+    <!-- Nav -->
+    <div class="nav">
+      <span class="nav-brand">Xinlu Li</span>
+      <div class="nav-links">
+        <span class="nav-link">Projects</span>
+        <span class="nav-link">About</span>
+        <span class="nav-link">Connect</span>
+      </div>
+      <span class="nav-lang">EN · 中</span>
+    </div>
+
+    <!-- Bento grid -->
+    <div class="bento">
+
+      <!-- Greeting -->
+      <div class="card greeting">
+        <span class="pill change">改</span>
+        <div class="greeting-role">Data & Product · UCL MSc · Open to work</div>
+        <div class="greeting-headline">Xinlu Li</div>
+        <div class="greeting-sub">
+          I turn messy data into clear decisions — and build the tools to act on them.
+        </div>
+        <div class="cta-row">
+          <div class="cta-btn">View Projects ↗</div>
+          <div class="cta-ghost">Download CV</div>
+        </div>
+      </div>
+
+      <!-- Photo — circular avatar -->
+      <div class="photo-cell">
+        <span class="pill keep" style="top:10px;right:12px;">改</span>
+        <div class="photo-circle">
+          <span class="photo-circle-label">Photo<br>圆形头像</span>
+        </div>
+      </div>
+
+      <!-- Statement -->
+      <div class="card desc">
+        <span class="pill keep">保留</span>
+        <div class="desc-text">
+          MSc Geospatial Sciences at UCL. I build end-to-end pipelines, ML models, and AI-powered tools — then think through the product decisions behind them.
+        </div>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">SQL</span>
+          <span class="chip">ML</span>
+          <span class="chip">Claude API</span>
+          <span class="chip">Tableau</span>
+          <span class="chip">Product</span>
+        </div>
+      </div>
+
+      <!-- Nav cards -->
+      <div class="card nav-card">
+        <span class="pill keep">保留</span>
+        <span class="nav-card-num">01</span>
+        <div class="nav-card-row">
+          <span class="nav-card-label">Projects</span>
+          <span class="arrow">↗</span>
+        </div>
+      </div>
+      <div class="card nav-card">
+        <span class="pill keep">保留</span>
+        <span class="nav-card-num">02</span>
+        <div class="nav-card-row">
+          <span class="nav-card-label">About</span>
+          <span class="arrow">↗</span>
+        </div>
+      </div>
+      <div class="card nav-card">
+        <span class="pill keep">保留</span>
+        <span class="nav-card-num">03</span>
+        <div class="nav-card-row">
+          <span class="nav-card-label">Connect</span>
+          <span class="arrow">↗</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Featured Work -->
+    <div style="margin-top: 8px;">
+      <div class="featured-header">
+        <span class="featured-label">Featured Work</span>
+        <span class="featured-all">View all projects →</span>
+      </div>
+
+      <!-- Card 1: Job Agent -->
+      <div class="featured-card">
+        <span class="pill new">新增</span>
+        <div class="fc-text">
+          <div class="fc-tags">
+            <span class="fc-tag">Python</span>
+            <span class="fc-tag">Claude API</span>
+            <span class="fc-tag">AI Agent</span>
+          </div>
+          <div class="fc-title">AI Job Application Agent</div>
+          <div class="fc-desc">
+            Paste a JD → get match score, cover letter, and interview prep in 20 seconds. Built for China (Feishu); UK market (WhatsApp + Notion) planned.
+          </div>
+          <div class="fc-link">View case study →</div>
+        </div>
+        <div class="fc-thumb">
+          <div class="thumb-box">
+            <span class="thumb-label">Architecture / flow diagram thumbnail</span>
+          </div>
+          <div class="thumb-metrics">
+            <div class="thumb-metric">
+              <div class="tm-value">~20s</div>
+              <div class="tm-label">vs 23 min</div>
+            </div>
+            <div class="thumb-metric">
+              <div class="tm-value">3</div>
+              <div class="tm-label">Outputs</div>
+            </div>
+            <div class="thumb-metric">
+              <div class="tm-value">2</div>
+              <div class="tm-label">Markets</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Olist -->
+      <div class="featured-card">
+        <span class="pill new">新增</span>
+        <div class="fc-text">
+          <div class="fc-tags">
+            <span class="fc-tag">Python</span>
+            <span class="fc-tag">Machine Learning</span>
+            <span class="fc-tag">Analytics</span>
+          </div>
+          <div class="fc-title">Olist Churn Prevention</div>
+          <div class="fc-desc">
+            97% of customers buy once and never return. End-to-end ML pipeline — RFM, K-Means, Random Forest churn prediction — to find who's worth saving.
+          </div>
+          <div class="fc-link">View case study →</div>
+        </div>
+        <div class="fc-thumb">
+          <div class="thumb-box">
+            <span class="thumb-label">Churn model / retention chart thumbnail</span>
+          </div>
+          <div class="thumb-metrics">
+            <div class="thumb-metric">
+              <div class="tm-value">97%+</div>
+              <div class="tm-label">Single-buy</div>
+            </div>
+            <div class="thumb-metric">
+              <div class="tm-value">3–5×</div>
+              <div class="tm-label">ROI</div>
+            </div>
+            <div class="thumb-metric">
+              <div class="tm-value">100K+</div>
+              <div class="tm-label">Records</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        💡 <strong>v3 变化：</strong>
+        ① 恢复原版暖色系（米白背景 + 暖橙 #E06B56 主色）<br>
+        ② Photo 改为圆形头像占位（circle avatar）<br>
+        ③ Featured cards 保持横排布局（左文字 + 右缩略图 + 指标）
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:rgba(74,222,128,0.2); border:1px solid #16A34A;"></div>
+      新增 New
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:rgba(234,179,8,0.2); border:1px solid #B45309;"></div>
+      改动 Changed
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:rgba(0,0,0,0.06); border:1px solid #C4BDB4;"></div>
+      保留 Keep
+    </div>
+  </div>
+
+</body>
+</html>

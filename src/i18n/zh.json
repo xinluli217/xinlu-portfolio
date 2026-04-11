@@ -4,11 +4,20 @@
   "lang.switch": "EN",
 
   "hero.greeting": "你好，\n我是 Xinlu :)",
-  "hero.role": "\n数据分析师",
+  "hero.role": "数据 & 产品 · UCL 硕士 · 求职中",
+  "hero.sub": "将杂乱的数据转化为清晰的决策——并构建付诸行动的工具。",
+  "hero.statement": "就读于伦敦大学学院地理空间科学硕士。构建端到端数据管道、机器学习模型和产品工具——并思考其背后的决策逻辑。",
+  "hero.cta.primary": "查看项目",
+  "hero.cta.secondary": "下载简历",
+
+  "featured.label": "精选项目",
+  "featured.all": "查看全部项目",
+  "featured.cta": "查看案例",
+  "featured.jobagent.desc": "粘贴 JD → 20 秒内获得匹配分析、求职信和面试准备。已在中国市场（飞书）上线，英国市场（WhatsApp + Notion）规划中。",
+  "featured.olist.desc": "97% 的客户只购买一次就再也不回来。端到端 ML 管道——RFM、K-Means、随机森林——找出值得挽留的客户。",
 
   "nav.home": "首页",
   "nav.projects": "项目",
-  "nav.about": "关于我",
   "nav.connect": "联系我",
 
   "page.projects.title": "精选项目",
@@ -73,33 +82,6 @@
   "plugin.feature.3.title": "全平台适用",
   "plugin.feature.3.body": "内容脚本可在所有招聘平台运行。LinkedIn、Indeed、Glassdoor、Lever、Greenhouse——只要职位在网页上，扩展即可完成记录。",
 
-  "page.about.title": "关于我",
-  "page.about.subtitle": "地理空间科学硕士 · 伦敦大学学院",
-  "page.about.intro": "就读于伦敦大学学院地理空间科学硕士，融合空间分析、数据工程与可视化表达，将复杂数据集转化为清晰决策——无论是路径规划算法、市场分析仪表板，还是定量研究。",
-  "page.about.statement": "我的工作覆盖完整的分析链路：用 SQL 提取并清洗原始数据，用 Python 进行建模与自动化，再通过 Tableau、R 或 Streamlit 设计输出层，使分析结果真正触达决策者。我尤其关注地理位置作为变量的问题——距离、密度或地形如何改变答案。",
-  "page.about.tools_label": "技术工具",
-  "page.about.strengths_label": "核心能力",
-
-  "about.s0": "端到端数据管道 —— SQL 提取、Python 清洗与生产级报告输出",
-  "about.s1": "空间分析 —— QGIS、PostGIS、GeoPandas 及地理加权回归",
-  "about.s2": "仪表板与数据叙事 —— Tableau、ggplot2 及交互式 Streamlit 工具",
-  "about.s3": "定量研究设计 —— 主导 200 人参与的研究，运用 t 检验与方差分析",
-
-  "about.t0.period": "伦敦大学学院 · 2025–26",
-  "about.t0.title": "地理空间科学硕士",
-  "about.t0.body": "研究方向涵盖空间数据库、地理计算与机器学习，Python 与 R 课程成绩优异，毕业论文聚焦空间预测方法。",
-
-  "about.t1.period": "平安集团 · 2023–24",
-  "about.t1.title": "数据分析实习生",
-  "about.t1.body": "构建 SQL 管道，提取并标准化五家竞争对手的销售指标，生成可复用的数据表，支撑四份循环业务报告。",
-
-  "about.t2.period": "项目 · 2025–26",
-  "about.t2.title": "工具与仪表板",
-  "about.t2.body": "基于 R 与 Tableau 构建伦敦 Airbnb 市场分析仪表板（60,000+ 条记录），并使用 Python、Streamlit 与 OpenStreetMap 数据开发了考虑高程的应急疏散路径规划工具。",
-
-  "about.t3.period": "研究 · 2024–25",
-  "about.t3.title": "定量研究，n=200",
-  "about.t3.body": "设计并分析了一项关于自动驾驶车辆听觉 HMI 接受度性别差异的受控研究，运用 t 检验与方差分析，完成 8,000 字数据驱动的学术论文。",
 
   "page.connect.title": "联系我",
   "page.connect.subtitle": "欢迎洽谈合作与研究项目。",
@@ -205,5 +187,6 @@
   "project.olist-churn.problem": "Olist 是巴西最大的电商平台，面临严峻的留存危机：超过 97% 的客户仅完成单次购买便不再回头，导致大量客户生命周期价值流失。以获客为中心的传统指标完全掩盖了这一结构性问题。",
   "project.olist-churn.method": "基于 2016–2018 年逾 10 万条交易记录，构建了完整的客户分析流水线：分位数评分的 RFM 分层、轮廓系数验证的 K-Means 聚类（k=4）、客户群体留存热力图、客户生命周期价值建模，以及基于复购频率、消费金额、近期购买时间和物流体验训练的随机森林流失预测模型。并配套开发了交互式 A/B 测试样本量计算器，服务于实验部署决策。",
   "project.olist-churn.finding": "近期性（Recency）是最主要的流失预测因子。K-Means 聚类揭示了 4 个行为差异显著的客户群体，有效精化了 RFM 业务规则。前 20% 客户贡献约 80% 营收，但大多数仍为一次性买家，复购潜力尚未开发。随机森林模型取得了较高的 ROC-AUC，能够在客户静默流失前提前识别高风险人群。",
+  "detail.prd": "查看 PRD →",
   "project.olist-churn.impact": "对高价值高风险客户群体实施精准留存干预，预计活动投入产出比可达 3–5 倍。配套的 A/B 测试计算器将分析成果落地为可操作的实验规划工具——让团队在启动前科学规划样本量，将一次性分析转化为可持续的留存运营基础设施。"
 }

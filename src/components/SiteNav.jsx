@@ -8,7 +8,6 @@ export default function SiteNav() {
 
   const navItems = [
     { key: "nav.projects", to: "/projects" },
-    { key: "nav.about",    to: "/about" },
     { key: "nav.connect",  to: "/connect" },
   ];
 
