@@ -12,6 +12,7 @@ const OlistDetail   = lazy(() => import("./pages/OlistDetail.jsx"));
 const AirbnbDetail  = lazy(() => import("./pages/AirbnbDetail.jsx"));
 const PluginSystem  = lazy(() => import("./pages/PluginSystem.jsx"));
 const JobAgentDetail = lazy(() => import("./pages/JobAgentDetail.jsx"));
+const ABTestingDetail = lazy(() => import("./pages/ABTestingDetail.jsx"));
 const Connect       = lazy(() => import("./pages/Connect.jsx"));
 
 // Minimal fallback — a single pulsing gold dot so there's no jarring blank flash
@@ -45,6 +46,7 @@ function AnimatedRoutes() {
           <Route path="/projects/airbnb-london" element={<AirbnbDetail />} />
           <Route path="/projects/plugin-system"  element={<PluginSystem />} />
           <Route path="/projects/job-agent"      element={<JobAgentDetail />} />
+          <Route path="/projects/ab-testing"     element={<ABTestingDetail />} />
           <Route path="/projects/:id"         element={<ProjectDetail />} />
           <Route path="/connect"     element={<Connect />} />
         </Routes>

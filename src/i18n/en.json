@@ -188,5 +188,45 @@
   "project.olist-churn.method": "Built a full customer analytics pipeline on 100K+ transactions across 2016–2018. Steps: RFM segmentation with quintile scoring, K-Means clustering (silhouette-validated, k=4), cohort retention heatmaps, CLV modelling, and a Random Forest churn classifier trained on recency, frequency, monetary value, and delivery experience features. Paired with an interactive A/B test sample size calculator for experiment planning.",
   "project.olist-churn.finding": "Recency is the dominant churn predictor. K-Means surfaces 4 behaviorally distinct segments that sharpen the RFM rules. Top 20% of customers drive ~80% of revenue — yet most remain single-purchase buyers with untapped repeat potential. The Random Forest model achieves strong ROC-AUC, identifying at-risk customers before they silently lapse.",
   "detail.prd": "View PRD →",
-  "project.olist-churn.impact": "Targeted retention of high-value at-risk segments projects a 3–5× ROI on campaign spend. The accompanying A/B test calculator operationalises the findings — letting the team size experiments rigorously before launch, turning a one-off analysis into a repeatable retention infrastructure."
+  "project.olist-churn.impact": "Targeted retention of high-value at-risk segments projects a 3–5× ROI on campaign spend. The accompanying A/B test calculator operationalises the findings — letting the team size experiments rigorously before launch, turning a one-off analysis into a repeatable retention infrastructure.",
+
+  "project.ab-testing.title": "GA A/B Testing Analyst — AI Agent",
+  "project.ab-testing.insight": "An AI-powered analyst that turns 903K Google Analytics sessions into experiment-ready insights — funnel diagnostics, power analysis, Bayesian A/B testing, and segment profiling, all driven by natural-language conversation.",
+
+  "abtesting.metric.0.label": "GA sessions analysed",
+  "abtesting.metric.0.sub": "BigQuery public dataset · 2016–2017",
+  "abtesting.metric.1.label": "Mobile conversion rate",
+  "abtesting.metric.1.sub": "vs. 1.58% desktop — 3.9× gap",
+  "abtesting.metric.2.label": "Add-to-cart drop-off (mobile)",
+  "abtesting.metric.2.sub": "Worst funnel bottleneck identified",
+  "abtesting.metric.3.label": "Unrealised annual revenue",
+  "abtesting.metric.3.sub": "If mobile matched desktop CVR",
+
+  "abtesting.agent.intro": "A conversational Claude-powered agent that runs the full A/B testing pipeline on demand. Ask it about funnel performance, experiment design, or statistical results — it selects and chains the right tools automatically.",
+
+  "abtesting.tool.0.title": "Funnel Analyzer",
+  "abtesting.tool.0.body": "Analyses the e-commerce conversion funnel from product view to purchase, computing drop-off rates at each stage. Supports segmentation by device, traffic source, visitor type, or country.",
+  "abtesting.tool.1.title": "Power Calculator",
+  "abtesting.tool.1.body": "Computes required sample size and experiment duration using frequentist power analysis — baseline rate, MDE, alpha, and daily traffic as inputs.",
+  "abtesting.tool.2.title": "Hypothesis Tester",
+  "abtesting.tool.2.body": "Runs both frequentist (z-test) and Bayesian (PyMC Beta-Binomial) hypothesis tests on A/B conversion data, returning p-values, credible intervals, and probability of improvement.",
+  "abtesting.tool.3.title": "Segment Profiler",
+  "abtesting.tool.3.body": "Breaks down conversion rates and revenue across user segments — device, traffic source, visitor type, country — to identify where treatment effects vary.",
+  "abtesting.tool.4.title": "Chart Generator",
+  "abtesting.tool.4.body": "Generates interactive Plotly charts: funnels, CI comparisons, posterior distributions, forest plots, power curves, and bar comparisons.",
+  "abtesting.tool.5.title": "Report Writer",
+  "abtesting.tool.5.body": "Uses Claude to generate narrative summaries of analysis results, tailored to executive, technical, or stakeholder audiences.",
+
+  "abtesting.section.0.title": "Exploratory Data Analysis",
+  "abtesting.section.0.body": "903K sessions from Google's BigQuery public GA dataset. Mobile accounts for 40% of traffic but converts at 0.41% — nearly 4× lower than desktop (1.58%). This gap frames the entire experiment.",
+  "abtesting.section.1.title": "Funnel Analysis",
+  "abtesting.section.1.body": "The five-stage funnel (product click → view → add to cart → checkout → purchase) reveals the steepest drop between add-to-cart and checkout on mobile — 68.1% of users abandon at this stage.",
+  "abtesting.section.2.title": "Segment Comparison",
+  "abtesting.section.2.body": "Desktop and mobile funnels diverge sharply at the checkout stage. Desktop retains 47.8% of add-to-cart users through to purchase; mobile retains only 31.9%. The intervention should target the mobile checkout flow specifically.",
+  "abtesting.section.3.title": "Power Analysis & Experiment Design",
+  "abtesting.section.3.body": "With a baseline mobile CVR of 0.41% and a minimum detectable effect of +0.2pp, the power analysis requires 15,537 sessions per group — 31,074 total. At 572 eligible mobile sessions per day, the experiment needs ~8 weeks to reach 80% power.",
+  "abtesting.section.4.title": "Bayesian A/B Test",
+  "abtesting.section.4.body": "Simulated A/B results analysed with both frequentist z-test and Bayesian Beta-Binomial posterior. The Bayesian model estimates a 94.7% probability that the treatment outperforms control, with a posterior mean lift of +0.18pp.",
+  "abtesting.section.5.title": "Segment-Level Effects",
+  "abtesting.section.5.body": "A forest plot of treatment effects by device, traffic source, and visitor type shows the largest lift on mobile organic traffic (+0.24pp) and returning visitors (+0.31pp). New visitors show a smaller, non-significant effect — suggesting the checkout redesign benefits users who already have purchase intent."
 }

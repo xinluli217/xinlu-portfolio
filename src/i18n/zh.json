@@ -188,5 +188,45 @@
   "project.olist-churn.method": "基于 2016–2018 年逾 10 万条交易记录，构建了完整的客户分析流水线：分位数评分的 RFM 分层、轮廓系数验证的 K-Means 聚类（k=4）、客户群体留存热力图、客户生命周期价值建模，以及基于复购频率、消费金额、近期购买时间和物流体验训练的随机森林流失预测模型。并配套开发了交互式 A/B 测试样本量计算器，服务于实验部署决策。",
   "project.olist-churn.finding": "近期性（Recency）是最主要的流失预测因子。K-Means 聚类揭示了 4 个行为差异显著的客户群体，有效精化了 RFM 业务规则。前 20% 客户贡献约 80% 营收，但大多数仍为一次性买家，复购潜力尚未开发。随机森林模型取得了较高的 ROC-AUC，能够在客户静默流失前提前识别高风险人群。",
   "detail.prd": "查看 PRD →",
-  "project.olist-churn.impact": "对高价值高风险客户群体实施精准留存干预，预计活动投入产出比可达 3–5 倍。配套的 A/B 测试计算器将分析成果落地为可操作的实验规划工具——让团队在启动前科学规划样本量，将一次性分析转化为可持续的留存运营基础设施。"
+  "project.olist-churn.impact": "对高价值高风险客户群体实施精准留存干预，预计活动投入产出比可达 3–5 倍。配套的 A/B 测试计算器将分析成果落地为可操作的实验规划工具——让团队在启动前科学规划样本量，将一次性分析转化为可持续的留存运营基础设施。",
+
+  "project.ab-testing.title": "GA A/B 测试分析师 — AI 智能体",
+  "project.ab-testing.insight": "基于 AI 的分析师，将 903K Google Analytics 会话转化为可执行的实验洞察——漏斗诊断、功效分析、贝叶斯 A/B 测试和用户分层，全部通过自然语言对话驱动。",
+
+  "abtesting.metric.0.label": "分析的 GA 会话数",
+  "abtesting.metric.0.sub": "BigQuery 公开数据集 · 2016–2017",
+  "abtesting.metric.1.label": "移动端转化率",
+  "abtesting.metric.1.sub": "对比桌面端 1.58% — 差距 3.9 倍",
+  "abtesting.metric.2.label": "加购流失率（移动端）",
+  "abtesting.metric.2.sub": "漏斗中最大的瓶颈",
+  "abtesting.metric.3.label": "未实现的年化收入",
+  "abtesting.metric.3.sub": "若移动端转化率追平桌面端",
+
+  "abtesting.agent.intro": "基于 Claude 构建的对话式智能体，按需运行完整 A/B 测试分析流水线。询问漏斗表现、实验设计或统计结果，智能体会自动选择并串联所需工具。",
+
+  "abtesting.tool.0.title": "漏斗分析器",
+  "abtesting.tool.0.body": "分析从商品浏览到购买的电商转化漏斗，计算每一步的流失率。支持按设备、流量来源、访客类型或国家进行分层。",
+  "abtesting.tool.1.title": "功效计算器",
+  "abtesting.tool.1.body": "基于频率学派功效分析计算所需样本量和实验时长——输入基准转化率、最小可检测效应、显著性水平和日均流量。",
+  "abtesting.tool.2.title": "假设检验器",
+  "abtesting.tool.2.body": "对 A/B 转化数据同时运行频率学派 z 检验和贝叶斯 Beta-Binomial 检验，返回 p 值、可信区间和改善概率。",
+  "abtesting.tool.3.title": "用户分层器",
+  "abtesting.tool.3.body": "按设备、流量来源、访客类型、国家拆解转化率和收入，识别不同分层中实验效果的差异。",
+  "abtesting.tool.4.title": "图表生成器",
+  "abtesting.tool.4.body": "生成交互式 Plotly 图表：漏斗图、置信区间对比、后验分布、森林图、功效曲线和柱状对比图。",
+  "abtesting.tool.5.title": "报告生成器",
+  "abtesting.tool.5.body": "使用 Claude 生成分析结果的叙述性摘要，可针对管理层、技术团队或业务方定制。",
+
+  "abtesting.section.0.title": "探索性数据分析",
+  "abtesting.section.0.body": "来自 Google BigQuery 公开 GA 数据集的 903K 个会话。移动端占流量的 40%，但转化率仅 0.41%——比桌面端（1.58%）低近 4 倍。这一差距框定了整个实验方向。",
+  "abtesting.section.1.title": "漏斗分析",
+  "abtesting.section.1.body": "五阶段漏斗（商品点击 → 浏览 → 加购 → 结账 → 购买）显示，移动端从加购到结账的流失最为严重——68.1% 的用户在此阶段放弃。",
+  "abtesting.section.2.title": "分层对比",
+  "abtesting.section.2.body": "桌面端和移动端漏斗在结账阶段出现显著分化。桌面端从加购到购买保留 47.8% 的用户，移动端仅 31.9%。干预措施应专门针对移动端结账流程。",
+  "abtesting.section.3.title": "功效分析与实验设计",
+  "abtesting.section.3.body": "基准移动端转化率 0.41%，最小可检测效应 +0.2pp，功效分析要求每组 15,537 个会话——总计 31,074。以每日 572 个合格移动会话计算，实验需约 8 周达到 80% 统计功效。",
+  "abtesting.section.4.title": "贝叶斯 A/B 测试",
+  "abtesting.section.4.body": "模拟的 A/B 结果同时使用频率学派 z 检验和贝叶斯 Beta-Binomial 后验分析。贝叶斯模型估计实验组优于对照组的概率为 94.7%，后验均值提升 +0.18pp。",
+  "abtesting.section.5.title": "分层效果分析",
+  "abtesting.section.5.body": "按设备、流量来源和访客类型绘制的森林图显示，移动端自然流量提升最大（+0.24pp），回访用户次之（+0.31pp）。新用户效果较小且不显著——表明结账优化主要惠及已有购买意向的用户。"
 }

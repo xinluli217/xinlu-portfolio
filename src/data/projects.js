@@ -30,4 +30,12 @@ export const projects = [
     meta: "#004",
     githubUrl: "https://github.com/xinlulu217/job-agent",
   },
+  {
+    id: "ab-testing",
+    tags: ["Python", "Streamlit", "Claude API", "A/B Testing", "Bayesian"],
+    avatarColor: "#a8c4d4",
+    initials: "AT",
+    meta: "#005",
+    githubUrl: "https://github.com/xinluli217/ga-ab-testing-agent",
+  },
 ];
