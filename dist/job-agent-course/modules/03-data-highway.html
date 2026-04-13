@@ -1,0 +1,269 @@
+<section class="module" id="module-3">
+  <div class="module-content">
+
+    <!-- ── MODULE HEADER ───────────────────────────────────────── -->
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <h2 class="module-title">The Data Highway</h2>
+      <p class="module-subtitle">From URL paste to finished cover letter — trace every handoff in the pipeline.</p>
+    </header>
+
+    <!-- ── SCREEN 1: THE OPENING QUESTION ──────────────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">When you paste a URL, what happens in the next 20 seconds?</h3>
+
+      <p class="animate-in">
+        Think of the system as a <strong>postal sorting facility</strong>. Mail arrives (your job posting URL), gets
+        read and stamped (intent detection), routed to the right department (fetcher, cleaner, AI engine),
+        and eventually delivered as a polished package (cover letter + JSON summary). Nothing happens by magic —
+        every step has a specific job and hands off to the next worker with a clean baton.
+      </p>
+      <p class="animate-in">
+        The full journey touches six distinct components, crosses three file-system boundaries, and makes exactly
+        one call to the
+        <span class="term" data-definition="Claude is Anthropic's large language model. The agent calls it via the Anthropic Python SDK and pays per token — so keeping the input short matters.">Claude API</span>.
+        Everything else is plain Python doing what Python does best: string manipulation, HTTP requests, and file I/O.
+      </p>
+
+      <div class="callout callout-accent animate-in">
+        <span class="callout-icon">📮</span>
+        <div class="callout-content">
+          <span class="callout-title">The sorting-facility metaphor</span>
+          <p>Incoming mail = raw user message. Sorter = intent parser. Conveyor = orchestrator.
+             Specialist worker = Claude. Outgoing post = exported files. Each worker only sees
+             what they need — no one reads the whole letter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 2: FULL PIPELINE FLOW ANIMATION ──────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">The Six-Stage Pipeline</h3>
+      <p class="animate-in">
+        Click <strong>Next Step</strong> to walk through each handoff. Watch which component lights up and
+        what data travels across the wire.
+      </p>
+
+      <div class="flow-animation animate-in" data-steps='[
+        {"highlight":"flow-actor-1","label":"Stage 1 — User Input: You type or paste a message into the chat. The raw string lands in the orchestrator."},
+        {"highlight":"flow-actor-2","label":"Stage 2 — Intent Parser: The parser checks the message for a URL pattern first, then history/help keywords, then length. It stamps the message with an Intent type.","packet":true,"from":"actor-1","to":"actor-2"},
+        {"highlight":"flow-actor-3","label":"Stage 3 — JD Fetcher: For ANALYZE_URL intents, the fetcher downloads the HTML page, strips nav/footer/scripts, and trims the result to 8 000 characters of clean text.","packet":true,"from":"actor-2","to":"actor-3"},
+        {"highlight":"flow-actor-4","label":"Stage 4 — Orchestrator: The clean JD text is combined with the candidate profile and the best-matched template. One structured prompt is assembled and sent to Claude.","packet":true,"from":"actor-3","to":"actor-4"},
+        {"highlight":"flow-actor-5","label":"Stage 5 — Claude: The AI reads the JD, the candidate summary, and the template instructions. It returns a response wrapped in delimiter markers — markdown cover letter plus JSON analysis.","packet":true,"from":"actor-4","to":"actor-5"},
+        {"highlight":"flow-actor-6","label":"Stage 6 — Response Parser + Export: The parser splits the response on delimiters, validates the JSON, and writes two files: a .md cover letter and a .json analysis. Done.","packet":true,"from":"actor-5","to":"actor-6"}
+      ]'>
+        <div class="flow-actors">
+          <div class="flow-actor" id="flow-actor-1">
+            <div class="flow-actor-icon">⌨️</div>
+            <span>User Input</span>
+          </div>
+          <div class="flow-actor" id="flow-actor-2">
+            <div class="flow-actor-icon">🔍</div>
+            <span>Intent Parser</span>
+          </div>
+          <div class="flow-actor" id="flow-actor-3">
+            <div class="flow-actor-icon">🌐</div>
+            <span>JD Fetcher</span>
+          </div>
+          <div class="flow-actor" id="flow-actor-4">
+            <div class="flow-actor-icon">🎛️</div>
+            <span>Orchestrator</span>
+          </div>
+          <div class="flow-actor" id="flow-actor-5">
+            <div class="flow-actor-icon">🤖</div>
+            <span>Claude API</span>
+          </div>
+          <div class="flow-actor" id="flow-actor-6">
+            <div class="flow-actor-icon">💾</div>
+            <span>Export</span>
+          </div>
+        </div>
+        <div class="flow-packet"></div>
+        <div class="flow-step-label">Click "Next Step" to begin</div>
+        <div class="flow-controls">
+          <button class="btn flow-next-btn">Next Step</button>
+          <button class="btn flow-reset-btn">Restart</button>
+          <span class="flow-progress"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 3: INTENT PARSER CODE↔ENGLISH ────────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">How Does the System Know What You Want?</h3>
+      <p class="animate-in">
+        The <span class="term" data-definition="A function that reads a raw chat message and returns a structured ParsedIntent object — telling the rest of the system whether this is a URL to fetch, a text JD to analyse, a history request, or something unknown.">intent parser</span>
+        runs a strict <strong>priority chain</strong>: URL check first, then
+        <span class="term" data-definition="A compiled regular expression (regex) that matches common URL shapes like https://... or www.... The pre-compilation (using re.compile at module load) makes every subsequent search fast.">URL pattern match</span>,
+        then keyword checks, then length. Order matters — a message with both a URL and the word "help" is
+        treated as a URL job, not a help request.
+      </p>
+
+      <div class="translation-block animate-in">
+        <div class="translation-code">
+          <span class="translation-label">CODE</span>
+          <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">parse_intent</span>(message):</span>
+<span class="code-line">    message = message.<span class="code-function">strip</span>()</span>
+<span class="code-line">    url_match = _URL_PATTERN.<span class="code-function">search</span>(message)</span>
+<span class="code-line">    <span class="code-keyword">if</span> url_match:</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-function">ParsedIntent</span>(</span>
+<span class="code-line">            intent=Intent.<span class="code-property">ANALYZE_URL</span>,</span>
+<span class="code-line">            url=url_match.<span class="code-function">group</span>(<span class="code-number">0</span>)</span>
+<span class="code-line">        )</span>
+<span class="code-line">    <span class="code-keyword">if</span> _HISTORY_PATTERN.<span class="code-function">search</span>(message):</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-function">ParsedIntent</span>(intent=Intent.<span class="code-property">SHOW_HISTORY</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> _HELP_PATTERN.<span class="code-function">search</span>(message) <span class="code-keyword">and</span> <span class="code-function">len</span>(message) &lt; <span class="code-number">50</span>:</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-function">ParsedIntent</span>(intent=Intent.<span class="code-property">HELP</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> <span class="code-function">len</span>(message) &gt;= <span class="code-number">100</span>:</span>
+<span class="code-line">        <span class="code-keyword">return</span> <span class="code-function">ParsedIntent</span>(</span>
+<span class="code-line">            intent=Intent.<span class="code-property">ANALYZE_TEXT</span>,</span>
+<span class="code-line">            jd_text=message</span>
+<span class="code-line">        )</span>
+<span class="code-line">    <span class="code-keyword">return</span> <span class="code-function">ParsedIntent</span>(intent=Intent.<span class="code-property">UNKNOWN</span>)</span>
+          </code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">PLAIN ENGLISH</span>
+          <div class="translation-lines">
+            <p class="tl">Strip whitespace so accidental spaces don't fool the checks.</p>
+            <p class="tl">Run the URL regex. If any URL shape is found, immediately return an ANALYZE_URL intent — URL always wins, no matter what else the message says.</p>
+            <p class="tl">Look for words like "history", "past", "previous". If found, return SHOW_HISTORY.</p>
+            <p class="tl">Look for "help" or "?" — but only if the message is short (under 50 chars). A long message with the word "help" is probably a JD, not a help request.</p>
+            <p class="tl">If the message is 100+ characters and nothing else matched, treat it as a raw job description pasted directly.</p>
+            <p class="tl">If none of the above matched, return UNKNOWN — the bot will ask for clarification.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info animate-in">
+        <span class="callout-icon">💡</span>
+        <div class="callout-content">
+          <span class="callout-title">Why the 100-character threshold?</span>
+          <p>Real job descriptions are almost never shorter than a tweet. The 100-char floor keeps the system
+             from treating a short confused message like <em>"analyse senior data role at Google"</em> as a
+             full JD — it falls through to UNKNOWN and prompts the user to provide more.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 4: HTML EXTRACTION CODE↔ENGLISH ──────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">How the Fetcher Cleans Raw HTML</h3>
+      <p class="animate-in">
+        A raw job-posting page is mostly clutter — navigation menus, cookie banners, footer links.
+        The fetcher uses
+        <span class="term" data-definition="BeautifulSoup is a Python library for parsing HTML and XML. It builds a tree structure from the raw HTML string so you can search, navigate, and extract elements by tag name, class, or id.">BeautifulSoup</span>
+        to surgically remove the noise and surface the actual job content — then caps it at 8 000 characters
+        to keep
+        <span class="term" data-definition="Tokens are the chunks (roughly words or word-pieces) that language models process. Every token in a Claude API call costs money and counts against the context window limit. Sending 80 000 characters of raw HTML would be expensive and slow.">token</span>
+        costs reasonable.
+      </p>
+
+      <div class="translation-block animate-in">
+        <div class="translation-code">
+          <span class="translation-label">CODE</span>
+          <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">_extract_text</span>(html):</span>
+<span class="code-line">    soup = <span class="code-function">BeautifulSoup</span>(html, <span class="code-string">"html.parser"</span>)</span>
+<span class="code-line">    <span class="code-keyword">for</span> tag <span class="code-keyword">in</span> soup([<span class="code-string">"script"</span>, <span class="code-string">"style"</span>,</span>
+<span class="code-line">                    <span class="code-string">"nav"</span>, <span class="code-string">"footer"</span>, <span class="code-string">"header"</span>]):</span>
+<span class="code-line">        tag.<span class="code-function">decompose</span>()</span>
+<span class="code-line">    main_content = (</span>
+<span class="code-line">        soup.<span class="code-function">find</span>(<span class="code-string">"main"</span>)</span>
+<span class="code-line">        <span class="code-keyword">or</span> soup.<span class="code-function">find</span>(<span class="code-string">"article"</span>)</span>
+<span class="code-line">        <span class="code-keyword">or</span> soup.<span class="code-function">find</span>(id=re.<span class="code-function">compile</span>(</span>
+<span class="code-line">            <span class="code-string">r"job|description|content"</span>, re.<span class="code-property">I</span>))</span>
+<span class="code-line">    )</span>
+<span class="code-line">    target = main_content <span class="code-keyword">if</span> main_content <span class="code-keyword">else</span> soup.body <span class="code-keyword">or</span> soup</span>
+<span class="code-line">    lines = [l.<span class="code-function">strip</span>() <span class="code-keyword">for</span> l <span class="code-keyword">in</span></span>
+<span class="code-line">             target.<span class="code-function">get_text</span>(separator=<span class="code-string">"\n"</span>).<span class="code-function">splitlines</span>()]</span>
+<span class="code-line">    <span class="code-keyword">return</span> <span class="code-string">"\n"</span>.<span class="code-function">join</span>(l <span class="code-keyword">for</span> l <span class="code-keyword">in</span> lines <span class="code-keyword">if</span> l)[:<span class="code-number">8000</span>]</span>
+          </code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">PLAIN ENGLISH</span>
+          <div class="translation-lines">
+            <p class="tl">Parse the raw HTML string into a navigable tree.</p>
+            <p class="tl">Find every &lt;script&gt;, &lt;style&gt;, &lt;nav&gt;, &lt;footer&gt;, and &lt;header&gt; tag and <strong>delete them from the tree entirely</strong>. This removes JavaScript, CSS, menus, and footer links in one pass.</p>
+            <p class="tl">Try to find the most content-dense element: a &lt;main&gt; tag first, then &lt;article&gt;, then any element whose id contains "job", "description", or "content" (case-insensitive).</p>
+            <p class="tl">If no landmark element was found, fall back to &lt;body&gt; — or the whole document if there is no body.</p>
+            <p class="tl">Extract all visible text, split on newlines, strip each line of whitespace, and drop empty lines. This collapses all the messy HTML into clean paragraphs.</p>
+            <p class="tl">Hard-cap the result at 8 000 characters. Anything beyond that is usually boilerplate or repeated footer content anyway.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 5: QUIZ ───────────────────────────────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">Check Your Understanding</h3>
+      <p class="animate-in">Two quick scenarios. Read carefully — the details matter.</p>
+
+      <div class="quiz-container animate-in" id="quiz-module3">
+
+        <!-- Q1 -->
+        <div class="quiz-question-block"
+             data-correct="option-b"
+             data-explanation-right="Correct! The message is only 10 characters — well under the 50-char threshold the HELP check requires. With no URL, no history keyword, and a length below 100, it matches the HELP branch and returns Intent.HELP."
+             data-explanation-wrong="Check the priority chain again. The parser checks URL first (no URL here), then HISTORY keywords (none), then HELP keywords with a length guard (len < 50). The message is only 10 characters, so the HELP branch fires.">
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Scenario</span>
+              <p>A user sends the 10-character message: <strong>"help me"</strong>. No URL, no history keyword. What does the intent parser return?</p>
+            </div>
+          </div>
+          <h3 class="quiz-question">Which intent does the parser assign?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>ANALYZE_TEXT — it contains the word "me", which could be a name</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>HELP — the message matches the help pattern and is under 50 characters</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>UNKNOWN — "help me" is too vague for any branch to match</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question-block"
+             data-correct="option-b"
+             data-explanation-right="Exactly right. Navigation menus, cookie banners, and footer links add thousands of characters of useless text. Sending that to Claude wastes tokens (money) and can confuse the model. The cleaner keeps the signal-to-noise ratio high."
+             data-explanation-wrong="Think about what those tags contain. &lt;nav&gt; is a menu, &lt;footer&gt; has legal links and social icons — none of that describes the actual job. Removing them saves tokens and keeps Claude focused on real content.">
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Scenario</span>
+              <p>The fetcher calls <code>tag.decompose()</code> on every <code>&lt;nav&gt;</code> and <code>&lt;footer&gt;</code> element before extracting text.</p>
+            </div>
+          </div>
+          <h3 class="quiz-question">Why does the fetcher remove &lt;nav&gt; and &lt;footer&gt; tags?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>BeautifulSoup crashes if those tags are left in the tree</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>They contain navigation links and legal boilerplate — not job content — so keeping them wastes tokens and dilutes the AI prompt</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>The 8 000-character cap only applies after nav and footer are removed, so this step has no effect on token cost</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">Check Answers</button>
+        <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">Try Again</button>
+      </div>
+    </div>
+
+  </div>
+</section>

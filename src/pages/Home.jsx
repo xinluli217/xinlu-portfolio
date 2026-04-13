@@ -41,11 +41,6 @@ const FEATURED = [
     tags:  ["Python", "Claude API", "AI Agent"],
     title: "AI Job Application Agent",
     descKey: "featured.jobagent.desc",
-    metrics: [
-      { value: "~20s", label: "vs 23 min" },
-      { value: "3",    label: "Outputs"   },
-      { value: "2",    label: "Markets"   },
-    ],
     thumb: "/charts/chart_jobagent_thumb.png",
   },
   {
@@ -53,11 +48,6 @@ const FEATURED = [
     tags:  ["Python", "Machine Learning", "Analytics"],
     title: "Olist Churn Prevention",
     descKey: "featured.olist.desc",
-    metrics: [
-      { value: "97%+",  label: "Single-buy" },
-      { value: "3–5×",  label: "ROI"        },
-      { value: "100K+", label: "Records"    },
-    ],
     thumb: "/charts/chart_olist_thumb.png",
   },
 ];
@@ -323,60 +313,19 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Right — thumbnail + metrics */}
+              {/* Right — chart preview */}
               <div style={{
-                width: "260px",
+                width: "280px",
                 flexShrink: 0,
-                background: "#F7F4EF",
                 borderLeft: "1px solid #E5DFD6",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "12px",
-                padding: "24px",
+                overflow: "hidden",
               }}>
-                {/* Thumbnail placeholder / image */}
-                <div style={{
-                  width: "100%", height: "90px",
-                  borderRadius: "8px",
-                  background: "#EEEBE5",
-                  border: "1px solid #E5DFD6",
-                  overflow: "hidden",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <img
-                    src={proj.thumb}
-                    alt={proj.title}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                    onError={e => { e.currentTarget.style.display = "none"; }}
-                  />
-                </div>
-
-                {/* Metric pills */}
-                <div style={{ display: "flex", gap: "6px", width: "100%", justifyContent: "center" }}>
-                  {proj.metrics.map(m => (
-                    <div key={m.label} style={{
-                      flex: 1,
-                      background: "#FFFFFF",
-                      border: "1px solid #E5DFD6",
-                      borderRadius: "8px",
-                      padding: "8px 6px",
-                      textAlign: "center",
-                    }}>
-                      <div style={{
-                        fontSize: "15px", fontWeight: 700,
-                        color: "#E06B56", letterSpacing: "-0.02em",
-                        lineHeight: 1,
-                      }}>
-                        {m.value}
-                      </div>
-                      <div style={{ fontSize: "9px", color: "#9E9790", marginTop: "3px" }}>
-                        {m.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <img
+                  src={proj.thumb}
+                  alt={proj.title}
+                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block", padding: "12px" }}
+                  onError={e => { e.currentTarget.parentElement.style.display = "none"; }}
+                />
               </div>
             </motion.div>
           ))}

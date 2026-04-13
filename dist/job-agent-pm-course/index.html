@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Job Application Agent: A PM's Product Analysis</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pm-styles.css">
+  <link rel="stylesheet" href="lang.css">
+
+  <style>
+    :root {
+      --color-accent:       #2A7B9B;
+      --color-accent-hover: #1F6280;
+      --color-accent-light: #E4F2F7;
+      --color-accent-muted: #5A9DB8;
+    }
+  </style>
+
+  <script src="main.js" defer></script>
+  <script src="lang-toggle.js" defer></script>
+  <noscript><style>.animate-in { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="nav-inner">
+      <span class="nav-title lang-en">AI Job Application Agent: A PM's Product Analysis</span>
+      <span class="nav-title lang-zh">AI 求职助手：产品经理视角分析</span>
+      <div class="nav-dots" id="nav-dots" role="tablist">
+        <button class="nav-dot" data-target="module-1" data-tooltip="The Product Story" role="tab" aria-label="Module 1"></button>
+        <button class="nav-dot" data-target="module-2" data-tooltip="The User" role="tab" aria-label="Module 2"></button>
+        <button class="nav-dot" data-target="module-3" data-tooltip="The Value Loop" role="tab" aria-label="Module 3"></button>
+        <button class="nav-dot" data-target="module-4" data-tooltip="The Metrics" role="tab" aria-label="Module 4"></button>
+        <button class="nav-dot" data-target="module-5" data-tooltip="Trade-offs" role="tab" aria-label="Module 5"></button>
+        <button class="nav-dot" data-target="module-6" data-tooltip="AI Leverage" role="tab" aria-label="Module 6"></button>
+        <button class="nav-dot" data-target="module-7" data-tooltip="What's Missing" role="tab" aria-label="Module 7"></button>
+        <button id="lang-toggle-btn" aria-label="Toggle language">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+<section class="module" id="module-1" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">01</span>
+      <div class="lang-en">
+        <h1 class="module-title">The Product Story</h1>
+        <p class="module-subtitle">What problem does this solve — and why does it exist?</p>
+      </div>
+      <div class="lang-zh">
+        <h1 class="module-title">产品故事</h1>
+        <p class="module-subtitle">它解决了什么问题——为什么存在？</p>
+      </div>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">30 minutes. Every. Single. Job.</h2>
+          <p>Picture the job search grind. You find an interesting role. Then the clock starts — read the <span class="term" data-tooltip="Job Description — the document a company publishes outlining the role's responsibilities and requirements.">JD</span> carefully, rewrite your cover letter for this specific company, figure out which keywords the <span class="term" data-tooltip="Applicant Tracking System — software companies use to filter resumes automatically before a human ever reads them.">ATS</span> scanner is looking for, assess whether your experience actually matches the requirements.</p>
+          <p>That's 30+ minutes. Multiply by 50 applications. That's a part-time job just to apply for a job.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">每投一份简历，都要花30分钟</h2>
+          <p>想象求职的日常：找到一个感兴趣的职位，时钟开始倒计时——仔细阅读<span class="term" data-tooltip="职位描述（JD）——公司发布的、说明岗位职责和要求的文件。">JD</span>，针对这家公司重写求职信，研究<span class="term" data-tooltip="简历筛选系统（ATS）——企业用来在人工阅读前自动过滤简历的软件。如果简历缺少关键词，会被系统直接淘汰。">ATS</span>关键词，评估自身经历是否符合要求。</p>
+          <p>这一套下来要30分钟以上。投50份就是25小时——相当于一份兼职。</p>
+        </div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">⏱️</div>
+            <div class="lang-en"><div class="pattern-card-title">30+ minutes</div><div class="pattern-card-desc">Average time to tailor a single application — cover letter, keywords, self-assessment</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">30+ 分钟</div><div class="pattern-card-desc">每次投递所需时间——包括写求职信、筛关键词、自我评估</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📋</div>
+            <div class="lang-en"><div class="pattern-card-title">50+ applications</div><div class="pattern-card-desc">Typical volume for an active job seeker in a competitive market</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">50+ 份申请</div><div class="pattern-card-desc">激烈竞争市场中，积极求职者的典型投递量</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔁</div>
+            <div class="lang-en"><div class="pattern-card-title">Mostly repetitive</div><div class="pattern-card-desc">Same skills, same projects, rephrased slightly for each role — exhausting manual work</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">大量重复劳动</div><div class="pattern-card-desc">相同的技能、相同的项目，只是换个说法——机械又耗力</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">30 seconds instead of 30 minutes</h2>
+          <p>The AI Job Application Agent collapses that 30-minute process into a single action. Paste a job URL or description. In about 15–20 seconds, you get everything you need to apply.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">从30分钟压缩到30秒</h2>
+          <p>AI 求职助手把这套繁琐流程压缩成一个动作。粘贴职位链接或描述，约15–20秒后，所有申请材料一次性到位。</p>
+        </div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🎯</div>
+            <div class="lang-en"><div class="pattern-card-title">Match Score</div><div class="pattern-card-desc">An honest 0–100 rating of how well your background fits this specific role</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">匹配分数</div><div class="pattern-card-desc">真实的0–100分，客观评估你与该职位的契合度</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📊</div>
+            <div class="lang-en"><div class="pattern-card-title">Skill Gap Analysis</div><div class="pattern-card-desc">Which requirements you meet, which you're missing, and how to address the gaps</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">技能差距分析</div><div class="pattern-card-desc">哪些要求你已具备，哪些还欠缺，以及如何弥补</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">✍️</div>
+            <div class="lang-en"><div class="pattern-card-title">Tailored Cover Letter</div><div class="pattern-card-desc">A role-specific cover letter that references this company and this JD — not a template</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">定制求职信</div><div class="pattern-card-desc">针对这家公司、这个职位量身撰写的求职信——不是通用模板</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔑</div>
+            <div class="lang-en"><div class="pattern-card-title">ATS Keywords</div><div class="pattern-card-desc">The exact terms from the JD to weave into your resume to pass automated screening</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">ATS 关键词</div><div class="pattern-card-desc">直接从JD提取的关键词，帮你通过自动筛选</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🎤</div>
+            <div class="lang-en"><div class="pattern-card-title">Interview Coaching</div><div class="pattern-card-desc">Send an interview question, get the skill it's testing + talking points + project to reference</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">面试辅导</div><div class="pattern-card-desc">发送面试题，获得考察点 + 回答思路 + 最佳项目参考</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">What it feels like to use it</h2>
+          <p>The product communicates as a conversation — through CLI or a <span class="term" data-tooltip="Feishu (Lark) — a workplace communication platform widely used in Chinese tech companies. Think Slack, but built by ByteDance.">Feishu</span> chat. The interaction is deliberately designed in two steps: a free instant preview, then a deeper AI analysis on demand.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">实际使用体验</h2>
+          <p>产品以对话形式交互——通过命令行或<span class="term" data-tooltip="飞书——字节跳动开发的企业协作平台，广泛用于中国互联网公司，类似 Slack。">飞书</span>机器人。交互流程被刻意设计为两步：先免费预览，再按需触发深度 AI 分析。</p>
+        </div>
+        <div class="chat-container" id="chat-product-intro">
+          <div class="chat-header">
+            <span class="chat-title lang-en">A typical session</span>
+            <span class="chat-title lang-zh">典型对话流程</span>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-message left" data-delay="0">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left">https://company.com/jobs/data-analyst-role</div>
+            </div>
+            <div class="chat-message right" data-delay="700">
+              <div class="chat-avatar" style="background: var(--color-accent)">A</div>
+              <div class="chat-bubble right lang-en">🎯 Match Score: 68% — 12 matched, 5 missing. Want full analysis + cover letter? (yes / no)</div>
+              <div class="chat-bubble right lang-zh">🎯 匹配分数：68% — 匹配12项，缺失5项。需要完整分析和求职信吗？（yes / no）</div>
+            </div>
+            <div class="chat-message left" data-delay="1400">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left">yes</div>
+            </div>
+            <div class="chat-message right" data-delay="2100">
+              <div class="chat-avatar" style="background: var(--color-accent)">A</div>
+              <div class="chat-bubble right lang-en">✅ Analysis done. Cover letter saved. Got an interview? (yes / no)</div>
+              <div class="chat-bubble right lang-zh">✅ 分析完成，求职信已保存。收到面试邀请了吗？（yes / no）</div>
+            </div>
+            <div class="chat-message left" data-delay="2800">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left lang-en">yes — "Tell me about handling ambiguous data requirements."</div>
+              <div class="chat-bubble left lang-zh">yes — "请描述一次你处理模糊数据需求的经历"</div>
+            </div>
+            <div class="chat-message right" data-delay="3500">
+              <div class="chat-avatar" style="background: var(--color-accent)">A</div>
+              <div class="chat-bubble right lang-en">🎯 This tests problem structuring. 3 talking points + best project to reference...</div>
+              <div class="chat-bubble right lang-zh">🎯 这道题考察问题拆解能力。以下是3个回答要点 + 最适合引用的项目...</div>
+            </div>
+          </div>
+          <button class="chat-replay-btn" onclick="replayChat('chat-product-intro')">Replay ↺</button>
+        </div>
+      </section>
+
+      <!-- Screen 4 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">The PM lens on the core promise</h2>
+          <p>The product's value can be measured by the time it reclaims and the quality it preserves. A good PM wouldn't just say "make it faster" — they'd define what faster means and how to know if they got there.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">产品经理视角：核心承诺</h2>
+          <p>产品价值体现在两个维度：节省的时间，以及保留的质量。优秀的<span class="term" data-tooltip="产品经理（PM）——负责定义产品方向、优先级和成功标准的角色。">产品经理</span>不会只说"做得更快"，而是会明确"快"的定义，以及如何验证是否达到目标。</p>
+        </div>
+        <div class="prd-callout animate-in">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">📋</span>
+            <span class="prd-callout-label lang-en">If This Were a PRD</span>
+            <span class="prd-callout-label lang-zh">如果这是一份 PRD</span>
+          </div>
+          <div class="prd-callout-body lang-en">
+            The goal statement might read: <em>"Reduce median time-to-application-ready from 30+ minutes to under 60 seconds for job seekers applying to 5+ roles per week, without reducing cover letter specificity to the role."</em>
+          </div>
+          <div class="prd-callout-body lang-zh">
+            目标陈述可以这样写：<em>"针对每周投递5个以上职位的求职者，将每次申请的准备时间中位数从30分钟以上压缩到60秒以内，同时不降低求职信对职位的针对性。"</em> 注意它指定了指标、目标值、用户群体和质量约束——而不仅仅是"做得更快"。
+          </div>
+        </div>
+
+        <div class="quiz-container animate-in" id="quiz-module1" style="margin-top: var(--space-8)">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Exactly. Speed alone isn't the promise — it's speed without sacrificing specificity. The README explicitly states cover letters must be 'specific to THIS job, not generic.'"
+               data-explanation-wrong="Speed matters, but the README explicitly states cover letters must be 'specific to THIS job, not generic.' What happens to the value proposition if the output is fast but generic?">
+            <h3 class="quiz-question lang-en">The product promises to reduce application prep from 30 minutes to 30 seconds. What's the biggest risk to this value proposition?</h3>
+            <h3 class="quiz-question lang-zh">产品承诺将申请准备时间从30分钟压缩到30秒。这个价值主张最大的风险是什么？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">The AI takes longer than 30 seconds on slow connections</span>
+                <span class="lang-zh">网速慢时 AI 响应超过30秒</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">The cover letters feel generic rather than genuinely tailored to each role</span>
+                <span class="lang-zh">求职信感觉千篇一律，而非真正针对每个职位定制</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Users forget to run the tool for every application</span>
+                <span class="lang-zh">用户忘记对每份申请都使用该工具</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">The CLI interface is intimidating for non-technical users</span>
+                <span class="lang-zh">命令行界面对非技术用户太难上手</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module1')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module1')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-2" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">02</span>
+      <div class="lang-en">
+        <h1 class="module-title">The User</h1>
+        <p class="module-subtitle">Who is this built for — and what does their life look like?</p>
+      </div>
+      <div class="lang-zh">
+        <h1 class="module-title">目标用户</h1>
+        <p class="module-subtitle">这个产品为谁而造——他们的生活是什么样的？</p>
+      </div>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">Who the product thinks you are</h2>
+          <p>Products encode their target user in dozens of small decisions. The interface choice, the data format, the integrations — each one reveals an assumption about who will use this. Reading these signals is a core PM skill.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">产品"预设"的用户是谁</h2>
+          <p>产品在无数细节决策中编码了它的目标用户。界面选择、数据格式、集成方式——每一项都隐含着对使用者的假设。读懂这些信号是<span class="term" data-tooltip="产品经理——负责定义产品方向、优先级和成功衡量标准的角色。">产品经理</span>的核心技能。</p>
+        </div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">💻</div>
+            <div class="lang-en"><div class="pattern-card-title">CLI-first interface</div><div class="pattern-card-desc">The primary interface is a command-line tool. This self-selects for technically literate users comfortable running commands in a terminal.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">命令行优先</div><div class="pattern-card-desc">主要界面是命令行工具，天然筛选出熟悉在终端输入命令的技术型用户。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📁</div>
+            <div class="lang-en"><div class="pattern-card-title">YAML profile file</div><div class="pattern-card-desc">Your resume lives in a structured YAML file you edit manually. Non-technical users would find this intimidating — the product doesn't abstract it away.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">YAML 简历文件</div><div class="pattern-card-desc">个人信息存储在需要手动编辑的<span class="term" data-tooltip="YAML——一种结构化数据格式，常用于配置文件。对非技术用户来说需要学习成本。">YAML</span>文件中，非技术用户会觉得门槛较高，产品没有刻意降低这个门槛。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">💬</div>
+            <div class="lang-en"><div class="pattern-card-title">Feishu integration</div><div class="pattern-card-desc"><span class="term" data-tooltip="Feishu (Lark) — a workplace platform used almost exclusively in Chinese tech companies including ByteDance, Meituan, and others.">Feishu</span> is used almost exclusively in Chinese tech companies. This integration signals the builder works in that ecosystem — and built for people like themselves.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">飞书集成</div><div class="pattern-card-desc"><span class="term" data-tooltip="飞书（Lark）——字节跳动开发的企业协作平台，几乎专用于中国互联网公司（字节、美团等）。">飞书</span>几乎专属于中国科技公司。接入飞书强烈暗示开发者本人就在这个生态中工作，并为自己这样的人构建了这款产品。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">The two types of job seekers this serves</h2>
+          <p>Based on the product's design signals, it serves two distinct job seeker <span class="term" data-tooltip="User segments — distinct groups of users who share similar needs or behaviors. A good PM understands which segment is primary.">segments</span> — with different intensities of use.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">产品服务的两类求职者</h2>
+          <p>根据产品的设计信号，它服务于两类截然不同的求职者<span class="term" data-tooltip="用户分层——具有相似需求或行为的用户群体。优秀的产品经理清楚哪个群体是核心用户。">细分群体</span>，使用频率各有差异。</p>
+        </div>
+        <div class="persona-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="persona-card animate-in">
+            <div class="persona-card-header">
+              <span class="persona-segment lang-en">🔥 The Active Hunter</span>
+              <span class="persona-segment lang-zh">🔥 积极求职者</span>
+            </div>
+            <div class="persona-card-body">
+              <div class="persona-row persona-jtbd">
+                <span class="persona-row-label lang-en">Job To Be Done</span>
+                <span class="persona-row-label lang-zh">待完成的任务</span>
+                <span class="persona-row-text lang-en">Apply to 10–20 roles per week while maintaining quality and tracking progress</span>
+                <span class="persona-row-text lang-zh">每周投递10–20个职位，同时保持质量并追踪进度</span>
+              </div>
+              <div class="persona-row persona-pain">
+                <span class="persona-row-label lang-en">Pain Point</span>
+                <span class="persona-row-label lang-zh">核心痛点</span>
+                <span class="persona-row-text lang-en">Tailoring each application manually is exhausting — by application 15, cover letters start sounding identical</span>
+                <span class="persona-row-text lang-zh">手动定制每份申请极度耗力——投到第15份时，求职信开始千篇一律</span>
+              </div>
+              <div class="persona-row persona-gain">
+                <span class="persona-row-label lang-en">What They Get</span>
+                <span class="persona-row-label lang-zh">产品给予的价值</span>
+                <span class="persona-row-text lang-en">Consistent, high-quality output for every application, with history tracking to avoid duplicate efforts</span>
+                <span class="persona-row-text lang-zh">每份申请都能得到高质量的定制材料，历史记录避免重复劳动</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="persona-card animate-in">
+            <div class="persona-card-header" style="background: var(--color-actor-2)">
+              <span class="persona-segment lang-en">🎯 The Strategic Mover</span>
+              <span class="persona-segment lang-zh">🎯 精准求职者</span>
+            </div>
+            <div class="persona-card-body">
+              <div class="persona-row persona-jtbd">
+                <span class="persona-row-label lang-en">Job To Be Done</span>
+                <span class="persona-row-label lang-zh">待完成的任务</span>
+                <span class="persona-row-text lang-en">Evaluate a handful of targeted roles carefully — is this worth applying to? What's my honest fit?</span>
+                <span class="persona-row-text lang-zh">精挑细选少数目标职位——值得投吗？我的真实匹配度是多少？</span>
+              </div>
+              <div class="persona-row persona-pain">
+                <span class="persona-row-label lang-en">Pain Point</span>
+                <span class="persona-row-label lang-zh">核心痛点</span>
+                <span class="persona-row-text lang-en">Hard to self-assess objectively — you either over- or under-estimate your fit without outside analysis</span>
+                <span class="persona-row-text lang-zh">难以客观评估自己——没有外部分析，容易高估或低估与职位的契合度</span>
+              </div>
+              <div class="persona-row persona-gain">
+                <span class="persona-row-label lang-en">What They Get</span>
+                <span class="persona-row-label lang-zh">产品给予的价值</span>
+                <span class="persona-row-text lang-en">An honest match score designed not to inflate — helping prioritize which roles are worth pursuing</span>
+                <span class="persona-row-text lang-zh">不虚高的真实匹配分数——帮助判断哪些职位值得重点追求</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">One person. One profile. A deliberate choice.</h2>
+          <p>The entire product is designed for a single user. Your profile lives in one file. There's no login, no accounts, no way to share. This isn't an oversight — it's a deliberate scope decision.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">单人使用，一个档案——刻意为之</h2>
+          <p>整个产品为单个用户设计。你的档案存在一个文件里，没有登录、没有账户、无法多人共享。这不是疏漏——而是经过深思熟虑的范围决策。</p>
+        </div>
+        <div class="prd-callout animate-in">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">👤</span>
+            <span class="prd-callout-label lang-en">The User Story Behind This</span>
+            <span class="prd-callout-label lang-zh">背后的用户故事</span>
+          </div>
+          <div class="prd-callout-body lang-en">
+            The implicit user story: <em>"As a technically literate job seeker, I want to analyze any job description against my own profile instantly, so I can apply to more roles at higher quality without spending hours on manual tailoring."</em>
+          </div>
+          <div class="prd-callout-body lang-zh">
+            隐含的用户故事：<em>"作为一名有技术背景的求职者，我希望能即时将任何职位描述与我的个人档案进行匹配分析，这样我就能在不花费大量时间手动定制的情况下，以更高质量投递更多职位。"</em> 注意"我的个人档案"——产品由一个人为自己而建，多用户场景被完全推迟。
+          </div>
+        </div>
+
+        <div class="quiz-container animate-in" id="quiz-module2" style="margin-top: var(--space-8)">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Correct. CLI interface, YAML profile, and Feishu bot all require technical comfort. The product made no effort to abstract these — it was built for a technical user."
+               data-explanation-wrong="Consider the interface choices: a terminal command, a manually-edited YAML file, a Feishu bot. Which type of user finds these natural?">
+            <h3 class="quiz-question lang-en">A non-technical recruiter wants to use this product to assess candidate fit. Based on the product's design signals, what would likely happen?</h3>
+            <h3 class="quiz-question lang-zh">一位不懂技术的招聘官想用这个产品来评估候选人匹配度。根据产品的设计信号，结果可能是？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">They could use it easily — the Feishu bot makes it conversational enough</span>
+                <span class="lang-zh">可以轻松使用——飞书机器人的对话形式足够友好</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">They'd likely struggle — editing a YAML file and running CLI commands assumes technical comfort the product never tried to remove</span>
+                <span class="lang-zh">可能会遇到困难——编辑YAML文件和运行命令行需要技术能力，而产品从未试图降低这个门槛</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">They'd be fine as long as someone sets it up for them initially</span>
+                <span class="lang-zh">只要有人初始化配置，应该没问题</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">The product explicitly supports multiple users, so this use case is covered</span>
+                <span class="lang-zh">产品明确支持多用户，这个场景是覆盖的</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-3" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">03</span>
+      <div class="lang-en">
+        <h1 class="module-title">The Value Loop</h1>
+        <p class="module-subtitle">How does the product deliver value — and what keeps users coming back?</p>
+      </div>
+      <div class="lang-zh">
+        <h1 class="module-title">价值循环</h1>
+        <p class="module-subtitle">产品如何持续创造价值——是什么让用户一再回来？</p>
+      </div>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">A job search is a volume game</h2>
+          <p>Think of a <span class="term" data-tooltip="Flywheel — a dynamic where each use makes the next use more valuable, creating self-reinforcing momentum. Amazon: more sellers → better selection → more buyers → more sellers.">flywheel</span>. The more jobs you apply to, the faster you learn what works. The faster you can apply, the more jobs you try. The product sits at the center of this loop — keeping the wheel spinning without burning you out.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">求职是一场数量游戏</h2>
+          <p>想象一个<span class="term" data-tooltip="飞轮效应——每次使用都让下次使用更有价值，形成自我强化的正向循环。亚马逊的飞轮：更多卖家→更好选品→更多买家→更多卖家。">飞轮</span>。你投递的职位越多，你就越快知道什么有效。申请速度越快，你就能尝试更多机会。这款产品处于这个循环的中心——让飞轮持续转动，而不把你耗尽。</p>
+        </div>
+      </section>
+
+      <!-- Screen 2 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">The product's value delivery cycle</h2>
+          <p>Each application is its own mini-loop. Here's what actually happens when a user engages with the product.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">产品的价值交付循环</h2>
+          <p>每次求职申请都是一个完整的小循环。以下是用户使用产品时实际发生的事情。</p>
+        </div>
+
+        <div class="value-loop animate-in" style="margin-top: var(--space-8)">
+          <div class="value-loop-steps">
+            <div class="value-loop-step">
+              <span class="loop-step-icon">🔍</span>
+              <span class="loop-step-label lang-en">Job Lead</span>
+              <span class="loop-step-label lang-zh">发现职位</span>
+              <span class="loop-step-desc lang-en">User finds a job URL or pastes a description</span>
+              <span class="loop-step-desc lang-zh">用户获取职位链接或粘贴职位描述</span>
+            </div>
+            <span class="loop-arrow">→</span>
+            <div class="value-loop-step">
+              <span class="loop-step-icon">⚡</span>
+              <span class="loop-step-label lang-en">Free Scan</span>
+              <span class="loop-step-label lang-zh">免费扫描</span>
+              <span class="loop-step-desc lang-en">Instant keyword match — worth pursuing? No AI cost yet.</span>
+              <span class="loop-step-desc lang-zh">即时关键词匹配——值得继续吗？此步骤无 AI 费用。</span>
+            </div>
+            <span class="loop-arrow">→</span>
+            <div class="value-loop-step">
+              <span class="loop-step-icon">🤖</span>
+              <span class="loop-step-label lang-en">Deep Analysis</span>
+              <span class="loop-step-label lang-zh">深度分析</span>
+              <span class="loop-step-desc lang-en">Full AI: score, gaps, cover letter, ATS keywords (15–20 secs)</span>
+              <span class="loop-step-desc lang-zh">AI全面分析：评分、差距、求职信、关键词（15–20秒）</span>
+            </div>
+            <span class="loop-arrow">→</span>
+            <div class="value-loop-step">
+              <span class="loop-step-icon">📨</span>
+              <span class="loop-step-label lang-en">Apply</span>
+              <span class="loop-step-label lang-zh">提交申请</span>
+              <span class="loop-step-desc lang-en">User submits with tailored materials</span>
+              <span class="loop-step-desc lang-zh">携带定制材料提交申请</span>
+            </div>
+            <span class="loop-arrow">→</span>
+            <div class="value-loop-step">
+              <span class="loop-step-icon">🎤</span>
+              <span class="loop-step-label lang-en">Interview Prep</span>
+              <span class="loop-step-label lang-zh">面试准备</span>
+              <span class="loop-step-desc lang-en">If selected: role-specific coaching, talking points, project references</span>
+              <span class="loop-step-desc lang-zh">收到面试邀请后：针对该职位的辅导、回答要点、项目引用</span>
+            </div>
+          </div>
+          <div class="value-loop-return lang-en">next job lead — the cycle repeats</div>
+          <div class="value-loop-return lang-zh">寻找下一个职位——循环重复</div>
+        </div>
+      </section>
+
+      <!-- Screen 3 -->
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">What brings users back</h2>
+          <p>Strong products have a <span class="term" data-tooltip="Retention hook — a feature that gives users a reason to return. The best hooks create increasing value over time.">retention hook</span>. For this product, the hook is history — every analysis is auto-saved. Over weeks of job searching, users accumulate a record of every role analyzed, every match score, every application made.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">是什么让用户回头</h2>
+          <p>强产品都有<span class="term" data-tooltip="留存钩子——促使用户再次回来的功能或机制。最好的留存钩子随时间创造越来越多的价值。">留存钩子</span>。这款产品的钩子是历史记录——每次分析都自动保存。随着求职周期延长，用户积累了每个分析过的职位、每次匹配分数、每次申请记录。</p>
+        </div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📜</div>
+            <div class="lang-en"><div class="pattern-card-title">Application History</div><div class="pattern-card-desc">Auto-logged: company, role, match score, timestamp. View any time with the 'history' command.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">申请历史</div><div class="pattern-card-desc">自动记录：公司、职位、匹配分数、时间戳。随时用'history'命令查看。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📊</div>
+            <div class="lang-en"><div class="pattern-card-title">Feishu Bitable Sync</div><div class="pattern-card-desc">Results sync to a <span class="term" data-tooltip="Feishu Bitable — a spreadsheet-database hybrid in Feishu, similar to Airtable.">Bitable</span> table for richer tracking and filtering.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">飞书多维表格同步</div><div class="pattern-card-desc">结果自动同步到<span class="term" data-tooltip="飞书多维表格——飞书内的电子表格数据库工具，类似 Airtable，支持更丰富的筛选和追踪。">飞书多维表格</span>，支持更丰富的追踪和筛选。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">💾</div>
+            <div class="lang-en"><div class="pattern-card-title">Exported Files</div><div class="pattern-card-desc">Every analysis exports as Markdown (human-readable) + JSON (structured data) — a personal archive.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">导出文件</div><div class="pattern-card-desc">每次分析导出为 Markdown（可读）+ JSON（结构化数据）——形成个人求职档案。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4 -->
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Think like a PM</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">产品经理思维练习</h2></div>
+
+        <div class="quiz-container animate-in" id="quiz-module3">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Exactly. The free scan delivers instant value while saving API costs for roles the user actually wants to pursue. It's friction that also builds value."
+               data-explanation-wrong="Think about what the free scan gives the user, and what it saves. What problem does running a lightweight keyword check first actually solve?">
+            <h3 class="quiz-question lang-en">The product has a two-step flow: free scan first, then full AI analysis only if the user says "yes." Why is this two-step design actually better than running full analysis immediately?</h3>
+            <h3 class="quiz-question lang-zh">产品设计为两步流程：先免费扫描，用户确认后才进行完整的 AI 分析。为什么这种两步设计实际上比直接运行完整分析更好？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It gives the product more time to process the job description</span>
+                <span class="lang-zh">给产品更多时间处理职位描述</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It makes the product feel more interactive and conversational</span>
+                <span class="lang-zh">让产品感觉更具互动性和对话感</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It delivers instant value (quick fit signal) while saving AI costs for roles the user decides are worth pursuing</span>
+                <span class="lang-zh">立即提供价值（快速匹配信号），同时将 AI 成本节省给用户真正决定追求的职位</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It prevents users from accidentally running expensive AI calls</span>
+                <span class="lang-zh">防止用户意外触发高成本的 AI 调用</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module3')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module3')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-4" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <div class="lang-en"><h1 class="module-title">The Metrics</h1><p class="module-subtitle">How would you know if this product is actually working?</p></div>
+      <div class="lang-zh"><h1 class="module-title">核心指标</h1><p class="module-subtitle">你怎么知道这个产品是否真的在发挥作用？</p></div>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">Speed is easy to measure. Quality is hard.</h2>
+          <p>Think of a car dashboard. You don't stare at the speedometer constantly — but you'd notice immediately if it disappeared. Metrics work the same way. For this product, the obvious metric is speed — but speed alone is a trap. A product that generates instant, generic cover letters is fast but worthless. The real challenge is measuring <em>quality at speed</em>.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">速度容易衡量，质量很难</h2>
+          <p>想象一辆汽车的仪表盘。你不会一直盯着速度计——但如果它消失了，你会立刻察觉。<span class="term" data-tooltip="指标——用于衡量产品是否实现目标的可量化数据点。好的指标让团队知道何时走偏了。">指标</span>就是这样运作的。对这款产品而言，最直观的指标是速度——但速度本身是个陷阱。一个能即时生成通用求职信的产品很快，却毫无价值。真正的挑战是衡量<em>兼顾质量的速度</em>。</p>
+        </div>
+        <div class="prd-callout animate-in" style="margin-top: var(--space-8)">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">📋</span>
+            <span class="prd-callout-label lang-en">If This Were a PRD</span>
+            <span class="prd-callout-label lang-zh">如果这是一份 PRD</span>
+          </div>
+          <div class="prd-callout-body lang-en">The success metrics section might read: <em>"Primary: time-to-application-ready per job (target: under 60 seconds). Quality guardrail: cover letter must reference the specific company and role — generic outputs fail. Honesty guardrail: match score must surface real gaps, not inflate fit."</em></div>
+          <div class="prd-callout-body lang-zh"><span class="term" data-tooltip="PRD（产品需求文档）——产品经理用于定义产品目标、功能和成功标准的文档。">PRD</span>的成功指标部分可能写道：<em>"主要指标：每个职位的申请准备时间（目标：60秒以内）。质量护栏：求职信必须提及具体公司和职位名称，通用输出视为不达标。诚实护栏：匹配分数必须真实反映差距，不得虚高。"</em></div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">What success looks like — measured</h2><p>Here's how a PM would instrument this product. The <span class="term" data-tooltip="North star metric — the single most important metric that captures whether the product is delivering its core value.">north star metric</span> captures the core promise. <span class="term" data-tooltip="Guardrail metrics — metrics that must not be sacrificed in pursuit of the north star.">Guardrail metrics</span> prevent hitting it the wrong way.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">如何衡量成功</h2><p>以下是产品经理会如何为这款产品设计指标体系。<span class="term" data-tooltip="北极星指标——唯一最重要的指标，捕捉产品是否在交付其核心价值。如果这个数字在增长，说明产品在起作用。">北极星指标</span>捕捉核心承诺，<span class="term" data-tooltip="护栏指标——在追求北极星指标的过程中，不能被牺牲的指标。它防止用错误方式达到目标。">护栏指标</span>防止以错误方式达到目标。</p></div>
+
+        <div class="north-star-dashboard animate-in" style="margin-top: var(--space-8)">
+          <div class="north-star-hero">
+            <span class="north-star-label lang-en">North Star Metric</span>
+            <span class="north-star-label lang-zh">北极星指标</span>
+            <span class="north-star-metric-name lang-en">Applications Prepared per Session</span>
+            <span class="north-star-metric-name lang-zh">每次会话准备的申请数量</span>
+            <p class="north-star-why lang-en">A user who prepares multiple applications in one session has made the product a genuine habit. This captures both engagement depth and volume.</p>
+            <p class="north-star-why lang-zh">在一次会话中准备多份申请的用户，已将产品纳入真正的习惯。这个指标同时捕捉了参与深度和使用量。</p>
+          </div>
+          <div class="guardrail-metrics">
+            <div class="guardrail-metric">
+              <span class="guardrail-badge lang-en">Guardrail</span><span class="guardrail-badge lang-zh">护栏</span>
+              <span class="guardrail-name lang-en">Cover Letter Specificity</span><span class="guardrail-name lang-zh">求职信针对性</span>
+              <span class="guardrail-direction up lang-en">want higher</span><span class="guardrail-direction up lang-zh">越高越好</span>
+            </div>
+            <div class="guardrail-metric">
+              <span class="guardrail-badge lang-en">Guardrail</span><span class="guardrail-badge lang-zh">护栏</span>
+              <span class="guardrail-name lang-en">Match Score Honesty</span><span class="guardrail-name lang-zh">匹配分数诚实度</span>
+              <span class="guardrail-direction stable lang-en">must stay calibrated</span><span class="guardrail-direction stable lang-zh">必须保持校准</span>
+            </div>
+            <div class="guardrail-metric">
+              <span class="guardrail-badge lang-en">Guardrail</span><span class="guardrail-badge lang-zh">护栏</span>
+              <span class="guardrail-name lang-en">Analysis Completion Rate</span><span class="guardrail-name lang-zh">分析完成率</span>
+              <span class="guardrail-direction up lang-en">want higher</span><span class="guardrail-direction up lang-zh">越高越好</span>
+            </div>
+            <div class="guardrail-metric">
+              <span class="guardrail-badge lang-en">Guardrail</span><span class="guardrail-badge lang-zh">护栏</span>
+              <span class="guardrail-name lang-en">7-Day Return Rate</span><span class="guardrail-name lang-zh">7日回访率</span>
+              <span class="guardrail-direction up lang-en">want higher</span><span class="guardrail-direction up lang-zh">越高越好</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">The product already measures itself</h2><p>One of this product's most interesting design choices: it explicitly commits to <strong>honest match scoring</strong>. The README cites a 28% score for a trading analyst role as a feature, not a bug — it correctly flagged missing domain knowledge. A product that inflates scores feels good in the moment but destroys trust when users apply to mismatched roles and get rejected.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">产品已经在自我衡量</h2><p>这款产品最有趣的设计选择之一：它明确承诺<strong>诚实的匹配评分</strong>。README 将一次交易分析师职位28%的分数作为产品亮点——因为它准确地揭示了候选人缺乏的领域知识。虚高分数短期感觉良好，但当用户因此投递不匹配职位而被拒时，信任就被摧毁了。</p></div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">✅</div>
+            <div class="lang-en"><div class="pattern-card-title">28% is a correct answer</div><div class="pattern-card-desc">A trading role requiring FX knowledge correctly scored low for a candidate without that background.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">28分是正确答案</div><div class="pattern-card-desc">需要外汇知识的交易职位，对缺乏该背景的候选人正确给出了低分。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🎯</div>
+            <div class="lang-en"><div class="pattern-card-title">Honesty is a product feature</div><div class="pattern-card-desc">Users who trust the score will use it to prioritize applications. Users who don't trust it will stop using the product. Calibration = retention.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">诚实是产品特性</div><div class="pattern-card-desc">信任分数的用户会用它来筛选职位优先级。不信任的用户会停止使用。校准度 = 留存率。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Think like a PM</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">产品经理思维练习</h2></div>
+        <div class="quiz-container animate-in" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="Right. If the score is inflated, users will lose trust when their 'high-fit' applications get rejected. Calibration is what makes the score useful as a decision tool."
+               data-explanation-wrong="Imagine a user who gets a 75% score, applies confidently, and gets immediately rejected. Then it happens again. What does that do to their relationship with the product?">
+            <h3 class="quiz-question lang-en">Suppose the match scoring starts inflating scores — most jobs now score 65–80% even when underqualified. What's the most likely long-term product impact?</h3>
+            <h3 class="quiz-question lang-zh">假设匹配评分开始虚高——即使候选人资质不足，大多数职位也能得到65–80分。对产品最可能的长期影响是？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Users will apply to more jobs and feel more confident</span>
+                <span class="lang-zh">用户会投递更多职位，感觉更有信心</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Users will stop trusting the score and either ignore it or stop using the product</span>
+                <span class="lang-zh">用户会失去对分数的信任，要么忽视它，要么停止使用产品</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Users will appreciate the encouragement and return more often</span>
+                <span class="lang-zh">用户会欣赏这种鼓励，更频繁地回来使用</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">No impact — the cover letter is the valuable part, not the score</span>
+                <span class="lang-zh">没有影响——有价值的是求职信，不是分数</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-5" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">05</span>
+      <div class="lang-en"><h1 class="module-title">Trade-offs &amp; Decisions</h1><p class="module-subtitle">What was built vs. cut — and what does that reveal about priorities?</p></div>
+      <div class="lang-zh"><h1 class="module-title">权衡与决策</h1><p class="module-subtitle">做了什么，放弃了什么——这揭示了什么样的优先级？</p></div>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Every product decision is a seesaw</h2><p>Product decisions are made under real constraints — limited time, real API costs, a single developer, specific use cases in mind. Every choice pushes one side of the seesaw up and the other down. A PM's job isn't to judge these choices — it's to understand <em>what they reveal about priorities</em>.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">每个产品决策都是一个跷跷板</h2><p>产品决策在真实约束下做出——时间有限、<span class="term" data-tooltip="API成本——每次调用 Claude 等 AI 服务的费用。对每个职位都运行完整分析，即使匹配度很低，成本会显著增加。">API成本</span>真实存在、只有一个开发者、心里有特定的使用场景。每个选择都让跷跷板一端上升，另一端下降。产品经理的工作不是评判这些选择的对错——而是理解<em>它们揭示了什么优先级</em>。</p></div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Decision 1: Two-phase analysis</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">决策一：两阶段分析流程</h2></div>
+        <div class="tradeoff-matrix animate-in">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">Free keyword scan first; only call AI if user confirms</span>
+            <span class="tradeoff-decision-text lang-zh">先进行免费关键词扫描；仅在用户确认后才调用 AI</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr>
+              <th class="lang-en">Option</th><th class="lang-zh">方案</th>
+              <th class="lang-en">What You Gain</th><th class="lang-zh">获得什么</th>
+              <th class="lang-en">What You Give Up</th><th class="lang-zh">放弃什么</th>
+              <th class="lang-en">Status</th><th class="lang-zh">状态</th>
+            </tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td data-label="Option"><strong class="lang-en">Two-phase: free scan first</strong><strong class="lang-zh">两阶段：先免费扫描</strong></td>
+                <td data-label="Gain"><span class="lang-en">Instant fit signal. API cost only for roles user decides to pursue</span><span class="lang-zh">即时匹配信号。API成本仅用于用户决定追求的职位</span></td>
+                <td data-label="Give Up"><span class="lang-en">Extra step before full value. Some users may abandon at the yes/no prompt</span><span class="lang-zh">获取完整价值前多了一步。部分用户可能在确认步骤流失</span></td>
+                <td data-label="Status"><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td data-label="Option"><span class="lang-en">Full AI analysis immediately</span><span class="lang-zh">直接进行完整 AI 分析</span></td>
+                <td data-label="Gain"><span class="lang-en">Frictionless — one input, full output instantly</span><span class="lang-zh">无摩擦——一次输入，立即获得完整输出</span></td>
+                <td data-label="Give Up"><span class="lang-en">Higher API cost per session; wasted analysis on poor-fit roles</span><span class="lang-zh">每次会话API成本更高；在低匹配职位上浪费分析</span></td>
+                <td data-label="Status"><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top: var(--space-4); color: var(--color-text-secondary); font-size: var(--text-sm)">
+          <span class="lang-en"><strong>What this reveals:</strong> Optimized for cost efficiency over frictionless UX. Reasonable for a personal tool where the builder pays the API bill themselves.</span>
+          <span class="lang-zh"><strong>揭示的优先级：</strong>以用户体验摩擦换取成本效率。对于开发者自付 API 账单的个人工具来说，这是合理的权衡。</span>
+        </p>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Decisions 2 &amp; 3: No web UI. No ML templates.</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">决策二 &amp; 三：无 Web UI，无机器学习模板匹配</h2></div>
+        <div class="tradeoff-matrix animate-in">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">CLI + Feishu only — no browser interface</span>
+            <span class="tradeoff-decision-text lang-zh">仅命令行 + 飞书——无浏览器界面</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr><th class="lang-en">Option</th><th class="lang-zh">方案</th><th class="lang-en">Gain</th><th class="lang-zh">获得</th><th class="lang-en">Give Up</th><th class="lang-zh">放弃</th><th class="lang-en">Status</th><th class="lang-zh">状态</th></tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td><strong class="lang-en">CLI + Feishu bot</strong><strong class="lang-zh">命令行 + 飞书机器人</strong></td>
+                <td><span class="lang-en">Fast to build. Fits the builder's own workflow perfectly.</span><span class="lang-zh">开发速度快。完全契合开发者自己的工作流。</span></td>
+                <td><span class="lang-en">Non-technical users can't use it. Limits mass-market potential severely.</span><span class="lang-zh">非技术用户无法使用。严重限制了大众市场潜力。</span></td>
+                <td><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="lang-en">Web app</span><span class="lang-zh">Web 应用</span></td>
+                <td><span class="lang-en">Accessible to anyone with a browser. Much larger audience.</span><span class="lang-zh">任何有浏览器的人都可访问，受众更广泛。</span></td>
+                <td><span class="lang-en">Significantly more development effort. Auth, hosting, frontend.</span><span class="lang-zh">开发工作量显著增加。需要认证、托管、前端。</span></td>
+                <td><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tradeoff-matrix animate-in" style="margin-top: var(--space-6)">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">Template selection via keyword frequency — no ML</span>
+            <span class="tradeoff-decision-text lang-zh">通过关键词频率选择模板——不用机器学习</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr><th class="lang-en">Option</th><th class="lang-zh">方案</th><th class="lang-en">Gain</th><th class="lang-zh">获得</th><th class="lang-en">Give Up</th><th class="lang-zh">放弃</th><th class="lang-en">Status</th><th class="lang-zh">状态</th></tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td><strong class="lang-en">Keyword frequency</strong><strong class="lang-zh">关键词频率匹配</strong></td>
+                <td><span class="lang-en">Zero ML overhead. 100% correct in all test cases. Transparent.</span><span class="lang-zh">零机器学习开销。测试用例100%准确。逻辑透明可调试。</span></td>
+                <td><span class="lang-en">May fail on unusual JD phrasing not in the keyword list.</span><span class="lang-zh">对不在关键词表中的非常规JD表述可能失效。</span></td>
+                <td><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="lang-en">ML classification</span><span class="lang-zh">机器学习分类</span></td>
+                <td><span class="lang-en">More robust to varied phrasing. Generalizes to new role types.</span><span class="lang-zh">对多样化表述更鲁棒，能泛化到新职位类型。</span></td>
+                <td><span class="lang-en">Training data, model management, more failure modes. Overkill for 5 categories.</span><span class="lang-zh">需要训练数据、模型管理、更多故障模式。对5个模板类别来说过度设计。</span></td>
+                <td><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Decision 4: LLM-agnostic architecture</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">决策四：大语言模型无关的架构</h2></div>
+        <div class="tradeoff-matrix animate-in">
+          <div class="tradeoff-header">
+            <span class="tradeoff-decision-label lang-en">Decision</span><span class="tradeoff-decision-label lang-zh">决策</span>
+            <span class="tradeoff-decision-text lang-en">Isolate AI to reasoning only — tools layer has zero LLM dependency</span>
+            <span class="tradeoff-decision-text lang-zh">将 AI 限定于推理层——工具层对大语言模型零依赖</span>
+          </div>
+          <table class="tradeoff-table">
+            <thead><tr><th class="lang-en">Option</th><th class="lang-zh">方案</th><th class="lang-en">Gain</th><th class="lang-zh">获得</th><th class="lang-en">Give Up</th><th class="lang-zh">放弃</th><th class="lang-en">Status</th><th class="lang-zh">状态</th></tr></thead>
+            <tbody>
+              <tr class="tradeoff-row-chosen">
+                <td><strong class="lang-en">LLM-agnostic design</strong><strong class="lang-zh">大模型无关设计</strong></td>
+                <td><span class="lang-en">Swap Claude for any model without changing business logic. Avoids <span class="term" data-tooltip="Vendor lock-in — when a product is so tied to one supplier that switching away is prohibitively expensive.">vendor lock-in</span>.</span><span class="lang-zh">无需修改业务逻辑即可替换 Claude。避免<span class="term" data-tooltip="供应商锁定——产品与某家供应商深度绑定，切换成本极高。保持架构灵活性可规避此风险。">供应商锁定</span>。</span></td>
+                <td><span class="lang-en">More architectural discipline. Can't use LLM-specific features in the tools layer.</span><span class="lang-zh">需要更严格的架构规范。工具层无法使用特定大模型的专属功能。</span></td>
+                <td><span class="tradeoff-status chosen">✓ <span class="lang-en">Chosen</span><span class="lang-zh">已采用</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="lang-en">Tightly coupled LLM</span><span class="lang-zh">与大模型紧耦合</span></td>
+                <td><span class="lang-en">Easier to write initially.</span><span class="lang-zh">初期开发更简单。</span></td>
+                <td><span class="lang-en">Hard to switch models. Non-deterministic behavior in data layer. Harder to test.</span><span class="lang-zh">难以更换模型。数据层行为不确定。更难测试。</span></td>
+                <td><span class="tradeoff-status not-chosen"><span class="lang-en">Not built</span><span class="lang-zh">未采用</span></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prd-callout animate-in" style="margin-top: var(--space-6)">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">⚠️</span>
+            <span class="prd-callout-label lang-en">A PM Would Flag This Risk</span>
+            <span class="prd-callout-label lang-zh">产品经理会标记这个风险</span>
+          </div>
+          <div class="prd-callout-body lang-en">The single-user design is the product's biggest strategic constraint. No auth, no multi-tenancy — it can't be monetized, can't grow through word-of-mouth, can't scale without a rebuild. <em>A PM planning the next phase would flag this as the primary architectural blocker to any future growth.</em></div>
+          <div class="prd-callout-body lang-zh">单用户设计是产品最大的战略约束。没有认证机制，没有多租户支持——无法变现，无法通过口碑增长，不重构就无法规模化。<em>规划下一阶段的产品经理会将其标记为未来增长的首要架构障碍。</em></div>
+        </div>
+        <div class="quiz-container animate-in" id="quiz-module5" style="margin-top: var(--space-8)">
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="Right. CLI only, single user, two-phase flow — all prioritized the builder's own workflow and cost efficiency. Built by one person, for one person."
+               data-explanation-wrong="Think about who built this and for whom. What constraints was a solo developer working under?">
+            <h3 class="quiz-question lang-en">Looking across all trade-off decisions, what single underlying priority do they collectively reveal?</h3>
+            <h3 class="quiz-question lang-zh">综合所有权衡决策来看，它们共同揭示了什么核心优先级？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Maximizing the number of users who can access the product</span>
+                <span class="lang-zh">最大化能够使用产品的用户数量</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Ensuring the product could be sold to enterprise clients</span>
+                <span class="lang-zh">确保产品可以销售给企业客户</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Building the highest-value tool as quickly as possible for the builder's own workflow, without over-engineering</span>
+                <span class="lang-zh">为开发者自己的工作流尽快构建高价值工具，不过度工程化</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Minimizing the match score computation time</span>
+                <span class="lang-zh">最小化匹配分数的计算时间</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-6" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">06</span>
+      <div class="lang-en"><h1 class="module-title">AI &amp; Tech Leverage</h1><p class="module-subtitle">How does AI create the product's core value — and what makes it hard to replicate?</p></div>
+      <div class="lang-zh"><h1 class="module-title">AI 与技术杠杆</h1><p class="module-subtitle">AI 如何创造产品的核心价值——是什么让它难以复制？</p></div>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">AI as a scalpel, not a Swiss Army knife</h2>
+          <p>Many AI products use AI for everything — storing data, fetching URLs, sending messages. This creates fragile systems where AI's unpredictability bleeds into every layer. This product takes a different approach: AI is used for exactly one job — <strong>reasoning</strong>. Everything else is handled by deterministic tools. The README: <em>"If the system still works after replacing Claude with another model, then you've built a true AI agent."</em></p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">AI 是手术刀，不是万能工具</h2>
+          <p>很多 AI 产品把 AI 用于一切——存储数据、抓取网页、发送消息。这造就了脆弱的系统，AI 的不确定性渗透每一层。这款产品采取了不同做法：AI 只做一件事——<strong>推理</strong>。其他一切由确定性工具处理。README中说：<em>"如果用另一个大模型替换 Claude 后系统仍能运行，那你才真正构建了一个 AI 智能体。"</em></p>
+        </div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🤖</div>
+            <div class="lang-en"><div class="pattern-card-title">AI does: Reasoning</div><div class="pattern-card-desc">Job-to-profile analysis, skill gap assessment, cover letter generation, interview coaching. Tasks requiring judgment and context.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">AI 负责：推理</div><div class="pattern-card-desc">职位与档案分析、技能差距评估、求职信生成、面试辅导。需要判断力和上下文理解的任务。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔧</div>
+            <div class="lang-en"><div class="pattern-card-title">Tools do: Everything else</div><div class="pattern-card-desc">Fetching URLs, loading YAML, saving JSON, exporting files, syncing to Feishu. Deterministic, testable, AI-free. The AI never touches I/O or storage.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">工具负责：其他一切</div><div class="pattern-card-desc">抓取网页、加载YAML、保存JSON、导出文件、同步飞书。确定性、可测试、不涉及AI。AI 从不接触输入/输出或存储。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Two distinct jobs the AI does</h2><p>The product uses AI for two separate, high-value tasks — each requiring a different kind of reasoning.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">AI 承担的两项核心工作</h2><p>产品将 AI 用于两个独立的高价值任务——每项都需要不同类型的推理能力。</p></div>
+
+        <div class="chat-container" id="chat-ai-jobs">
+          <div class="chat-header">
+            <span class="chat-title lang-en">AI Job 1: Application Analysis</span>
+            <span class="chat-title lang-zh">AI 任务一：申请分析</span>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-message left" data-delay="0">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left lang-en">Here's the JD and my profile. Assess fit, identify gaps, write cover letter, suggest ATS keywords.</div>
+              <div class="chat-bubble left lang-zh">这是JD和我的个人档案。评估匹配度，找出差距，写求职信，推荐ATS关键词。</div>
+            </div>
+            <div class="chat-message right" data-delay="800">
+              <div class="chat-avatar" style="background: var(--color-accent)">AI</div>
+              <div class="chat-bubble right lang-en">Match: 68%. Strong Python/SQL — but missing FX trading experience. Cover letter focuses on your data pipeline work. ATS keywords: "real-time data", "financial modelling"...</div>
+              <div class="chat-bubble right lang-zh">匹配度：68%。Python/SQL很强——但缺乏外汇交易经验。求职信聚焦你的数据管道工作。ATS关键词："实时数据"、"金融建模"...</div>
+            </div>
+          </div>
+          <button class="chat-replay-btn" onclick="replayChat('chat-ai-jobs')">Replay ↺</button>
+        </div>
+
+        <div class="chat-container" id="chat-interview-prep" style="margin-top: var(--space-5)">
+          <div class="chat-header">
+            <span class="chat-title lang-en">AI Job 2: Interview Coaching</span>
+            <span class="chat-title lang-zh">AI 任务二：面试辅导</span>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-message left" data-delay="0">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left lang-en">"Tell me about a time you handled ambiguous data requirements."</div>
+              <div class="chat-bubble left lang-zh">"请描述一次你处理模糊数据需求的经历。"</div>
+            </div>
+            <div class="chat-message right" data-delay="800">
+              <div class="chat-avatar" style="background: var(--color-accent)">AI</div>
+              <div class="chat-bubble right lang-en">Tests: problem structuring + stakeholder management. 3 points: clarify scope, handle competing priorities, what you shipped. Reference your job agent project — lead with "I was given open-ended requirements..."</div>
+              <div class="chat-bubble right lang-zh">考察：问题拆解 + 干系人管理。3个要点：如何澄清范围、如何处理优先级冲突、最终交付什么。引用你的求职助手项目——以"我接到了开放性需求..."开头</div>
+            </div>
+          </div>
+          <button class="chat-replay-btn" onclick="replayChat('chat-interview-prep')">Replay ↺</button>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">The reliability problem AI products all face</h2><p>AI models are powerful but unpredictable. Ask them to return structured data and they might add a preamble, change format, or wrap JSON in a code block. This product solves it with delimiter-based output parsing — the AI is instructed to wrap outputs in exact markers. The product extracts sections by looking for those markers.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">所有 AI 产品都面临的可靠性问题</h2><p><span class="term" data-tooltip="大语言模型（LLM）——基于海量文本训练的 AI 模型，能够生成人类语言。强大但输出不可完全预测。">大语言模型</span>强大但不可预测。要求返回结构化数据时，它可能添加前言、改变格式或把JSON放在代码块里。这款产品用分隔符解析来解决——指示 AI 用精确标记包裹输出，产品通过查找这些标记来提取内容。</p></div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🏷️</div>
+            <div class="lang-en"><div class="pattern-card-title">Delimiter markers</div><div class="pattern-card-desc">The AI wraps each section in exact markers. The product extracts content between markers — guaranteed clean parsing regardless of content length or style.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">分隔符标记</div><div class="pattern-card-desc">AI 用精确标记包裹每个部分。产品提取标记之间的内容——无论内容长度或风格如何，解析都有保障。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔁</div>
+            <div class="lang-en"><div class="pattern-card-title">Dual-format output</div><div class="pattern-card-desc">Every analysis returns Markdown (human reading) + JSON (machine processing). One AI call produces both.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">双格式输出</div><div class="pattern-card-desc">每次分析同时返回 Markdown（人类阅读）+ JSON（机器处理）。一次 AI 调用产出两种格式。</div></div>
+          </div>
+        </div>
+        <div class="prd-callout animate-in" style="margin-top: var(--space-8)">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">📋</span>
+            <span class="prd-callout-label lang-en">If This Were a PRD</span>
+            <span class="prd-callout-label lang-zh">如果这是一份 PRD</span>
+          </div>
+          <div class="prd-callout-body lang-en">The AI reliability requirement: <em>"The system must successfully parse Claude's output 100% of the time. Any response that fails to parse must trigger a user-facing retry message, not a silent failure."</em></div>
+          <div class="prd-callout-body lang-zh">AI 可靠性要求：<em>"系统必须100%成功解析 Claude 的输出。任何解析失败的响应必须触发面向用户的重试提示，而不是静默失败。"</em> 分隔符技术正是满足这一标准的实现方案。</div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Think like a PM</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">产品经理思维练习</h2></div>
+        <div class="quiz-container animate-in" id="quiz-module6">
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Exactly. LLM-agnostic architecture protects against vendor lock-in — if Claude's pricing increases or quality drops, the product can migrate without a rebuild."
+               data-explanation-wrong="Think about what 'LLM-agnostic' means in practice. If you replaced Claude with GPT-4 tomorrow, what would need to change? What stays the same?">
+            <h3 class="quiz-question lang-en">The product is "LLM-agnostic" — Claude can be swapped without breaking anything. Why is this strategically valuable from a PM perspective?</h3>
+            <h3 class="quiz-question lang-zh">产品被设计为"大模型无关"——可以更换 Claude 而不破坏任何功能。从产品经理角度看，这为什么有战略价值？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Protects against vendor lock-in — if Claude's pricing increases or quality drops, the product can migrate without a rebuild</span>
+                <span class="lang-zh">防范供应商锁定——如果 Claude 涨价或质量下降，产品可以迁移而无需重构</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It makes the codebase smaller and easier to maintain</span>
+                <span class="lang-zh">让代码库更小、更易维护</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It means the product doesn't need an API key</span>
+                <span class="lang-zh">意味着产品不需要 API 密钥</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It allows the product to run AI locally without internet</span>
+                <span class="lang-zh">允许产品在无需联网的情况下本地运行 AI</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module6')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module6')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+<section class="module" id="module-7" style="background: var(--color-bg)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">07</span>
+      <div class="lang-en"><h1 class="module-title">What's Missing</h1><p class="module-subtitle">Where are the gaps — and what would a PM build next?</p></div>
+      <div class="lang-zh"><h1 class="module-title">缺失了什么</h1><p class="module-subtitle">差距在哪里——产品经理下一步该做什么？</p></div>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">Every gap is a product bet waiting to be made</h2>
+          <p>What a product <em>doesn't</em> do is just as telling as what it does. Gaps reveal where the team drew a line — out of time, because the use case wasn't their own, or because the complexity wasn't worth it yet. For a PM, gaps aren't failures — they're a <span class="term" data-tooltip="Product roadmap — the prioritized sequence of what to build next. A roadmap is a series of bets.">roadmap</span> in disguise.</p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">每个差距都是一个待做的产品押注</h2>
+          <p>产品<em>没有做</em>的事情和它做了的事情同样能说明问题。差距揭示了团队在哪里划定了边界——因为时间不够、因为这个场景不是他们自己的、或者因为当时的复杂度还不值得。对产品经理来说，差距不是失败——而是乔装成问题的<span class="term" data-tooltip="产品路线图——对下一步要做什么的优先级排序。路线图是一系列押注：哪些机会值得投资，以什么顺序。">路线图</span>。</p>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Four significant gaps in the current product</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">当前产品的四个重要差距</h2></div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-6)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🌐</div>
+            <div class="lang-en"><div class="pattern-card-title">No web interface</div><div class="pattern-card-desc">Requires a terminal or Feishu. Any non-technical job seeker — the majority of the market — can't use it. Largest barrier to broader adoption.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">无 Web 界面</div><div class="pattern-card-desc">需要终端或飞书才能使用。任何没有技术背景的求职者——即市场的大多数——都无法使用。这是更广泛采用的最大障碍。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔎</div>
+            <div class="lang-en"><div class="pattern-card-title">No job discovery</div><div class="pattern-card-desc">Users must bring their own job descriptions. No integration with LinkedIn, Indeed, or job boards. The product starts at step 2 of the job search.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">无职位发现功能</div><div class="pattern-card-desc">用户必须自带职位描述。没有接入LinkedIn、招聘网站或职位板。产品从求职流程的第二步才开始介入。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📄</div>
+            <div class="lang-en"><div class="pattern-card-title">No resume editing</div><div class="pattern-card-desc">Generates cover letters and ATS keyword suggestions — but doesn't help update your resume. ATS keywords are identified but not applied.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">无简历编辑功能</div><div class="pattern-card-desc">能生成求职信和ATS关键词建议——但不能帮你更新简历。关键词被识别出来，却无法直接应用。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">📬</div>
+            <div class="lang-en"><div class="pattern-card-title">No application follow-up</div><div class="pattern-card-desc">History log records what was analyzed, but there's no tracking of application status — no "applied," "phone screen," "offer," "rejected" stages.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">无申请跟进</div><div class="pattern-card-desc">历史记录只保存分析过什么，但没有追踪申请状态——没有"已投递"、"电话面试"、"收到offer"、"被拒"等阶段。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Which gaps are worth closing — and when?</h2><p>Not every gap is worth filling. A PM scores opportunities by <span class="term" data-tooltip="Impact — how significantly addressing this gap would improve the user experience or product growth.">impact</span>, <span class="term" data-tooltip="Effort — how much engineering work is required.">effort</span>, and <span class="term" data-tooltip="Strategic fit — how well the opportunity aligns with the product's current direction and target user.">strategic fit</span>.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">哪些差距值得填补——何时填补？</h2><p>并非所有差距都值得填补。产品经理根据<span class="term" data-tooltip="影响力——解决这个差距能在多大程度上改善用户体验或推动产品增长。">影响力</span>、<span class="term" data-tooltip="投入——需要多少工程和设计工作量。">投入</span>和<span class="term" data-tooltip="战略契合度——这个机会与产品当前方向和目标用户的契合程度。">战略契合度</span>来评分机会。</p></div>
+
+        <div class="opportunity-scorecard stagger-children" style="margin-top: var(--space-8)">
+          <div class="opportunity-card animate-in">
+            <div class="opp-card-header">
+              <span class="opp-name lang-en">Web Interface</span><span class="opp-name lang-zh">Web 界面</span>
+              <span class="opp-priority-badge high lang-en">Highest Priority</span><span class="opp-priority-badge high lang-zh">最高优先级</span>
+            </div>
+            <div class="opp-card-scores">
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Impact</span><span class="opp-dimension lang-zh">影响力</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 92%"></div></div>
+                <span class="opp-value lang-en">Very High</span><span class="opp-value lang-zh">极高</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Effort</span><span class="opp-dimension lang-zh">投入</span>
+                <div class="opp-bar"><div class="opp-bar-fill effort" style="width: 65%"></div></div>
+                <span class="opp-value lang-en">Medium</span><span class="opp-value lang-zh">中等</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Strategic Fit</span><span class="opp-dimension lang-zh">战略契合</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 90%"></div></div>
+                <span class="opp-value lang-en">Very High</span><span class="opp-value lang-zh">极高</span>
+              </div>
+            </div>
+            <p class="opp-rationale lang-en">Core AI logic is already complete. A web UI unlocks the entire non-technical job seeker market — 90%+ of the addressable audience — without changing any underlying logic.</p>
+            <p class="opp-rationale lang-zh">核心 AI 逻辑已完备。Web 界面可以解锁整个非技术求职者市场——潜在受众的90%以上——而无需改变任何底层逻辑。</p>
+          </div>
+
+          <div class="opportunity-card animate-in">
+            <div class="opp-card-header">
+              <span class="opp-name lang-en">Resume Tailoring</span><span class="opp-name lang-zh">简历定制</span>
+              <span class="opp-priority-badge high lang-en">High Priority</span><span class="opp-priority-badge high lang-zh">高优先级</span>
+            </div>
+            <div class="opp-card-scores">
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Impact</span><span class="opp-dimension lang-zh">影响力</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 80%"></div></div>
+                <span class="opp-value lang-en">High</span><span class="opp-value lang-zh">高</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Effort</span><span class="opp-dimension lang-zh">投入</span>
+                <div class="opp-bar"><div class="opp-bar-fill effort" style="width: 55%"></div></div>
+                <span class="opp-value lang-en">Medium</span><span class="opp-value lang-zh">中等</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Strategic Fit</span><span class="opp-dimension lang-zh">战略契合</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 85%"></div></div>
+                <span class="opp-value lang-en">High</span><span class="opp-value lang-zh">高</span>
+              </div>
+            </div>
+            <p class="opp-rationale lang-en">Product already identifies ATS keywords and skill gaps. The logical next step: generate a tailored resume variant per application, closing the loop from analysis to submission.</p>
+            <p class="opp-rationale lang-zh">产品已能识别ATS关键词和技能差距。下一步的逻辑延伸：为每次申请生成定制简历版本，从分析到提交形成完整闭环。</p>
+          </div>
+
+          <div class="opportunity-card animate-in">
+            <div class="opp-card-header">
+              <span class="opp-name lang-en">Job Discovery</span><span class="opp-name lang-zh">职位发现</span>
+              <span class="opp-priority-badge medium lang-en">Medium Priority</span><span class="opp-priority-badge medium lang-zh">中等优先级</span>
+            </div>
+            <div class="opp-card-scores">
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Impact</span><span class="opp-dimension lang-zh">影响力</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 70%"></div></div>
+                <span class="opp-value lang-en">High</span><span class="opp-value lang-zh">高</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Effort</span><span class="opp-dimension lang-zh">投入</span>
+                <div class="opp-bar"><div class="opp-bar-fill effort" style="width: 80%"></div></div>
+                <span class="opp-value lang-en">High</span><span class="opp-value lang-zh">高</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Strategic Fit</span><span class="opp-dimension lang-zh">战略契合</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 60%"></div></div>
+                <span class="opp-value lang-en">Medium</span><span class="opp-value lang-zh">中等</span>
+              </div>
+            </div>
+            <p class="opp-rationale lang-en">Integrating with job boards would expand into discovery — but it's a different product surface with high effort. Risk: distraction from the proven application-prep core.</p>
+            <p class="opp-rationale lang-zh">与招聘平台整合可拓展到职位发现——但这是一个不同的产品界面，投入高。风险：可能分散对已验证的申请准备核心价值的专注度。</p>
+          </div>
+
+          <div class="opportunity-card animate-in">
+            <div class="opp-card-header">
+              <span class="opp-name lang-en">Application Tracker</span><span class="opp-name lang-zh">申请状态追踪</span>
+              <span class="opp-priority-badge medium lang-en">Medium Priority</span><span class="opp-priority-badge medium lang-zh">中等优先级</span>
+            </div>
+            <div class="opp-card-scores">
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Impact</span><span class="opp-dimension lang-zh">影响力</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 60%"></div></div>
+                <span class="opp-value lang-en">Medium</span><span class="opp-value lang-zh">中等</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Effort</span><span class="opp-dimension lang-zh">投入</span>
+                <div class="opp-bar"><div class="opp-bar-fill effort" style="width: 35%"></div></div>
+                <span class="opp-value lang-en">Low</span><span class="opp-value lang-zh">低</span>
+              </div>
+              <div class="opp-score-row">
+                <span class="opp-dimension lang-en">Strategic Fit</span><span class="opp-dimension lang-zh">战略契合</span>
+                <div class="opp-bar"><div class="opp-bar-fill" style="width: 72%"></div></div>
+                <span class="opp-value lang-en">High</span><span class="opp-value lang-zh">高</span>
+              </div>
+            </div>
+            <p class="opp-rationale lang-en">History log already captures what was analyzed. Extending to track application status (applied, phone screen, offer, rejected) would boost retention at low effort.</p>
+            <p class="opp-rationale lang-zh">历史记录已能捕捉分析内容。扩展为追踪申请状态（已投递、电话面试、收到offer、被拒）将以低投入显著提升<span class="term" data-tooltip="留存率——用户持续使用产品的比例。追踪功能让用户在不投递职位的日子里也有理由打开产品。">留存率</span>。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Think like a PM</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">产品经理思维练习</h2></div>
+        <div class="quiz-container animate-in" id="quiz-module7">
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Correct. The web interface unlocks the largest new user segment using already-proven core functionality. It's adding a new front door, not building a new room."
+               data-explanation-wrong="Which gap affects the most potential users, while requiring the least changes to the proven core?">
+            <h3 class="quiz-question lang-en">You're the PM. You have one engineering sprint. Which opportunity would you prioritize first?</h3>
+            <h3 class="quiz-question lang-zh">你是产品经理，只有一个工程冲刺。你会优先选择哪个机会？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Web interface — unlocks the largest new audience using already-proven core functionality</span>
+                <span class="lang-zh">Web界面——利用已验证的核心功能，解锁最大的新受众群体</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Job discovery — finding jobs is step one of any job search</span>
+                <span class="lang-zh">职位发现——找到职位是求职的第一步</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Application tracker — gives users a reason to return even on days they're not applying</span>
+                <span class="lang-zh">申请追踪——让用户在不投简历的日子里也有回来的理由</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Resume tailoring — ATS keywords are already identified, so this is the logical next step</span>
+                <span class="lang-zh">简历定制——ATS关键词已经识别，这是最合乎逻辑的下一步</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module7')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module7')">Try Again</button>
+        </div>
+
+        <div class="prd-callout animate-in" style="margin-top: var(--space-8)">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">📋</span>
+            <span class="prd-callout-label lang-en">The PM Takeaway</span>
+            <span class="prd-callout-label lang-zh">产品经理的核心洞察</span>
+          </div>
+          <div class="prd-callout-body lang-en">
+            This product is a well-scoped <span class="term" data-tooltip="MVP (Minimum Viable Product) — the smallest version of a product that delivers real value to a real user.">MVP</span> with a clear value loop, honest metrics, clean AI architecture, and a defensible set of trade-offs. Its biggest constraint is accessibility. <em>The next PM bet: bring the same proven AI value to users who've never opened a terminal.</em>
+          </div>
+          <div class="prd-callout-body lang-zh">
+            这款产品是一个范围清晰的<span class="term" data-tooltip="MVP（最小可行产品）——能为真实用户创造真实价值的最小版本产品。不是半成品，而是功能完整但范围有意限定的产品。">MVP</span>：价值循环清晰，指标诚实，AI架构干净，权衡取舍有据可依。最大约束是可及性。<em>下一个产品经理押注：把同样经过验证的AI价值带给那些从未打开过终端的用户。</em>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+  </main>
+
+</body>
+</html>

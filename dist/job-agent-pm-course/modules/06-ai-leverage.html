@@ -1,0 +1,147 @@
+<section class="module" id="module-6" style="background: var(--color-bg-warm)">
+  <div class="module-content">
+
+    <header class="module-header animate-in">
+      <span class="module-number">06</span>
+      <div class="lang-en"><h1 class="module-title">AI &amp; Tech Leverage</h1><p class="module-subtitle">How does AI create the product's core value — and what makes it hard to replicate?</p></div>
+      <div class="lang-zh"><h1 class="module-title">AI 与技术杠杆</h1><p class="module-subtitle">AI 如何创造产品的核心价值——是什么让它难以复制？</p></div>
+    </header>
+
+    <div class="module-body">
+
+      <section class="screen animate-in">
+        <div class="lang-en">
+          <h2 class="screen-heading">AI as a scalpel, not a Swiss Army knife</h2>
+          <p>Many AI products use AI for everything — storing data, fetching URLs, sending messages. This creates fragile systems where AI's unpredictability bleeds into every layer. This product takes a different approach: AI is used for exactly one job — <strong>reasoning</strong>. Everything else is handled by deterministic tools. The README: <em>"If the system still works after replacing Claude with another model, then you've built a true AI agent."</em></p>
+        </div>
+        <div class="lang-zh">
+          <h2 class="screen-heading">AI 是手术刀，不是万能工具</h2>
+          <p>很多 AI 产品把 AI 用于一切——存储数据、抓取网页、发送消息。这造就了脆弱的系统，AI 的不确定性渗透每一层。这款产品采取了不同做法：AI 只做一件事——<strong>推理</strong>。其他一切由确定性工具处理。README中说：<em>"如果用另一个大模型替换 Claude 后系统仍能运行，那你才真正构建了一个 AI 智能体。"</em></p>
+        </div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🤖</div>
+            <div class="lang-en"><div class="pattern-card-title">AI does: Reasoning</div><div class="pattern-card-desc">Job-to-profile analysis, skill gap assessment, cover letter generation, interview coaching. Tasks requiring judgment and context.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">AI 负责：推理</div><div class="pattern-card-desc">职位与档案分析、技能差距评估、求职信生成、面试辅导。需要判断力和上下文理解的任务。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔧</div>
+            <div class="lang-en"><div class="pattern-card-title">Tools do: Everything else</div><div class="pattern-card-desc">Fetching URLs, loading YAML, saving JSON, exporting files, syncing to Feishu. Deterministic, testable, AI-free. The AI never touches I/O or storage.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">工具负责：其他一切</div><div class="pattern-card-desc">抓取网页、加载YAML、保存JSON、导出文件、同步飞书。确定性、可测试、不涉及AI。AI 从不接触输入/输出或存储。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Two distinct jobs the AI does</h2><p>The product uses AI for two separate, high-value tasks — each requiring a different kind of reasoning.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">AI 承担的两项核心工作</h2><p>产品将 AI 用于两个独立的高价值任务——每项都需要不同类型的推理能力。</p></div>
+
+        <div class="chat-container" id="chat-ai-jobs">
+          <div class="chat-header">
+            <span class="chat-title lang-en">AI Job 1: Application Analysis</span>
+            <span class="chat-title lang-zh">AI 任务一：申请分析</span>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-message left" data-delay="0">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left lang-en">Here's the JD and my profile. Assess fit, identify gaps, write cover letter, suggest ATS keywords.</div>
+              <div class="chat-bubble left lang-zh">这是JD和我的个人档案。评估匹配度，找出差距，写求职信，推荐ATS关键词。</div>
+            </div>
+            <div class="chat-message right" data-delay="800">
+              <div class="chat-avatar" style="background: var(--color-accent)">AI</div>
+              <div class="chat-bubble right lang-en">Match: 68%. Strong Python/SQL — but missing FX trading experience. Cover letter focuses on your data pipeline work. ATS keywords: "real-time data", "financial modelling"...</div>
+              <div class="chat-bubble right lang-zh">匹配度：68%。Python/SQL很强——但缺乏外汇交易经验。求职信聚焦你的数据管道工作。ATS关键词："实时数据"、"金融建模"...</div>
+            </div>
+          </div>
+          <button class="chat-replay-btn" onclick="replayChat('chat-ai-jobs')">Replay ↺</button>
+        </div>
+
+        <div class="chat-container" id="chat-interview-prep" style="margin-top: var(--space-5)">
+          <div class="chat-header">
+            <span class="chat-title lang-en">AI Job 2: Interview Coaching</span>
+            <span class="chat-title lang-zh">AI 任务二：面试辅导</span>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-message left" data-delay="0">
+              <div class="chat-avatar" style="background: var(--color-actor-2)">U</div>
+              <div class="chat-bubble left lang-en">"Tell me about a time you handled ambiguous data requirements."</div>
+              <div class="chat-bubble left lang-zh">"请描述一次你处理模糊数据需求的经历。"</div>
+            </div>
+            <div class="chat-message right" data-delay="800">
+              <div class="chat-avatar" style="background: var(--color-accent)">AI</div>
+              <div class="chat-bubble right lang-en">Tests: problem structuring + stakeholder management. 3 points: clarify scope, handle competing priorities, what you shipped. Reference your job agent project — lead with "I was given open-ended requirements..."</div>
+              <div class="chat-bubble right lang-zh">考察：问题拆解 + 干系人管理。3个要点：如何澄清范围、如何处理优先级冲突、最终交付什么。引用你的求职助手项目——以"我接到了开放性需求..."开头</div>
+            </div>
+          </div>
+          <button class="chat-replay-btn" onclick="replayChat('chat-interview-prep')">Replay ↺</button>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">The reliability problem AI products all face</h2><p>AI models are powerful but unpredictable. Ask them to return structured data and they might add a preamble, change format, or wrap JSON in a code block. This product solves it with delimiter-based output parsing — the AI is instructed to wrap outputs in exact markers. The product extracts sections by looking for those markers.</p></div>
+        <div class="lang-zh"><h2 class="screen-heading">所有 AI 产品都面临的可靠性问题</h2><p><span class="term" data-tooltip="大语言模型（LLM）——基于海量文本训练的 AI 模型，能够生成人类语言。强大但输出不可完全预测。">大语言模型</span>强大但不可预测。要求返回结构化数据时，它可能添加前言、改变格式或把JSON放在代码块里。这款产品用分隔符解析来解决——指示 AI 用精确标记包裹输出，产品通过查找这些标记来提取内容。</p></div>
+        <div class="pattern-cards stagger-children" style="margin-top: var(--space-8)">
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🏷️</div>
+            <div class="lang-en"><div class="pattern-card-title">Delimiter markers</div><div class="pattern-card-desc">The AI wraps each section in exact markers. The product extracts content between markers — guaranteed clean parsing regardless of content length or style.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">分隔符标记</div><div class="pattern-card-desc">AI 用精确标记包裹每个部分。产品提取标记之间的内容——无论内容长度或风格如何，解析都有保障。</div></div>
+          </div>
+          <div class="pattern-card animate-in">
+            <div class="pattern-card-icon">🔁</div>
+            <div class="lang-en"><div class="pattern-card-title">Dual-format output</div><div class="pattern-card-desc">Every analysis returns Markdown (human reading) + JSON (machine processing). One AI call produces both.</div></div>
+            <div class="lang-zh"><div class="pattern-card-title">双格式输出</div><div class="pattern-card-desc">每次分析同时返回 Markdown（人类阅读）+ JSON（机器处理）。一次 AI 调用产出两种格式。</div></div>
+          </div>
+        </div>
+        <div class="prd-callout animate-in" style="margin-top: var(--space-8)">
+          <div class="prd-callout-header">
+            <span class="prd-callout-icon">📋</span>
+            <span class="prd-callout-label lang-en">If This Were a PRD</span>
+            <span class="prd-callout-label lang-zh">如果这是一份 PRD</span>
+          </div>
+          <div class="prd-callout-body lang-en">The AI reliability requirement: <em>"The system must successfully parse Claude's output 100% of the time. Any response that fails to parse must trigger a user-facing retry message, not a silent failure."</em></div>
+          <div class="prd-callout-body lang-zh">AI 可靠性要求：<em>"系统必须100%成功解析 Claude 的输出。任何解析失败的响应必须触发面向用户的重试提示，而不是静默失败。"</em> 分隔符技术正是满足这一标准的实现方案。</div>
+        </div>
+      </section>
+
+      <section class="screen animate-in">
+        <div class="lang-en"><h2 class="screen-heading">Think like a PM</h2></div>
+        <div class="lang-zh"><h2 class="screen-heading">产品经理思维练习</h2></div>
+        <div class="quiz-container animate-in" id="quiz-module6">
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="Exactly. LLM-agnostic architecture protects against vendor lock-in — if Claude's pricing increases or quality drops, the product can migrate without a rebuild."
+               data-explanation-wrong="Think about what 'LLM-agnostic' means in practice. If you replaced Claude with GPT-4 tomorrow, what would need to change? What stays the same?">
+            <h3 class="quiz-question lang-en">The product is "LLM-agnostic" — Claude can be swapped without breaking anything. Why is this strategically valuable from a PM perspective?</h3>
+            <h3 class="quiz-question lang-zh">产品被设计为"大模型无关"——可以更换 Claude 而不破坏任何功能。从产品经理角度看，这为什么有战略价值？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">Protects against vendor lock-in — if Claude's pricing increases or quality drops, the product can migrate without a rebuild</span>
+                <span class="lang-zh">防范供应商锁定——如果 Claude 涨价或质量下降，产品可以迁移而无需重构</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It makes the codebase smaller and easier to maintain</span>
+                <span class="lang-zh">让代码库更小、更易维护</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It means the product doesn't need an API key</span>
+                <span class="lang-zh">意味着产品不需要 API 密钥</span>
+              </button>
+              <button class="quiz-option" data-value="option-d" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span class="lang-en">It allows the product to run AI locally without internet</span>
+                <span class="lang-zh">允许产品在无需联网的情况下本地运行 AI</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module6')">Check Answers</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module6')">Try Again</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

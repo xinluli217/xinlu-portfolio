@@ -1,0 +1,58 @@
+<svg viewBox="0 0 420 160" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', -apple-system, sans-serif">
+  <!-- Background -->
+  <rect width="420" height="160" fill="#F7F4EF" rx="8"/>
+
+  <!-- ── Input node ── -->
+  <rect x="16" y="52" width="86" height="56" rx="10" fill="#FFFFFF" stroke="#E5DFD6" stroke-width="1.2"/>
+  <!-- doc icon -->
+  <rect x="34" y="62" width="18" height="22" rx="3" fill="#E5DFD6"/>
+  <polyline points="46,62 52,62 52,68 46,68" fill="#FAF7F2" stroke="none"/>
+  <line x1="36" y1="71" x2="48" y2="71" stroke="#9E9790" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="36" y1="76" x2="50" y2="76" stroke="#9E9790" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="36" y1="81" x2="44" y2="81" stroke="#9E9790" stroke-width="1.2" stroke-linecap="round"/>
+  <text x="59" y="77" font-size="11" font-weight="600" fill="#2C2A28">JD</text>
+  <text x="26" y="100" font-size="8" fill="#9E9790">Paste job</text>
+  <text x="26" y="110" font-size="8" fill="#9E9790">description</text>
+
+  <!-- ── Arrow 1 ── -->
+  <line x1="104" y1="80" x2="132" y2="80" stroke="#C4BDB4" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <polyline points="128,76 134,80 128,84" fill="none" stroke="#C4BDB4" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- ── AI node ── -->
+  <rect x="136" y="44" width="88" height="72" rx="10" fill="#FFFFFF" stroke="#E06B56" stroke-width="1.4"/>
+  <!-- lightning bolt -->
+  <polygon points="174,54 168,72 176,72 170,90 182,68 174,68 180,54" fill="#E06B56" opacity="0.85"/>
+  <text x="180" y="69" font-size="0" fill="none"/>
+  <text x="163" y="106" font-size="8" fill="#E06B56" font-weight="600">Claude API</text>
+
+  <!-- ── Arrow 2 — to outputs ── -->
+  <line x1="226" y1="80" x2="250" y2="80" stroke="#C4BDB4" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <polyline points="246,76 252,80 246,84" fill="none" stroke="#C4BDB4" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- Branch lines -->
+  <line x1="252" y1="80" x2="252" y2="40" stroke="#E5DFD6" stroke-width="1.2"/>
+  <line x1="252" y1="80" x2="252" y2="80" stroke="#E5DFD6" stroke-width="1.2"/>
+  <line x1="252" y1="80" x2="252" y2="120" stroke="#E5DFD6" stroke-width="1.2"/>
+  <line x1="252" y1="40" x2="264" y2="40" stroke="#E5DFD6" stroke-width="1.2"/>
+  <line x1="252" y1="80" x2="264" y2="80" stroke="#E5DFD6" stroke-width="1.2"/>
+  <line x1="252" y1="120" x2="264" y2="120" stroke="#E5DFD6" stroke-width="1.2"/>
+
+  <!-- ── Output 1 — Match Score ── -->
+  <rect x="264" y="26" width="118" height="28" rx="7" fill="#FDECEA" stroke="#E06B56" stroke-width="1"/>
+  <text x="275" y="44" font-size="10.5" font-weight="600" fill="#E06B56">Match Score</text>
+  <text x="355" y="44" font-size="11" font-weight="700" fill="#E06B56">85%</text>
+
+  <!-- ── Output 2 — Cover Letter ── -->
+  <rect x="264" y="66" width="118" height="28" rx="7" fill="#FFFFFF" stroke="#E5DFD6" stroke-width="1"/>
+  <text x="275" y="84" font-size="10.5" font-weight="600" fill="#4A4540">Cover Letter</text>
+  <text x="357" y="84" font-size="9" fill="#9E9790">✉</text>
+
+  <!-- ── Output 3 — Interview Prep ── -->
+  <rect x="264" y="106" width="118" height="28" rx="7" fill="#FFFFFF" stroke="#E5DFD6" stroke-width="1"/>
+  <text x="275" y="124" font-size="10.5" font-weight="600" fill="#4A4540">Interview Prep</text>
+  <text x="357" y="124" font-size="9" fill="#9E9790">📝</text>
+
+  <!-- ── Timer badge ── -->
+  <rect x="16" y="120" width="52" height="20" rx="6" fill="#2C2A28"/>
+  <text x="42" y="133" font-size="9" font-weight="700" fill="#FFFFFF" text-anchor="middle">~20 sec</text>
+</svg>

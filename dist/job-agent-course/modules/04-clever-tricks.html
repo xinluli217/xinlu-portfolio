@@ -1,0 +1,304 @@
+<section class="module module-alt" id="module-4">
+  <div class="module-content">
+
+    <!-- ── MODULE HEADER ───────────────────────────────────────── -->
+    <header class="module-header animate-in">
+      <span class="module-number">04</span>
+      <h2 class="module-title">The Clever Tricks</h2>
+      <p class="module-subtitle">Three elegant engineering patterns that do a lot with very little.</p>
+    </header>
+
+    <!-- ── SCREEN 1: TRICK #1 — KEYWORD TEMPLATE SELECTION ─────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">Trick #1 — Keyword Template Selection</h3>
+      <p class="animate-in">
+        Most AI tools reach for a machine-learning model when they need to classify input. This agent does
+        something more honest: it counts keyword matches. Five
+        <span class="term" data-definition="A cover letter template defines an opening paragraph and a list of focus areas (skills and experiences to emphasise). Each template is tuned for a different data career track and ships with a keyword list used for automatic selection.">cover letter templates</span>
+        each have a keyword list. The job description is scanned against every list. The template with the
+        most hits wins. No neural network required.
+      </p>
+      <p class="animate-in">
+        Simple? Yes. Reliable? Very. The trick is knowing when <em>simple is exactly enough</em>.
+        A <span class="term" data-definition="A large language model like GPT-4 or Claude, capable of classification, generation, and reasoning. Calling one costs money and latency. For a deterministic task like 'does this JD mention SQL?', a regex counter beats an LLM every time.">large language model</span>
+        would be overkill for a task that boils down to string contains — and it would cost API credits on
+        every single job description scanned.
+      </p>
+
+      <div class="translation-block animate-in">
+        <div class="translation-code">
+          <span class="translation-label">CODE</span>
+          <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">select_template</span>(jd_text, company=<span class="code-string">""</span>, role=<span class="code-string">""</span>):</span>
+<span class="code-line">    templates = <span class="code-function">load_templates</span>()</span>
+<span class="code-line">    jd_lower = jd_text.<span class="code-function">lower</span>()</span>
+<span class="code-line">    scores = {}</span>
+<span class="code-line">    <span class="code-keyword">for</span> template_name, template_data <span class="code-keyword">in</span> templates.<span class="code-function">items</span>():</span>
+<span class="code-line">        <span class="code-keyword">if</span> template_name == <span class="code-string">"general"</span>:</span>
+<span class="code-line">            <span class="code-keyword">continue</span></span>
+<span class="code-line">        keywords = template_data.<span class="code-function">get</span>(<span class="code-string">"keywords"</span>, [])</span>
+<span class="code-line">        score = <span class="code-function">sum</span>(<span class="code-number">1</span> <span class="code-keyword">for</span> kw <span class="code-keyword">in</span> keywords</span>
+<span class="code-line">                   <span class="code-keyword">if</span> kw.<span class="code-function">lower</span>() <span class="code-keyword">in</span> jd_lower)</span>
+<span class="code-line">        scores[template_name] = score</span>
+<span class="code-line">    best_template = <span class="code-function">max</span>(scores, key=scores.<span class="code-function">get</span>)</span>
+<span class="code-line">    <span class="code-keyword">if</span> scores.<span class="code-function">get</span>(best_template, <span class="code-number">0</span>) == <span class="code-number">0</span>:</span>
+<span class="code-line">        best_template = <span class="code-string">"general"</span></span>
+<span class="code-line">    <span class="code-keyword">return</span> (templates[best_template][<span class="code-string">"opening"</span>],</span>
+<span class="code-line">            templates[best_template][<span class="code-string">"focus_areas"</span>])</span>
+          </code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">PLAIN ENGLISH</span>
+          <div class="translation-lines">
+            <p class="tl">Load all template definitions from disk (JSON files).</p>
+            <p class="tl">Lowercase the whole job description once so every keyword comparison is case-insensitive without repeating the conversion.</p>
+            <p class="tl">Skip the "general" template during scoring — it is the fallback, not a competitor.</p>
+            <p class="tl">For each specialist template, count how many of its keywords appear anywhere in the JD. Store that count.</p>
+            <p class="tl">Pick the template with the highest count.</p>
+            <p class="tl">If every specialist scored zero (no recognisable keywords at all), fall back to the general template rather than returning a random winner.</p>
+            <p class="tl">Return the winning template's opening paragraph and its list of focus areas — both ready to inject into the Claude prompt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 2: THE FIVE TEMPLATES ────────────────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">Meet the Five Templates</h3>
+      <p class="animate-in">
+        Each template is a Swiss Army blade: sharp for exactly one job track. The keywords are the blades
+        detection wire — if the JD is thick with them, the template wins.
+      </p>
+
+      <div class="pattern-cards stagger-children animate-in">
+
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon" style="background:#E4F2F7;">📊</div>
+          <div class="pattern-title">data_analyst</div>
+          <p class="pattern-desc">
+            Keywords: <em>SQL, dashboard, Tableau, Power BI, Excel, KPI, reporting, stakeholder, visualization, metrics</em>.
+            Opens with business-insight framing. Focus areas: storytelling with data, stakeholder communication, reporting tools.
+          </p>
+        </div>
+
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon" style="background:#F5F0E8;">🧪</div>
+          <div class="pattern-title">data_science</div>
+          <p class="pattern-desc">
+            Keywords: <em>machine learning, model, Python, statistics, neural, NLP, deep learning, prediction, scikit, feature</em>.
+            Opens with analytical depth. Focus areas: ML pipelines, experimentation, model deployment.
+          </p>
+        </div>
+
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon" style="background:#E8F5EE;">🗺️</div>
+          <div class="pattern-title">geospatial</div>
+          <p class="pattern-desc">
+            Keywords: <em>GIS, geospatial, spatial, mapping, ArcGIS, QGIS, remote sensing, GPS, PostGIS, cartography</em>.
+            Opens with location-intelligence framing. Focus areas: spatial analysis, map design, geo-database work.
+          </p>
+        </div>
+
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon" style="background:#FDEEE9;">⚙️</div>
+          <div class="pattern-title">data_engineer</div>
+          <p class="pattern-desc">
+            Keywords: <em>pipeline, ETL, Spark, Airflow, data warehouse, dbt, Kafka, cloud, infrastructure, orchestration</em>.
+            Opens with systems-thinking framing. Focus areas: scalable pipelines, data reliability, platform work.
+          </p>
+        </div>
+
+        <div class="pattern-card animate-in">
+          <div class="pattern-icon" style="background:#F5F0E8;">🌐</div>
+          <div class="pattern-title">general</div>
+          <p class="pattern-desc">
+            The fallback. Used when no specialist template scores above zero. Generic but professional — covers analytical skills broadly without over-committing to a single track.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="callout callout-info animate-in">
+        <span class="callout-icon">🔧</span>
+        <div class="callout-content">
+          <span class="callout-title">Adding your own template is trivial</span>
+          <p>Create a new JSON file in the templates directory with an <code>opening</code> string, a
+             <code>focus_areas</code> list, and a <code>keywords</code> list. The selector loop picks it up
+             automatically — no code changes needed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 3: TRICK #2 — DELIMITER-BASED PROMPTING ──────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">Trick #2 — Delimiter-Based Prompting</h3>
+      <p class="animate-in">
+        Asking an AI to "return JSON" works — until it adds a friendly preamble, wraps the JSON in a markdown
+        code block, or appends a sign-off. Any of those breaks
+        <span class="term" data-definition="json.loads() converts a JSON string into a Python dict. It throws a JSONDecodeError if the input contains anything that is not valid JSON — like markdown fences or prose text surrounding the data.">json.loads()</span>.
+        The solution: tell Claude to wrap each section in named
+        <span class="term" data-definition="Delimiters are unique string markers — like ===MARKDOWN_START=== — placed around sections of output so a regex can reliably find and extract them. They act as guaranteed anchors that no normal prose would accidentally contain.">delimiters</span>
+        that a regex can find with 100% reliability.
+      </p>
+
+      <div class="translation-block animate-in">
+        <div class="translation-code">
+          <span class="translation-label">CODE</span>
+          <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">_parse_response</span>(raw_text):</span>
+<span class="code-line">    md_match = re.<span class="code-function">search</span>(</span>
+<span class="code-line">        <span class="code-string">r"===MARKDOWN_START===\n(.*?)\n===MARKDOWN_END==="</span>,</span>
+<span class="code-line">        raw_text, re.<span class="code-property">DOTALL</span></span>
+<span class="code-line">    )</span>
+<span class="code-line">    markdown_section = md_match.<span class="code-function">group</span>(<span class="code-number">1</span>).<span class="code-function">strip</span>()</span>
+<span class="code-line">    json_match = re.<span class="code-function">search</span>(</span>
+<span class="code-line">        <span class="code-string">r"===JSON_START===\n(.*?)\n===JSON_END==="</span>,</span>
+<span class="code-line">        raw_text, re.<span class="code-property">DOTALL</span></span>
+<span class="code-line">    )</span>
+<span class="code-line">    json_data = json.<span class="code-function">loads</span>(json_match.<span class="code-function">group</span>(<span class="code-number">1</span>).<span class="code-function">strip</span>())</span>
+<span class="code-line">    <span class="code-keyword">return</span> markdown_section, json_data</span>
+          </code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">PLAIN ENGLISH</span>
+          <div class="translation-lines">
+            <p class="tl">Search the full response text for everything between ===MARKDOWN_START=== and ===MARKDOWN_END===. The re.DOTALL flag lets the dot match newlines, so multi-line cover letters are captured in one hit.</p>
+            <p class="tl">Extract group(1) — the content inside the markers — and strip any leading or trailing whitespace.</p>
+            <p class="tl">Do the same for the JSON section, between ===JSON_START=== and ===JSON_END===.</p>
+            <p class="tl">Parse the JSON string into a Python dict. Because the delimiters guarantee no prose surrounds it, this never fails due to formatting surprises.</p>
+            <p class="tl">Return both the markdown cover letter and the structured JSON analysis as a clean tuple.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-accent animate-in">
+        <span class="callout-icon">⚓</span>
+        <div class="callout-content">
+          <span class="callout-title">The delimiter guarantee</span>
+          <p>The system prompt instructs Claude to place its cover letter between the MARKDOWN markers and its
+             analysis between the JSON markers. No post-processing, no stripping of backticks, no guessing
+             where one section ends and the other begins. The delimiters are load-bearing — they are what
+             makes the whole output pipeline deterministic.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 4: TRICK #3 — SMART CANDIDATE FORMATTING ─────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">Trick #3 — Compact Candidate Formatting</h3>
+      <p class="animate-in">
+        The candidate profile — skills, experience, education — gets sent to Claude on every single request.
+        If it were sent as a verbose paragraph or a full JSON object, that could easily consume 1 000–2 000
+        <span class="term" data-definition="One token is roughly 3–4 characters of English text. Claude charges per input token plus per output token. Sending a bloated candidate profile on every call adds real cost that compounds over hundreds of applications.">tokens</span>
+        of
+        <span class="term" data-definition="The context window is the total amount of text (in tokens) that a language model can see at once. It includes your system prompt, the candidate profile, the job description, and any prior conversation turns. Going over the limit truncates your input.">context window</span>
+        before the job description even appears.
+      </p>
+      <p class="animate-in">
+        The smart move: format the candidate data as a compact, structured plain-text block — key: value pairs
+        on single lines, skills as comma-separated lists, no nested JSON. This typically fits a rich profile
+        into under 400 tokens while still giving Claude everything it needs to personalise the output.
+      </p>
+
+      <div class="callout callout-accent animate-in">
+        <span class="callout-icon">💸</span>
+        <div class="callout-content">
+          <span class="callout-title">Why token efficiency is a design concern, not a micro-optimisation</span>
+          <p>At typical API rates, every 1 000 tokens of
+             <span class="term" data-definition="The input prompt is everything you send TO the model: system instructions, candidate profile, job description, and message history. You pay for all of it.">input</span>
+             costs a small fraction of a cent. Send 100 applications a month and those fractions add up. More
+             importantly, a bloated prompt pushes the actual job description further from the top of the
+             context — and recent research suggests models pay more attention to content near the start and
+             end of long prompts. Compact formatting is both cheaper and more effective.</p>
+        </div>
+      </div>
+
+      <div class="flow-steps animate-in">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <p>Candidate profile loaded from <code>candidate.json</code></p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <p>Formatted into compact key:value plain text</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <p>Concatenated with JD text + template + delimiters</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">4</div>
+          <p>Single API call — minimal tokens, maximum signal</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 5: QUIZ ───────────────────────────────────────── -->
+    <div class="screen">
+      <h3 class="screen-heading animate-in">Check Your Understanding</h3>
+      <p class="animate-in">Two quick questions. Pick the best answer for each.</p>
+
+      <div class="quiz-container animate-in" id="quiz-module4">
+
+        <!-- Q1 -->
+        <div class="quiz-question-block"
+             data-correct="option-a"
+             data-explanation-right="Correct! SQL matches data_analyst. Dashboard, Tableau, and KPI are all also data_analyst keywords. That gives data_analyst a score of 4. data_science and data_engineer would score 0 or 1. data_analyst wins and gets selected."
+             data-explanation-wrong="Think about which template owns those keywords. SQL, dashboard, Tableau, and KPI are all in the data_analyst keyword list. Count the matches: data_analyst gets 4 hits. No other template comes close.">
+          <div class="scenario-block">
+            <div class="scenario-context">
+              <span class="scenario-label">Scenario</span>
+              <p>A job description mentions: <strong>SQL</strong>, <strong>dashboard</strong>, <strong>Tableau</strong>, and <strong>KPI</strong>. No mentions of machine learning, Spark, or GIS.</p>
+            </div>
+          </div>
+          <h3 class="quiz-question">Which template does the selector pick?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>data_analyst — SQL, dashboard, Tableau, and KPI are all in its keyword list (score: 4)</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>general — the fallback always wins when there are mixed signals</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>data_science — Tableau is a data science tool</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question-block"
+             data-correct="option-b"
+             data-explanation-right="Exactly right. Claude sometimes adds preamble, wraps JSON in markdown code fences, or appends a sign-off sentence. Any of those breaks json.loads(). Delimiters create a guaranteed anchor point that the regex finds regardless of what else Claude writes around it."
+             data-explanation-wrong="Think about what can go wrong when you just say return JSON. Claude might add a greeting, wrap it in ```json...```, or write a closing sentence. All of those cause json.loads() to throw an error. Delimiters sidestep the problem entirely.">
+          <h3 class="quiz-question">Why use delimiter markers instead of just asking Claude to return JSON?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>Claude cannot produce valid JSON without markers — it always adds extra text</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>Even well-instructed models occasionally add preamble or markdown fences around JSON — delimiters give the parser a guaranteed anchor point that is never ambiguous</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>Delimiters reduce token count, which is the primary motivation</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">Check Answers</button>
+        <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">Try Again</button>
+      </div>
+    </div>
+
+  </div>
+</section>

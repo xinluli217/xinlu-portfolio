@@ -1,0 +1,277 @@
+<section class="module module-alt" id="module-2">
+  <div class="module-content">
+
+    <!-- MODULE HEADER -->
+    <header class="module-header">
+      <span class="module-number" aria-hidden="true">02</span>
+      <h1 class="module-title">Meet the Cast</h1>
+      <p class="module-subtitle">Every great film has a director, actors, a scriptwriter, and stage crew. This agent has the same four roles — and understanding who does what unlocks the whole codebase.</p>
+    </header>
+
+    <!-- ── SCREEN 1: The 4 Layers ── -->
+    <div class="screen">
+      <h2 class="screen-heading">Four layers. One clean separation of concerns.</h2>
+
+      <p>The agent is built in four distinct layers, each with a single clear job. This isn't accidental — it's a deliberate
+        <span class="term" data-definition="Software architecture: the high-level structure of a software system — how the code is divided into parts, and how those parts communicate.">architecture</span>
+        decision that makes the system easier to test, maintain, and swap out piece by piece.</p>
+
+      <p>Data flows top to bottom: your input enters at layer one, travels through the middle two layers where all the intelligence happens, and exits as finished files at layer four. No layer skips over another.</p>
+
+      <div class="step-cards animate-in stagger-children">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>User Input — the Audience</h4>
+            <p>A job URL, a block of pasted text, or a local file. This is the raw material that starts everything. The layer's only job is to get text into the system.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Agent Orchestration — the Director</h4>
+            <p>The <span class="term" data-definition="Orchestrator: a function or module that coordinates other components, calling them in the right order without doing the actual work itself.">orchestrator</span> calls every other layer in sequence. It decides what happens next but delegates the actual work.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>LLM Reasoning — the Scriptwriter</h4>
+            <p>The only layer that touches the
+              <span class="term" data-definition="LLM (Large Language Model): an AI model trained on text that can understand and generate human language. Claude, GPT-4, and Gemini are examples.">LLM</span>.
+              It takes a carefully built prompt and returns structured analysis. One function in, structured data out.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Tools Layer — the Stage Crew</h4>
+            <p>Five independent utilities that do concrete tasks: fetch a web page, load a file, parse JSON, write an output file. They never call the LLM — they just move data around.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 2: The Orchestrator ── -->
+    <div class="screen">
+      <h2 class="screen-heading">The Director: <code>handle_user_request</code></h2>
+
+      <p>The orchestrator is the code equivalent of a film director — it never acts, but it controls who acts, when, and with what information. The function <code>handle_user_request</code> is exactly 20 lines long, yet it coordinates the entire analysis pipeline.</p>
+
+      <p>Read the code on the left and the plain-English translation on the right. Notice how each line calls <em>another</em> function — the orchestrator never does the real work itself.</p>
+
+      <div class="translation-block animate-in">
+        <div class="translation-code">
+          <span class="translation-label">CODE</span>
+          <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">handle_user_request</span>(message):</span>
+<span class="code-line">    parsed = <span class="code-function">parse_intent</span>(message)</span>
+<span class="code-line">    intent = parsed.intent</span>
+<span class="code-line">    <span class="code-keyword">if</span> intent == Intent.<span class="code-property">ANALYZE_URL</span>:</span>
+<span class="code-line">        job_url = parsed.url</span>
+<span class="code-line">        jd_text = <span class="code-function">fetch_job_from_url</span>(job_url)</span>
+<span class="code-line">    candidate = <span class="code-function">load_candidate</span>()</span>
+<span class="code-line">    candidate_profile = <span class="code-function">format_candidate_for_prompt</span>(candidate)</span>
+<span class="code-line">    template_opening, focus_areas = <span class="code-function">select_template</span>(jd_text)</span>
+<span class="code-line">    markdown_section, json_data = <span class="code-function">call_claude</span>(</span>
+<span class="code-line">        <span class="code-property">jd_text</span>=jd_text,</span>
+<span class="code-line">        <span class="code-property">candidate_profile</span>=candidate_profile,</span>
+<span class="code-line">        <span class="code-property">template_opening</span>=template_opening,</span>
+<span class="code-line">        <span class="code-property">focus_areas</span>=focus_areas,</span>
+<span class="code-line">    )</span>
+          </code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">PLAIN ENGLISH</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>parse_intent(message)</strong> — Figure out what the user wants. Did they give a URL? Raw text? A file? Returns a structured object with the intent type and extracted data.</p>
+            <p class="tl"><strong>if intent == ANALYZE_URL:</strong> — If it's a URL, go fetch the actual job description text from the web. This calls a tool — the orchestrator doesn't do the fetching itself.</p>
+            <p class="tl"><strong>load_candidate()</strong> — Read the candidate's resume and profile from local files. Again, delegated to a tool function.</p>
+            <p class="tl"><strong>format_candidate_for_prompt()</strong> — Convert the raw profile data into a clean text block that Claude can read inside a prompt.</p>
+            <p class="tl"><strong>select_template(jd_text)</strong> — Choose the best cover letter template and set of focus areas based on what kind of role this is.</p>
+            <p class="tl"><strong>call_claude(...)</strong> — Send everything to the LLM layer and get back a Markdown analysis section plus structured JSON data.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout animate-in">
+        <div class="callout-title">🎬 The director's rule</div>
+        <div class="callout-body">The orchestrator <em>calls</em> things. It never fetches URLs, reads files, or writes prompts directly. Every one of those jobs belongs to a dedicated layer. This is what makes each part independently testable.</div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 3: The Tools Layer ── -->
+    <div class="screen">
+      <h2 class="screen-heading">The Stage Crew: five tools that do the grunt work</h2>
+
+      <p>The tools layer is the most underappreciated part of the architecture. These are pure utility functions — they have no opinions, no AI, no side effects beyond what they're told to do. They can be called from anywhere and tested in complete isolation.</p>
+
+      <p>Critically, <strong>none of these tools touch the LLM</strong>. That boundary is enforced by design. If you ever see an LLM call inside a tool function, something has gone wrong.</p>
+
+      <div class="step-cards animate-in stagger-children">
+        <div class="step-card">
+          <div class="step-num">🌐</div>
+          <div class="step-body">
+            <h4>fetch_job_from_url</h4>
+            <p>Sends an HTTP request to a job posting URL, strips HTML tags, and returns clean plain text. Handles timeouts and redirects. The LLM never sees raw HTML.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">👤</div>
+          <div class="step-body">
+            <h4>load_candidate</h4>
+            <p>Reads the candidate's YAML or JSON profile from disk. Returns a structured Python object. If the file is missing, it raises a clear error instead of silently failing.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">🧩</div>
+          <div class="step-body">
+            <h4>select_template</h4>
+            <p>Inspects the job description for role-type signals (engineering, product, design, etc.) and returns the matching cover letter template and a list of focus areas for the prompt.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">📝</div>
+          <div class="step-body">
+            <h4>format_candidate_for_prompt</h4>
+            <p>Converts raw profile data into a consistently formatted text block. Ensures the LLM always sees candidate info in the same structure, regardless of what format the source file uses.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">💾</div>
+          <div class="step-body">
+            <h4>save_output_files</h4>
+            <p>Writes the analysis results as Markdown and JSON files into a named output directory. Handles directory creation, filename sanitization, and encoding. Pure I/O, no logic.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 4: The LLM Layer ── -->
+    <div class="screen">
+      <h2 class="screen-heading">The Scriptwriter: <code>call_claude</code></h2>
+
+      <p>There is exactly <em>one</em> place in the entire codebase where the
+        <span class="term" data-definition="API (Application Programming Interface): a way for software to talk to another service over the internet. Here it means sending a request to Anthropic's servers to use Claude.">API</span>
+        is called. The function <code>call_claude</code> is a thin, focused wrapper around the Claude
+        <span class="term" data-definition="SDK (Software Development Kit): a pre-built library of code that makes it easier to use a service's API. Instead of writing raw HTTP requests, you call friendly Python functions.">SDK</span>.
+        Its job is to build the prompt, fire the request, and parse the response — nothing else.</p>
+
+      <div class="translation-block animate-in">
+        <div class="translation-code">
+          <span class="translation-label">CODE</span>
+          <pre><code>
+<span class="code-line"><span class="code-keyword">def</span> <span class="code-function">call_claude</span>(jd_text, candidate_profile,</span>
+<span class="code-line">               template_opening, focus_areas):</span>
+<span class="code-line">    client = <span class="code-function">get_client</span>()</span>
+<span class="code-line">    user_message = <span class="code-function">build_analysis_prompt</span>(</span>
+<span class="code-line">        jd_text, candidate_profile,</span>
+<span class="code-line">        template_opening, focus_areas</span>
+<span class="code-line">    )</span>
+<span class="code-line">    response = client.messages.<span class="code-function">create</span>(</span>
+<span class="code-line">        <span class="code-property">model</span>=<span class="code-string">"claude-opus-4-6"</span>,</span>
+<span class="code-line">        <span class="code-property">max_tokens</span>=<span class="code-number">4096</span>,</span>
+<span class="code-line">        <span class="code-property">system</span>=<span class="code-property">SYSTEM_PROMPT</span>,</span>
+<span class="code-line">        <span class="code-property">messages</span>=[{<span class="code-string">"role"</span>: <span class="code-string">"user"</span>,</span>
+<span class="code-line">                   <span class="code-string">"content"</span>: user_message}],</span>
+<span class="code-line">    )</span>
+<span class="code-line">    raw_text = response.content[<span class="code-number">0</span>].text</span>
+<span class="code-line">    <span class="code-keyword">return</span> <span class="code-function">_parse_response</span>(raw_text)</span>
+          </code></pre>
+        </div>
+        <div class="translation-english">
+          <span class="translation-label">PLAIN ENGLISH</span>
+          <div class="translation-lines">
+            <p class="tl"><strong>get_client()</strong> — Create (or retrieve) the Anthropic SDK client, which handles authentication with your API key.</p>
+            <p class="tl"><strong>build_analysis_prompt(...)</strong> — Assemble all the inputs into a single, carefully structured prompt string. This is where the "ask" to Claude is written.</p>
+            <p class="tl"><strong>client.messages.create(...)</strong> — Send the prompt to Claude's API. Specify the model (<code>claude-opus-4-6</code>), the maximum response length, the system prompt, and the user message.</p>
+            <p class="tl"><strong>system=SYSTEM_PROMPT</strong> — A persistent set of instructions given to Claude before every user message — defines its role, tone, and output format requirements.</p>
+            <p class="tl"><strong>max_tokens=4096</strong> — Cap the response at 4096 <span class="term" data-definition="Token: the unit of text an LLM processes. Roughly 1 token = 0.75 words. Setting a max_tokens limit controls cost and response length.">tokens</span> to control cost and prevent runaway output.</p>
+            <p class="tl"><strong>_parse_response(raw_text)</strong> — Extract the structured Markdown and JSON from Claude's raw text output, splitting them into separate return values.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 5: The Swap Test ── -->
+    <div class="screen">
+      <h2 class="screen-heading">The "Swap Test": why this architecture is special</h2>
+
+      <p>Here's a question that reveals everything about a codebase's design quality: <strong>If you needed to replace Claude with GPT-4 tomorrow, how much code would you have to change?</strong></p>
+
+      <p>In this agent, the answer is: <em>exactly one function</em>. Because <code>call_claude</code> is the only place the LLM is referenced, you could swap the entire AI provider by rewriting that single function — and everything else (the orchestrator, all five tools, the CLI entry point) would continue working without a single edit.</p>
+
+      <div class="callout animate-in">
+        <div class="callout-title">🔌 The power of the single LLM boundary</div>
+        <div class="callout-body">When LLM calls are scattered throughout a codebase, every refactor becomes a risky archaeological dig. Centralizing them in one place means upgrades, cost monitoring, retry logic, and provider changes all happen in one location.</div>
+      </div>
+
+      <p>The same principle applies to the tools layer. Each tool is a standalone function with no dependencies on any other tool. You can rewrite <code>fetch_job_from_url</code> to use a different HTTP library, or swap <code>load_candidate</code> to read from a database instead of a file — and nothing else breaks. This is called
+        <span class="term" data-definition="Loose coupling: a design principle where components depend on each other as little as possible, making each one easier to change, test, or replace independently.">loose coupling</span>,
+        and it's one of the most valuable properties a codebase can have.</p>
+
+      <div class="callout animate-in">
+        <div class="callout-title">🎭 Back to the film metaphor</div>
+        <div class="callout-body">If your scriptwriter quits mid-production, a well-structured film crew can hire a new one and hand over the brief. If the stage crew is tangled up with the scriptwriter's personal process — you're in trouble. Clean layers = survivable personnel changes.</div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 6: Quiz ── -->
+    <div class="screen">
+      <h2 class="screen-heading">Check your understanding</h2>
+
+      <p>Two questions that test whether you've internalized the layer boundaries — not just memorized the labels.</p>
+
+      <div class="quiz-container" id="quiz-module2">
+
+        <div class="quiz-question-block"
+             data-correct="option-b"
+             data-explanation-right="Correct. Fetching a web page is pure I/O — no intelligence required. That belongs in the Tools layer (fetch_job_from_url), which the orchestrator calls. The LLM layer should only receive clean text, never raw HTML."
+             data-explanation-wrong="The LLM layer is for reasoning and generation, not for making HTTP requests. Mixing I/O into the LLM layer would make it harder to test, and would waste expensive API tokens on pre-processing that code can handle.">
+          <h3 class="quiz-question">The agent needs to download a job posting from a URL. Which layer should handle this?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>The LLM layer — pass the URL to Claude and ask it to retrieve and analyze the page.</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>The Tools layer — a dedicated fetch_job_from_url function handles the HTTP request and returns clean text to the orchestrator.</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>The User Input layer — the CLI command should download the page before any other code runs.</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question-block"
+             data-correct="option-c"
+             data-explanation-right="Exactly right. The Orchestration layer, all five Tools, and the CLI entry point have zero dependency on Claude. Only call_claude would need to change — and the rest of the system keeps running."
+             data-explanation-wrong="Think about which layers actually contain any reference to Claude or the Anthropic SDK. The tools just move data — they don't care which LLM is being used. The orchestrator just calls functions — it doesn't know what's inside call_claude.">
+          <h3 class="quiz-question">If the Claude API went down permanently, which parts of the system would still work unchanged?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>Nothing — the whole system depends on Claude, so it would all need to be rewritten.</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>Only the CLI entry point — it just reads user input and doesn't call Claude directly.</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span>The Orchestration layer, all five Tools, and the CLI entry point — only call_claude needs to swap in a new provider.</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <button class="quiz-check-btn" onclick="checkQuiz('quiz-module2')">Check Answers</button>
+        <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module2')">Try Again</button>
+      </div>
+    </div>
+
+  </div>
+</section>
